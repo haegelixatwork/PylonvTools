@@ -71,6 +71,10 @@ CPylonImage OutputObserver::GetImage(string name, int* w, int* h, int* channels)
 			throw std::runtime_error("Keyname " + name + " is not exist.");
 		}
 	}
+	else
+	{
+		throw std::runtime_error("Keyname " + name + " is not exist.");
+	}
 }
 
 String_t OutputObserver::GetString(string name)
@@ -327,10 +331,11 @@ double OutputObserver::GetLineFPointBY(string name)
 	}
 }
 
-StringList_t OutputObserver::GetStringList(string name)
+vector<string> OutputObserver::GetStringList(string name)
 {
 	auto pos = Container.find(name.c_str());
-	StringList_t list;
+	vector<string> list;
+	
 	if (pos != Container.end())
 	{
 		const CVariant& value = pos->second;
@@ -345,7 +350,7 @@ StringList_t OutputObserver::GetStringList(string name)
 			{
 				throw std::runtime_error("Keyname " + name + " is not exist.");
 			}
-			list.push_back(stringValue.ToString());
+			list.push_back(stringValue.ToString().c_str());
 		}
 	}
 	return list;
@@ -385,7 +390,7 @@ int OutputObserver::GetInt(string name)
 	const CVariant& value = pos->second;
 	
 	if (!value.HasError()) {
-		return value.ToInt64();
+		return static_cast<int>(value.ToInt64());
 	}
 	else
 	{

@@ -1,12 +1,13 @@
 ﻿using Basler.Pylon;
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace vTools.DotNet
 {
-  
     public class vToolsDotNet
     {
+        public vToolsDotNet() { }
         ~vToolsDotNet()
         {
             Wrapper.Dispose();
@@ -17,6 +18,10 @@ namespace vTools.DotNet
         }
         public bool LoadRecipe(string fileName)
         {
+            if(!File.Exists(fileName))
+            {
+                throw new NullReferenceException($"{fileName} not exist!");
+            }
             return Wrapper.LoadRecipe(fileName);
         }
 
@@ -70,6 +75,10 @@ namespace vTools.DotNet
         public string GetString(string name)
         {
             return Marshal.PtrToStringAnsi(Wrapper.GetString(name));
+        }
+        public string[] GetStringArray(string name)
+        {
+            return Wrapper.GetStringArray(name);
         }
     }
 }

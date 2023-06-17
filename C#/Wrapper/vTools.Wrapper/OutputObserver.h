@@ -40,7 +40,7 @@ public:
 	double GetLineFPointAY(string name);
 	double GetLineFPointBX(string name);
 	double GetLineFPointBY(string name);
-	StringList_t GetStringList(string name);
+	vector<string> GetStringList(string name);
 private:
 	CLock m_memberLock;
 	WaitObjectEx m_waitObject;

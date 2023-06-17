@@ -9,6 +9,8 @@
 using namespace Pylon;
 using namespace Pylon::DataProcessing;
 using namespace std;
+#include <vector>
+#include <atlsafe.h>
 extern "C" CONVERTERWRAPPER_API const char* GetStringT(char* fileName, char* values)
 {
 	String_t value(fileName);
@@ -41,4 +43,22 @@ extern "C" CONVERTERWRAPPER_API uint8_t * GetImage(uint8_t * image, int w, int h
 	*imgH = h;
 	*imgC = 3;
 	return result;
+}
+
+extern "C" CONVERTERWRAPPER_API LPSAFEARRAY GetStringList()
+{
+	vector<string> list;
+	list.push_back("Test1");
+	list.push_back("Test2");
+	list.push_back("Test3");
+
+	CComSafeArray<BSTR> a(list.size()); // cool ATL helper that requires atlsafe.h
+	std::vector<std::string>::const_iterator it;
+	int i = 0;
+	for (it = list.begin(); it != list.end(); ++it, ++i)
+	{
+		// note: you could also use std::wstring instead and avoid A2W conversion
+		a.SetAt(i, A2BSTR_EX((*it).c_str()), FALSE);
+	}
+	return a.Detach();
 }

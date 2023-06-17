@@ -34,5 +34,8 @@ namespace vTools.DotNet
         public static extern IntPtr GetImage(string name, out int w, out int h, out int channels);
         [DllImport("vTools.Wrapper.dll", EntryPoint = "GetString")]
         public static extern IntPtr GetString(string name);
+        [DllImport("vTools.Wrapper.dll", EntryPoint = "GetStringArray")]
+        [return: MarshalAs(UnmanagedType.SafeArray)]
+        public static extern string[] GetStringArray(string name);
     }
 }

@@ -9,6 +9,7 @@
 using namespace Pylon;
 using namespace Pylon::DataProcessing;
 using namespace std;
+#include <atlsafe.h>
 class vTools
 {
 public:

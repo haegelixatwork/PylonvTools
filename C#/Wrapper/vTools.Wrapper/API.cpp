@@ -87,4 +87,19 @@ extern "C"
 		if (wstr) delete[] wstr;
 		return str;
 	}
+	VTOOLSWRAPPER_API LPSAFEARRAY GetStringArray(char* name)
+	{	
+		auto vectors = tools->ResultCollector.GetStringList(name);
+
+		CComSafeArray<BSTR> safeArray(static_cast<ULONG>(vectors.size()));
+		vector<string>::const_iterator it;
+		int i = 0;
+		for (it = vectors.begin(); it != vectors.end(); ++it, ++i)
+		{
+			// note: you could also use std::wstring instead and avoid A2W conversion
+			safeArray.SetAt(i, A2BSTR_EX((*it).c_str()), FALSE);
+		}
+		
+		return safeArray;
+	}
 }

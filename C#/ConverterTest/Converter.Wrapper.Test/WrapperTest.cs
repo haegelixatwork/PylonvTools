@@ -6,6 +6,7 @@ using Assert = NUnit.Framework.Assert;
 using TestContext = NUnit.Framework.TestContext;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Collections.Generic;
 
 namespace Converter.Wrapper.Test
 {
@@ -15,6 +16,9 @@ namespace Converter.Wrapper.Test
         public static extern IntPtr GetStringT(string fileName);
         [DllImport("Converter.Wrapper.dll", EntryPoint = "GetImage")]
         public static extern IntPtr GetImage(IntPtr image, int w, int h, out int imgW, out int imgH, out int imgC);
+        [DllImport("Converter.Wrapper.dll", EntryPoint = "GetStringList")]
+        [return: MarshalAs(UnmanagedType.SafeArray)]
+        public static extern string[] GetStringList();
     }
 
     [TestClass]
@@ -72,6 +76,15 @@ namespace Converter.Wrapper.Test
             for (int i = 0; i < bytesResult.Length; i++)
             {
                 Assert.AreEqual(bytesAns[i], bytesResult[i]);
+            }
+        }
+        [Test]
+        public void GetStringList()
+        {
+            var result = Wrapper.GetStringList();
+            for (int i = 0; i < result.Length; i++)
+            {
+                Assert.AreEqual(result[i], $"Test{i+1}");
             }
         }
     }

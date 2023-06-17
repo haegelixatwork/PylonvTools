@@ -258,7 +258,7 @@ int main(int /*argc*/, char* /*argv*/[])
 					cout << endl << endl << endl;
 
 #ifdef PYLON_WIN_BUILD
-					DisplayImage(1, result.region);
+					DisplayImage(1, result.image);
 #endif
 				}
 				else

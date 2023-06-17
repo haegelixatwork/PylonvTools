@@ -61,45 +61,30 @@ extern "C"
 		return tools->ResultCollector.NextOutput();
 	}
 
-	VTOOLSWRAPPER_API uint8_t* GetImage(char* name, int* w, int* h, int* channels)
+	VTOOLSWRAPPER_API byte* GetImage(char* name, int* w, int* h, int* channels)
 	{
 		auto cimg = tools->ResultCollector.GetImage(name, w, h, channels);
 		int imgW = *w;
 		int imgH = *h;
 		int imgC = *channels;
 		int size = imgW * imgH * imgC;
-		uint8_t* result = (uint8_t*)malloc(size * sizeof(uint8_t*));
+		byte* result = (byte*)malloc(size * sizeof(byte*));
 		memcpy(result, cimg.GetBuffer(), size);
 		cimg.Release();
 		return result;
 	}
 	VTOOLSWRAPPER_API const char* GetString(char* name)
 	{
-		String_t value = tools->ResultCollector.GetString(name);
-		int len = MultiByteToWideChar(CP_ACP, 0, value.c_str(), -1, NULL, 0);
-		wchar_t* wstr = new wchar_t[len + 1];
-		memset(wstr, 0, len + 1);
-		MultiByteToWideChar(CP_ACP, 0, value.c_str(), -1, wstr, len);
-		len = WideCharToMultiByte(CP_UTF8, 0, wstr, -1, NULL, 0, NULL, NULL);
-		char* str = new char[len + 1];
-		memset(str, 0, len + 1);
-		WideCharToMultiByte(CP_UTF8, 0, wstr, -1, str, len, NULL, NULL);
-		if (wstr) delete[] wstr;
-		return str;
+		return tools->ResultCollector.GetString(name);
 	}
-	VTOOLSWRAPPER_API LPSAFEARRAY GetStringArray(char* name)
-	{	
-		auto vectors = tools->ResultCollector.GetStringList(name);
 
-		CComSafeArray<BSTR> safeArray(static_cast<ULONG>(vectors.size()));
-		vector<string>::const_iterator it;
-		int i = 0;
-		for (it = vectors.begin(); it != vectors.end(); ++it, ++i)
-		{
-			// note: you could also use std::wstring instead and avoid A2W conversion
-			safeArray.SetAt(i, A2BSTR_EX((*it).c_str()), FALSE);
-		}
-		
-		return safeArray;
+	VTOOLSWRAPPER_API const char** GetStringArray(char* name, int* num)
+	{	
+		return tools->ResultCollector.GetStringList(name, num);
+	}
+
+	VTOOLSWRAPPER_API void Free(void* ptr)
+	{
+		free(ptr);
 	}
 }

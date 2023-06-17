@@ -34,11 +34,11 @@ bool OutputObserver::NextOutput()
 	{
 		return false;
 	}
-	if (!Container.empty())
+	/*if (!Container.empty())
 	{
 		Container.clear();
 		Container.~CVariantContainer();
-	}
+	}*/
 	Container = CVariantContainer(std::move(m_queue.front()));
 	//resultDataOut = std::move(m_queue.front());
 	m_queue.pop_front();
@@ -64,7 +64,7 @@ CPylonImage OutputObserver::GetImage(string name, int* w, int* h, int* channels)
 			*h = img.GetHeight();
 			*channels = GetChannels(img.GetPixelType());
 			auto pixelType = img.GetPixelType() == PixelType_Mono8 ? 1 : 1;
-			return value.ToImage();
+			return img;
 		}
 		else
 		{
@@ -77,13 +77,13 @@ CPylonImage OutputObserver::GetImage(string name, int* w, int* h, int* channels)
 	}
 }
 
-String_t OutputObserver::GetString(string name)
+const char* OutputObserver::GetString(string name)
 {
 	auto pos = Container.find(name.c_str());
 
 	const CVariant& value = pos->second;
 	if (!value.HasError()) {
-		return value.ToString();
+		return ConvertToChar(value.ToString().c_str());
 	}
 	else
 	{
@@ -331,11 +331,10 @@ double OutputObserver::GetLineFPointBY(string name)
 	}
 }
 
-vector<string> OutputObserver::GetStringList(string name)
+const char** OutputObserver::GetStringList(string name, int* num)
 {
 	auto pos = Container.find(name.c_str());
-	vector<string> list;
-	
+
 	if (pos != Container.end())
 	{
 		const CVariant& value = pos->second;
@@ -343,17 +342,29 @@ vector<string> OutputObserver::GetStringList(string name)
 		{
 			throw std::runtime_error("Keyname " + name + " is not exist.");
 		}
-		for (size_t i = 0; i < value.GetNumArrayValues(); ++i)
+		int length = value.GetNumArrayValues();
+		*num = length;
+		int i = 0;
+		if (length <= 0)
+		{
+			return nullptr;
+		}
+		char** data = new char* [length];
+		for (i = 0; i < length; ++i)
 		{
 			const CVariant stringValue = value.GetArrayValue(i);
 			if (stringValue.HasError())
 			{
 				throw std::runtime_error("Keyname " + name + " is not exist.");
 			}
-			list.push_back(stringValue.ToString().c_str());
+			data[i] = ConvertToChar(stringValue.ToString().c_str());
 		}
+		return const_cast<const char**>(data);
 	}
-	return list;
+	else
+	{
+		throw std::runtime_error("Keyname " + name + " is not exist.");
+	}
 }
 
 double OutputObserver::GetCenterX(const CVariant& value)
@@ -381,6 +392,20 @@ double OutputObserver::GetCenterY(const CVariant& value)
 int OutputObserver::GetChannels(EPixelType pixelType)
 {
 	return PlaneCount(pixelType);
+}
+
+char* OutputObserver::ConvertToChar(const char* value)
+{
+	int len = MultiByteToWideChar(CP_ACP, 0, value, -1, NULL, 0);
+	wchar_t* wstr = new wchar_t[len + 1];
+	memset(wstr, 0, len + 1);
+	MultiByteToWideChar(CP_ACP, 0, value, -1, wstr, len);
+	len = WideCharToMultiByte(CP_UTF8, 0, wstr, -1, NULL, 0, NULL, NULL);
+	char* str = new char[len + 1];
+	memset(str, 0, len + 1);
+	WideCharToMultiByte(CP_UTF8, 0, wstr, -1, str, len, NULL, NULL);
+	if (wstr) delete[] wstr;
+	return str;
 }
 
 int OutputObserver::GetInt(string name)

@@ -35,7 +35,8 @@ namespace vTools.DotNet
         [DllImport("vTools.Wrapper.dll", EntryPoint = "GetString")]
         public static extern IntPtr GetString(string name);
         [DllImport("vTools.Wrapper.dll", EntryPoint = "GetStringArray")]
-        [return: MarshalAs(UnmanagedType.SafeArray)]
-        public static extern string[] GetStringArray(string name);
+        public static extern IntPtr GetStringArray(string name, out int num);
+        [DllImport("vTools.Wrapper.dll", EntryPoint = "Free")]
+        public static extern void Free(IntPtr ptr);
     }
 }

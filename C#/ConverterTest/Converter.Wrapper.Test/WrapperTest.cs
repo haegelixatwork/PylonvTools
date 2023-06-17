@@ -7,6 +7,7 @@ using TestContext = NUnit.Framework.TestContext;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Converter.Wrapper.Test
 {
@@ -19,6 +20,8 @@ namespace Converter.Wrapper.Test
         [DllImport("Converter.Wrapper.dll", EntryPoint = "GetStringList")]
         [return: MarshalAs(UnmanagedType.SafeArray)]
         public static extern string[] GetStringList();
+        [DllImport("Converter.Wrapper.dll", EntryPoint = "GetStringArray")]
+        public static extern IntPtr GetStringArray(out int num);
     }
 
     [TestClass]
@@ -85,6 +88,19 @@ namespace Converter.Wrapper.Test
             for (int i = 0; i < result.Length; i++)
             {
                 Assert.AreEqual(result[i], $"Test{i+1}");
+            }
+        }
+        [Test]
+        public void GetStringArray()
+        {
+            var pData = Wrapper.GetStringArray(out int num);
+            var pGetData = new IntPtr[num];
+            Marshal.Copy(pData, pGetData, 0, pGetData.Length);
+            var currency = new string[num];
+            for (int i = 0; i < num; i++)
+            {
+                currency[i] = Marshal.PtrToStringAnsi(pGetData[i]);
+                Assert.AreEqual(currency[i], $"Test{i + 1}");
             }
         }
     }

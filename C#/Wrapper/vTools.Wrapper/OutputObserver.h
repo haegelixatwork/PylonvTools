@@ -17,7 +17,7 @@ public:
 	const WaitObject& GetWaitObject();
 	bool NextOutput();
 	CPylonImage GetImage(string name, int* w, int* h, int* channels);
-	String_t GetString(string name);
+	const char* GetString(string name);
 	bool GetBool(string name);
 	int GetInt(string name);
 	double GetDouble(string name);
@@ -40,7 +40,7 @@ public:
 	double GetLineFPointAY(string name);
 	double GetLineFPointBX(string name);
 	double GetLineFPointBY(string name);
-	vector<string> GetStringList(string name);
+	const char** GetStringList(string name, int* num);
 private:
 	CLock m_memberLock;
 	WaitObjectEx m_waitObject;
@@ -48,4 +48,5 @@ private:
 	double GetCenterX(const CVariant& value);
 	double GetCenterY(const CVariant& value);
 	int GetChannels(EPixelType pixelType);
+	char* ConvertToChar(const char* data);
 };

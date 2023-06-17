@@ -12,6 +12,7 @@
 packages/
 obj/
 bin/
+Debug/
 .vs/
 .svn/
 

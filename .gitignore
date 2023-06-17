@@ -5,10 +5,11 @@
 # To ignore any directory named DirectoryB within a 
 # directory named DirectoryA with any number of 
 # directories in between, use ** between the directories
-packages/
+
 
 # Ignoring directories
 # Both the directory itself and its contents will be ignored.
+packages/
 obj/
 bin/
 .vs/

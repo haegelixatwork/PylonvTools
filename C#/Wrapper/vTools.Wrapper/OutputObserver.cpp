@@ -119,13 +119,14 @@ double OutputObserver::GetDouble(string name)
 	}
 }
 
-double OutputObserver::GetPointFX(string name)
+void OutputObserver::GetPointF(string name, double* x, double* y)
 {
 	auto pos = Container.find(name.c_str());
 
 	const CVariant& value = pos->second;
 	if (!value.HasError()) {
-		return value.GetSubValue("X").ToDouble();
+		*x = value.GetSubValue("X").ToDouble();
+		*y = value.GetSubValue("X").ToDouble();
 	}
 	else
 	{
@@ -133,13 +134,17 @@ double OutputObserver::GetPointFX(string name)
 	}
 }
 
-double OutputObserver::GetPointFY(string name)
+void OutputObserver::GetRectangleF(string name, double* x, double* y, double* w, double* h, double* a)
 {
 	auto pos = Container.find(name.c_str());
-
 	const CVariant& value = pos->second;
-	if (!value.HasError()) {
-		return value.GetSubValue("Y").ToDouble();
+	*x = GetCenterX(value);
+	*y = GetCenterY(value);
+	if (!value.HasError()) 
+	{
+		*w = value.GetSubValue("Width").ToDouble();
+		*h = value.GetSubValue("Height").ToDouble();
+		*a = value.GetSubValue("Rotation").ToDouble();
 	}
 	else
 	{
@@ -147,25 +152,15 @@ double OutputObserver::GetPointFY(string name)
 	}
 }
 
-double OutputObserver::GetRectangleFCenterX(string name)
+void OutputObserver::GetCircleF(string name, double* x, double* y, double* r)
 {
 	auto pos = Container.find(name.c_str());
-	return GetCenterX(pos->second);
-}
-
-double OutputObserver::GetRectangleFCenterY(string name)
-{
-	auto pos = Container.find(name.c_str());
-	return GetCenterY(pos->second);
-}
-
-double OutputObserver::GetRectangleFWidth(string name)
-{
-	auto pos = Container.find(name.c_str());
-
 	const CVariant& value = pos->second;
-	if (!value.HasError()) {
-		return value.GetSubValue("Width").ToDouble();
+	*x = GetCenterX(value);
+	*y = GetCenterY(value);
+	if (!value.HasError())
+	{
+		*r = value.GetSubValue("Radius").ToDouble();
 	}
 	else
 	{
@@ -173,157 +168,34 @@ double OutputObserver::GetRectangleFWidth(string name)
 	}
 }
 
-double OutputObserver::GetRectangleFHeight(string name)
+void OutputObserver::GetEllipseF(string name, double* x, double* y, double* r1, double* r2, double* a)
 {
 	auto pos = Container.find(name.c_str());
-
 	const CVariant& value = pos->second;
-	if (!value.HasError()) {
-		return value.GetSubValue("Height").ToDouble();
+	*x = GetCenterX(value);
+	*y = GetCenterY(value);
+	if (!value.HasError())
+	{
+		*r1 = value.GetSubValue("Radius1 ").ToDouble();
+		*r2 = value.GetSubValue("Radius2 ").ToDouble();
+		*a = value.GetSubValue("Rotation").ToDouble();
 	}
 	else
 	{
 		throw std::runtime_error("Keyname " + name + " is not exist.");
 	}
 }
-
-double OutputObserver::GetRectangleFRotation(string name)
+void OutputObserver::GetLineF(string name, double* x1, double* y1, double* x2, double* y2)
 {
 	auto pos = Container.find(name.c_str());
-
 	const CVariant& value = pos->second;
-	if (!value.HasError()) {
-		return value.GetSubValue("Rotation").ToDouble();
-	}
-	else
+	
+	if (!value.HasError())
 	{
-		throw std::runtime_error("Keyname " + name + " is not exist.");
-	}
-}
-
-double OutputObserver::GetCircleFCenterX(string name)
-{
-	auto pos = Container.find(name.c_str());
-	return GetCenterX(pos->second);
-}
-
-double OutputObserver::GetCircleFCenterY(string name)
-{
-	auto pos = Container.find(name.c_str());
-	return GetCenterY(pos->second);
-}
-
-double OutputObserver::GetCircleFRadius(string name)
-{
-	auto pos = Container.find(name.c_str());
-
-	const CVariant& value = pos->second;
-	if (!value.HasError()) {
-		return value.GetSubValue("Radius").ToDouble();
-	}
-	else
-	{
-		throw std::runtime_error("Keyname " + name + " is not exist.");
-	}
-}
-
-double OutputObserver::GetEllipseFCenterX(string name)
-{
-	return GetCenterY(Container.find(name.c_str())->second);
-}
-
-double OutputObserver::GetEllipseFCenterY(string name)
-{
-	return GetCenterX(Container.find(name.c_str())->second);
-}
-
-double OutputObserver::GetEllipseFRadius1(string name)
-{
-	auto pos = Container.find(name.c_str());
-
-	const CVariant& value = pos->second;
-	if (!value.HasError()) {
-		return value.GetSubValue("Radius1").ToDouble();
-	}
-	else
-	{
-		throw std::runtime_error("Keyname " + name + " is not exist.");
-	}
-}
-
-double OutputObserver::GetEllipseFRadius2(string name)
-{
-	auto pos = Container.find(name.c_str());
-
-	const CVariant& value = pos->second;
-	if (!value.HasError()) {
-		return value.GetSubValue("Radius2").ToDouble();
-	}
-	else
-	{
-		throw std::runtime_error("Keyname " + name + " is not exist.");
-	}
-}
-
-double OutputObserver::GetEllipseFRotation(string name)
-{
-	auto pos = Container.find(name.c_str());
-
-	const CVariant& value = pos->second;
-	if (!value.HasError()) {
-		return value.GetSubValue("Rotation").ToDouble();
-	}
-	else
-	{
-		throw std::runtime_error("Keyname " + name + " is not exist.");
-	}
-}
-
-double OutputObserver::GetLineFPointAX(string name)
-{
-	auto pos = Container.find(name.c_str());
-	const CVariant& value = pos->second;
-	if (!value.HasError()) {
-		return value.GetSubValue("PointA.X").ToDouble();
-	}
-	else
-	{
-		throw std::runtime_error("Keyname " + name + " is not exist.");
-	}
-}
-
-double OutputObserver::GetLineFPointAY(string name)
-{
-	auto pos = Container.find(name.c_str());
-	const CVariant& value = pos->second;
-	if (!value.HasError()) {
-		return value.GetSubValue("PointA.Y").ToDouble();
-	}
-	else
-	{
-		throw std::runtime_error("Keyname " + name + " is not exist.");
-	}
-}
-
-double OutputObserver::GetLineFPointBX(string name)
-{
-	auto pos = Container.find(name.c_str());
-	const CVariant& value = pos->second;
-	if (!value.HasError()) {
-		return value.GetSubValue("PointB.X").ToDouble();
-	}
-	else
-	{
-		throw std::runtime_error("Keyname " + name + " is not exist.");
-	}
-}
-
-double OutputObserver::GetLineFPointBY(string name)
-{
-	auto pos = Container.find(name.c_str());
-	const CVariant& value = pos->second;
-	if (!value.HasError()) {
-		return value.GetSubValue("PointB.Y").ToDouble();
+		*x1 = value.GetSubValue("PointA.X").ToDouble();
+		*y1 = value.GetSubValue("PointA.Y").ToDouble();
+		*x2 = value.GetSubValue("PointB.X").ToDouble();
+		*y2 = value.GetSubValue("PointB.Y").ToDouble();
 	}
 	else
 	{
@@ -362,7 +234,7 @@ const char** OutputObserver::GetStringList(string name, int* num)
 		return const_cast<const char**>(data);
 	}
 	else
-	{
+	{		
 		throw std::runtime_error("Keyname " + name + " is not exist.");
 	}
 }
@@ -422,3 +294,308 @@ int OutputObserver::GetInt(string name)
 		throw std::runtime_error("Keyname " + name + " is not exist.");
 	}
 }
+
+bool* OutputObserver::GetBoolArray(string name, int* num)
+{
+	auto pos = Container.find(name.c_str());
+
+	if (pos == Container.end())
+	{
+		throw std::runtime_error("Keyname " + name + " is not exist.");
+	}
+	const CVariant& value = pos->second;
+	if (value.HasError())
+	{
+		throw std::runtime_error("Keyname " + name + " is not exist.");
+	}
+	int length = value.GetNumArrayValues();
+	*num = length;
+	int i = 0;
+	if (length <= 0)
+	{
+		return nullptr;
+	}
+	bool* bools = new bool[length];
+	for (i = 0; i < length; ++i)
+	{
+		const CVariant boolValue = value.GetArrayValue(i);
+		if (boolValue.HasError())
+		{
+			throw std::runtime_error(boolValue.GetErrorDescription().c_str());
+		}
+		bools[i] = boolValue.ToBool();
+	}
+	return bools;
+}
+
+int* OutputObserver::GetIntArray(string name, int* num)
+{
+	auto pos = Container.find(name.c_str());
+
+	if (pos == Container.end())
+	{
+		throw std::runtime_error("Keyname " + name + " is not exist.");
+	}
+	const CVariant& value = pos->second;
+	if (value.HasError())
+	{
+		throw std::runtime_error("Keyname " + name + " is not exist.");
+	}
+	int length = value.GetNumArrayValues();
+	*num = length;
+	int i = 0;
+	if (length <= 0)
+	{
+		return nullptr;
+	}
+	int* ints = new int[length];
+	for (i = 0; i < length; ++i)
+	{
+		const CVariant variant = value.GetArrayValue(i);
+		if (variant.HasError())
+		{
+			throw std::runtime_error(variant.GetErrorDescription().c_str());
+		}
+		ints[i] = variant.ToInt64();
+	}
+	return ints;
+}
+
+double* OutputObserver::GetDoubleArray(string name, int* num)
+{
+	auto pos = Container.find(name.c_str());
+
+	if (pos == Container.end())
+	{
+		throw std::runtime_error("Keyname " + name + " is not exist.");
+	}
+	const CVariant& value = pos->second;
+	if (value.HasError())
+	{
+		throw std::runtime_error("Keyname " + name + " is not exist.");
+	}
+	int length = value.GetNumArrayValues();
+	*num = length;
+	int i = 0;
+	if (length <= 0)
+	{
+		return nullptr;
+	}
+	double* doubles = new double[length];
+	for (i = 0; i < length; ++i)
+	{
+		const CVariant variant = value.GetArrayValue(i);
+		if (variant.HasError())
+		{
+			throw std::runtime_error(variant.GetErrorDescription().c_str());
+		}
+		doubles[i] = variant.ToDouble();
+	}
+	return doubles;
+}
+
+void OutputObserver::GetPointFArray(string name, int* num, double** x, double** y)
+{
+	auto pos = Container.find(name.c_str());
+
+	if (pos == Container.end())
+	{
+		throw std::runtime_error("Keyname " + name + " is not exist.");
+	}
+	const CVariant& value = pos->second;
+	if (value.HasError())
+	{
+		throw std::runtime_error("Keyname " + name + " is not exist.");
+	}
+	int length = value.GetNumArrayValues();
+	*num = length;
+	int i = 0;
+	if (length <= 0)
+	{
+		return;
+	}
+	double* xs = new double[length];
+	double* ys = new double[length];
+	for (i = 0; i < length; ++i)
+	{
+		const CVariant variant = value.GetArrayValue(i);
+		if (variant.HasError())
+		{
+			throw std::runtime_error(variant.GetErrorDescription().c_str());
+		}
+		xs[i] = variant.GetSubValue("X").ToDouble();
+		ys[i] = variant.GetSubValue("Y").ToDouble();
+	}
+	*x = xs;
+	*y = ys;
+}
+void OutputObserver::GetRectangleFArray(string name, int* num, double** x, double** y, double** w, double** h, double** a)
+{
+	auto pos = Container.find(name.c_str());
+
+	if (pos == Container.end())
+	{
+		throw std::runtime_error("Keyname " + name + " is not exist.");
+	}
+	const CVariant& value = pos->second;
+	if (value.HasError())
+	{
+		throw std::runtime_error("Keyname " + name + " is not exist.");
+	}
+	int length = value.GetNumArrayValues();
+	*num = length;
+	int i = 0;
+	if (length <= 0)
+	{
+		return;
+	}
+	double* xs = new double[length];
+	double* ys = new double[length];
+	double* ws = new double[length];
+	double* hs = new double[length];
+	double* as = new double[length];
+	for (i = 0; i < length; ++i)
+	{
+		const CVariant variant = value.GetArrayValue(i);
+		if (variant.HasError())
+		{
+			throw std::runtime_error(variant.GetErrorDescription().c_str());
+		}
+		xs[i] = GetCenterX(variant);
+		ys[i] = GetCenterY(variant);
+		ws[i] = variant.GetSubValue("Width").ToDouble();
+		hs[i] = variant.GetSubValue("Height").ToDouble();
+		as[i] = variant.GetSubValue("Rotation ").ToDouble();
+	}
+	*x = xs;
+	*y = ys;
+	*w = ws;
+	*h = hs;
+	*a = as;
+}
+
+void OutputObserver::GetCircleFArray(string name, int* num, double** x, double** y, double** r)
+{
+	auto pos = Container.find(name.c_str());
+
+	if (pos == Container.end())
+	{
+		throw std::runtime_error("Keyname " + name + " is not exist.");
+	}
+	const CVariant& value = pos->second;
+	if (value.HasError())
+	{
+		throw std::runtime_error("Keyname " + name + " is not exist.");
+	}
+	int length = value.GetNumArrayValues();
+	*num = length;
+	int i = 0;
+	if (length <= 0)
+	{
+		return;
+	}
+	double* xs = new double[length];
+	double* ys = new double[length];
+	double* rs = new double[length];
+	for (i = 0; i < length; ++i)
+	{
+		const CVariant variant = value.GetArrayValue(i);
+		if (variant.HasError())
+		{
+			throw std::runtime_error(variant.GetErrorDescription().c_str());
+		}
+		xs[i] = GetCenterX(variant);
+		ys[i] = GetCenterY(variant);
+		rs[i] = variant.GetSubValue("Rotation ").ToDouble();
+	}
+	*x = xs;
+	*y = ys;
+	*r = rs;
+}
+
+void OutputObserver::GetEllipseFArray(string name, int* num, double** x, double** y, double** r1, double** r2, double** a)
+{
+	auto pos = Container.find(name.c_str());
+
+	if (pos == Container.end())
+	{
+		throw std::runtime_error("Keyname " + name + " is not exist.");
+	}
+	const CVariant& value = pos->second;
+	if (value.HasError())
+	{
+		throw std::runtime_error("Keyname " + name + " is not exist.");
+	}
+	int length = value.GetNumArrayValues();
+	*num = length;
+	int i = 0;
+	if (length <= 0)
+	{
+		return;
+	}
+	double* xs = new double[length];
+	double* ys = new double[length];
+	double* r1s = new double[length];
+	double* r2s = new double[length];
+	double* as = new double[length];
+	for (i = 0; i < length; ++i)
+	{
+		const CVariant variant = value.GetArrayValue(i);
+		if (variant.HasError())
+		{
+			throw std::runtime_error(variant.GetErrorDescription().c_str());
+		}
+		xs[i] = GetCenterX(variant);
+		ys[i] = GetCenterY(variant);
+		r1s[i] = variant.GetSubValue("Radius1 ").ToDouble();
+		r2s[i] = variant.GetSubValue("Radius2 ").ToDouble();
+		as[i] = variant.GetSubValue("Rotation ").ToDouble();
+	}
+	*x = xs;
+	*y = ys;
+	*r1 = r1s;
+	*r2 = r2s;
+	*a = as;
+}
+void OutputObserver::GetLineFArray(string name, int* num, double** x1, double** y1, double** x2, double** y2) 
+{
+	auto pos = Container.find(name.c_str());
+
+	if (pos == Container.end())
+	{
+		throw std::runtime_error("Keyname " + name + " is not exist.");
+	}
+	const CVariant& value = pos->second;
+	if (value.HasError())
+	{
+		throw std::runtime_error("Keyname " + name + " is not exist.");
+	}
+	int length = value.GetNumArrayValues();
+	*num = length;
+	int i = 0;
+	if (length <= 0)
+	{
+		return;
+	}
+	double* x1s = new double[length];
+	double* y1s = new double[length];
+	double* x2s = new double[length];
+	double* y2s = new double[length];
+	for (i = 0; i < length; ++i)
+	{
+		const CVariant variant = value.GetArrayValue(i);
+		if (variant.HasError())
+		{
+			throw std::runtime_error(variant.GetErrorDescription().c_str());
+		}
+		x1s[i] = variant.GetSubValue("PointA.X").ToDouble();
+		y1s[i] = variant.GetSubValue("PointA.Y").ToDouble();
+		x2s[i] = variant.GetSubValue("PointB.X").ToDouble();
+		y2s[i] = variant.GetSubValue("PointB.Y").ToDouble();
+	}
+	*x1 = x1s;
+	*y1 = y1s;
+	*x2 = x2s;
+	*y2 = y2s;
+}
+

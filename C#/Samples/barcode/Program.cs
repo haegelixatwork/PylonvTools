@@ -1,6 +1,7 @@
 ﻿using Basler.Pylon;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -25,16 +26,16 @@ namespace barcode
                 {
                     if(tools.WaitObject(5000) && tools.NextOutput())
                     {
-                        //var img = tools.GetImage("Image");
-                        //var barcode = tools.GetStringArray("Barcodes");
-                        //Console.WriteLine($"Barcode: {string.Join(",", barcode)}");
-                        //ImageWindow.DisplayImage(0, img.byteArray, PixelType.Mono8, img.w, img.h, 0, ImageOrientation.TopDown);
+                        var img = tools.GetImage("Image");
+                        var barcode = tools.GetStringArray("Barcodes");
+                        Console.WriteLine($"Barcode: {string.Join(",", barcode)}");
+                        ImageWindow.DisplayImage(0, img.byteArray, PixelType.Mono8, img.w, img.h, 0, ImageOrientation.TopDown);
                         Console.WriteLine(i);
                     }
                 }
                 //int result = tool.Sub();
             }
-            catch (Exception ex) 
+            catch (Win32Exception ex)
             { 
 
             }

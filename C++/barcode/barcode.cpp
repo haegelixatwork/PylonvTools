@@ -235,7 +235,8 @@ int main(int /*argc*/, char* /*argv*/[])
 		// Start the processing.
 		recipe.Start();
 
-		for (uint32_t i = 0; i < c_countOfImagesToGrab; ++i)
+		//for (uint32_t i = 0; i < c_countOfImagesToGrab; ++i)
+		while(true)
 		{
 			if (resultCollector.GetWaitObject().Wait(5000))
 			{

@@ -13,6 +13,7 @@ packages/
 obj/
 bin/
 Debug/
+Release/
 .vs/
 .svn/
 

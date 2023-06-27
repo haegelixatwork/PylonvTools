@@ -15,6 +15,18 @@ extern "C"
 		return 1;
 	}
 
+	VTOOLSWRAPPER_API bool PylonInitialize()
+	{
+		Pylon::PylonInitialize();
+		return 1;
+	}
+
+	VTOOLSWRAPPER_API bool PylonTerminate()
+	{
+		Pylon::PylonTerminate();
+		return 1;
+	}
+
 	VTOOLSWRAPPER_API bool LoadRecipe(char* fileName)
 	{
 		tools = new vTools();
@@ -45,11 +57,44 @@ extern "C"
 		tools->Stop();
 		return 1;
 	}
-	VTOOLSWRAPPER_API bool SetRecipeInput(char* name, char* value)
+	VTOOLSWRAPPER_API void SetString(char* name, char* value)
 	{
-		tools->SetRecipeInput(name, value);
-		return 1;
+		tools->SetString(name, value);
 	}
+	VTOOLSWRAPPER_API void SetBool(char* name, bool value)
+	{
+		tools->SetBool(name, value);
+	}
+	VTOOLSWRAPPER_API void SetLong(char* name, long value)
+	{
+		tools->SetLong(name, value);
+	}
+	VTOOLSWRAPPER_API void SetDouble(char* name, double value)
+	{
+		tools->SetDouble(name, value);
+	}
+	/* Not allow set intput value
+	VTOOLSWRAPPER_API void SetPointF(char* name, double x, double y)
+	{
+		tools->SetPointF(name, x, y);
+	}
+	VTOOLSWRAPPER_API void SetRectangleF(char* name, double x, double y, double w, double h, double a)
+	{
+		tools->SetRectangleF(name, x, y, w, h, a);
+	}
+	VTOOLSWRAPPER_API void SetCircleF(char* name, double x, double y, double r)
+	{
+		tools->SetCircleF(name, x, y, r);
+	}
+	VTOOLSWRAPPER_API void SetEllipseF(char* name, double x, double y, double r1, double r2, double a)
+	{
+		tools->SetEllipseF(name, x, y, r1, r2, a);
+	}
+	VTOOLSWRAPPER_API void SetLineF(char* name, double x1, double y1, double x2, double y2)
+	{
+		tools->SetLineF(name, x1, y1, x2, y2);
+	}
+	*/
 	VTOOLSWRAPPER_API bool Dispose()
 	{
 		tools->Dispose();
@@ -83,9 +128,9 @@ extern "C"
 		return tools->ResultCollector.GetBool(name);
 	}
 
-	VTOOLSWRAPPER_API int GetInt(char* name)
+	VTOOLSWRAPPER_API int64_t GetLong(char* name)
 	{
-		return tools->ResultCollector.GetInt(name);
+		return tools->ResultCollector.GetLong(name);
 	}
 
 	VTOOLSWRAPPER_API double GetDouble(char* name)
@@ -128,9 +173,9 @@ extern "C"
 		return tools->ResultCollector.GetBoolArray(name, num);
 	}
 
-	VTOOLSWRAPPER_API const int* GetIntArray(char* name, int* num)
+	VTOOLSWRAPPER_API const int64_t* GetLongArray(char* name, int* num)
 	{
-		return tools->ResultCollector.GetIntArray(name, num);
+		return tools->ResultCollector.GetLongArray(name, num);
 	}
 
 	VTOOLSWRAPPER_API const double* GetDoubleArray(char* name, int* num)
@@ -166,5 +211,10 @@ extern "C"
 	VTOOLSWRAPPER_API void Free(void* ptr)
 	{
 		free(ptr);
+	}
+
+	VTOOLSWRAPPER_API const char* GetCurrentErrorMsg()
+	{
+		return tools->ResultCollector.GetCurrentErrorMsg();
 	}
 }

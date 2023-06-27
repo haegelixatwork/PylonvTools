@@ -24,8 +24,14 @@ namespace vTools.DotNet
         public static extern bool WaitObject(uint timeout);
         [DllImport("vTools.Wrapper.dll", EntryPoint = "Stop")]
         public static extern bool Stop();
-        [DllImport("vTools.Wrapper.dll", EntryPoint = "SetRecipeInput")]
-        public static extern bool SetRecipeInput(string name, string value);
+        [DllImport("vTools.Wrapper.dll", EntryPoint = "SetString")]
+        public static extern void SetString(string name, string value);
+        [DllImport("vTools.Wrapper.dll", EntryPoint = "SetBool")]
+        public static extern void SetBool(string name, bool value);
+        [DllImport("vTools.Wrapper.dll", EntryPoint = "SetLong")]
+        public static extern void SetLong(string name, long value);
+        [DllImport("vTools.Wrapper.dll", EntryPoint = "SetDouble")]
+        public static extern void SetDouble(string name, double value);
         [DllImport("vTools.Wrapper.dll", EntryPoint = "Dispose")]
         public static extern bool Dispose();
         [DllImport("vTools.Wrapper.dll", EntryPoint = "NextOutput")]
@@ -36,8 +42,8 @@ namespace vTools.DotNet
         public static extern IntPtr GetString(string name);
         [DllImport("vTools.Wrapper.dll", EntryPoint = "GetBool")]
         public static extern bool GetBool(string name);
-        [DllImport("vTools.Wrapper.dll", EntryPoint = "GetInt")]
-        public static extern int GetInt(string name);
+        [DllImport("vTools.Wrapper.dll", EntryPoint = "GetLong")]
+        public static extern long GetLong(string name);
         [DllImport("vTools.Wrapper.dll", EntryPoint = "GetDouble")]
         public static extern double GetDouble(string name);
         [DllImport("vTools.Wrapper.dll", EntryPoint = "GetPointF")]
@@ -54,8 +60,8 @@ namespace vTools.DotNet
         public static extern IntPtr GetStringArray(string name, out int num);
         [DllImport("vTools.Wrapper.dll", EntryPoint = "GetBoolArray")]
         public static extern IntPtr GetBoolArray(string name, out int num);
-        [DllImport("vTools.Wrapper.dll", EntryPoint = "GetIntArray")]
-        public static extern IntPtr GetIntArray(string name, out int num);
+        [DllImport("vTools.Wrapper.dll", EntryPoint = "GetLongArray")]
+        public static extern IntPtr GetLongArray(string name, out int num);
         [DllImport("vTools.Wrapper.dll", EntryPoint = "GetDoubleArray")]
         public static extern IntPtr GetDoubleArray(string name, out int num);
         [DllImport("vTools.Wrapper.dll", EntryPoint = "GetPointFArray")]
@@ -70,5 +76,11 @@ namespace vTools.DotNet
         public static extern void GetLineFArray(string name, out int num, out IntPtr x1, out IntPtr y1, out IntPtr x2, out IntPtr y2);
         [DllImport("vTools.Wrapper.dll", EntryPoint = "Free")]
         public static extern void Free(IntPtr ptr);
+        [DllImport("vTools.Wrapper.dll", EntryPoint = "PylonInitialize")]
+        public static extern void PylonInitialize();
+        [DllImport("vTools.Wrapper.dll", EntryPoint = "PylonTerminate")]
+        public static extern void PylonTerminate();
+        [DllImport("vTools.Wrapper.dll", EntryPoint = "GetCurrentErrorMsg")]
+        public static extern IntPtr GetCurrentErrorMsg();
     }
 }

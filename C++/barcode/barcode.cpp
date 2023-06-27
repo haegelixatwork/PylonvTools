@@ -10,14 +10,15 @@
 #include <pylondataprocessing/PylonDataProcessingIncludes.h>
 // The sample uses the std::list.
 #include <list>
-
+#include <iostream>
+#include <filesystem>
 // Namespaces for using pylon objects
 using namespace Pylon;
 using namespace Pylon::DataProcessing;
 
 // Namespace for using cout
 using namespace std;
-
+namespace fs = std::filesystem;
 // Number of images to be grabbed
 static const uint32_t c_countOfImagesToGrab = 100;
 
@@ -221,7 +222,12 @@ int main(int /*argc*/, char* /*argv*/[])
 		// Load the recipe file.
 		// Note: PYLON_DATAPROCESSING_BARCODE_RECIPE is a string
 		// created by the CMake build files.
-		recipe.Load("C:\\Personal\\SourceCode\\pylon\\vTools\\C++\\barcode\\barcode.precipe");
+		auto recipePath = fs::current_path().string() + "\\barcode.precipe";
+		/*if (!fs::exists(AbsolutPath))
+		{
+			throw std::runtime_error("Could not open file" + AbsolutPath);
+		}*/
+		recipe.Load(recipePath.c_str());
 		// Now we allocate all resources we need. This includes the camera device.
 		recipe.PreAllocateResources();
 

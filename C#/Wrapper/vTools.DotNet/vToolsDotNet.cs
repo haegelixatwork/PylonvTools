@@ -9,16 +9,34 @@ namespace vTools.DotNet
 {
     public class vToolsDotNet
     {
+        /// <summary>
+        /// Initializes the pylon runtime system.
+        /// </summary>
+        public static void PylonInitialize() => Wrapper.PylonInitialize();
+        /// <summary>
+        /// Frees up resources allocated by the pylon runtime system.
+        /// </summary>
+        public static void PylonTerminate() => Wrapper.PylonTerminate();
         public vToolsDotNet() { }
         private byte[] _imgByte;
         ~vToolsDotNet()
         {
             Wrapper.Dispose();
         }
+        /// <summary>
+        /// Enable camera emulator. Create a vitural caemra. But it needs to set image files folder.
+        /// </summary>
+        /// <returns></returns>
         public bool EnableCameraEmulator()
         {
             return Wrapper.EnableCameraEmulator();
         }
+        /// <summary>
+        /// Load vTools recipe file.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public bool LoadRecipe(string fileName)
         {
             if(!File.Exists(fileName))
@@ -27,37 +45,85 @@ namespace vTools.DotNet
             }
             return Wrapper.LoadRecipe(fileName);
         }
-
+        /// <summary>
+        /// Directly Set paratmers to operator.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public bool SetParameters(string name, string value)
         {
             return Wrapper.SetParameters(name, value);
         }
-
+        /// <summary>
+        /// Register all outputs observer.
+        /// </summary>
+        /// <returns></returns>
         public bool RegisterAllOutputsObserver()
         {
             return Wrapper.RegisterAllOutputsObserver();
         }
-
+        /// <summary>
+        /// Recipe start.
+        /// </summary>
+        /// <returns></returns>
         public bool Start()
         {
             return Wrapper.Start();
         }
-
+        /// <summary>
+        /// Wait next output result.
+        /// </summary>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
         public bool WaitObject(uint timeout)
         {
             return Wrapper.WaitObject(timeout);
         }
-
+        /// <summary>
+        /// Recipe stop.
+        /// </summary>
+        /// <returns></returns>
         public bool Stop()
         {
             return Wrapper.Stop();
         }
-
-        public bool SetRecipeInput(string name, string value)
-        {
-            return Wrapper.SetRecipeInput(name, value);
+        /// <summary>
+        /// Set input value by string.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public void SetString(string name, string value)
+        {            
+            Wrapper.SetString(name, value);
         }
-
+        /// <summary>
+        /// Set input value by boolean.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public void SetBool(string name, bool value)
+        {
+            Wrapper.SetBool(name, value);
+        }
+        /// <summary>
+        /// Set input value by intger.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public void SetLong(string name, long value)
+        {
+            Wrapper.SetLong(name, value);
+        }
+        /// <summary>
+        /// Set input value by double.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public void SetDouble(string name, double value)
+        {
+            Wrapper.SetDouble(name, value);
+        }
         public bool Dispose()
         {
             return Wrapper.Dispose();
@@ -76,12 +142,12 @@ namespace vTools.DotNet
                 _imgByte = null;
                 _imgByte = new byte[w * h * c];
                 Marshal.Copy(ptr, _imgByte, 0, _imgByte.Length);
-                // It can't use Marshal free pointer. It must free pointer in C++.
-                Wrapper.Free(ptr);
+                
                 return (_imgByte, w, h, c);
             }
             finally 
             {
+                // It can't use Marshal free pointer. It must free pointer in C++.
                 Wrapper.Free(ptr);
             }
         }
@@ -96,9 +162,9 @@ namespace vTools.DotNet
             return Wrapper.GetBool(name);
         }
 
-        public int GetInt(string name)
+        public long GetLong(string name)
         {
-            return Wrapper.GetInt(name);
+            return Wrapper.GetLong(name);
         }
 
         public double GetDouble(string name)
@@ -106,29 +172,34 @@ namespace vTools.DotNet
             return Wrapper.GetDouble(name);
         }
 
-        public void GetPoint(string name, out double x, out double y)
+        public Point GetPoint(string name)
         {
-            Wrapper.GetPointF(name, out x, out y);
+            Wrapper.GetPointF(name, out double x, out double y);
+            return new Point(x, y);
         }
 
-        public void GetRectangle(string name, out double cenX, out double cenY, out double width, out double height, out double angle)
+        public Rectangle GetRectangle(string name)
         {
-            Wrapper.GetRectangleF(name, out cenX, out cenY, out width, out height, out angle);
+            Wrapper.GetRectangleF(name, out double cenX, out double cenY, out double width, out double height, out double angle);
+            return new Rectangle(new Point(cenX, cenY), new Size(width, height), angle);
         }
 
-        public void GetCircle(string name, out double cenX, out double cenY, out double radius)
+        public Circle GetCircle(string name)
         {
-            Wrapper.GetCircleF(name, out cenX, out cenY, out radius);
+            Wrapper.GetCircleF(name, out double cenX, out double cenY, out double radius);
+            return new Circle(new Point(cenX, cenY), radius);
         }
 
-        public void GetEllipse(string name, out double cenX, out double cenY, out double radius1, out double radius2, out double angle)
+        public Ellipse GetEllipse(string name)
         {
-            Wrapper.GetEllipseF(name, out cenX, out cenY, out radius1, out radius2, out angle);
+            Wrapper.GetEllipseF(name, out double cenX, out double cenY, out double radius1, out double radius2, out double angle);
+            return new Ellipse(new Point(cenX, cenY), radius1, radius2, angle);
         }
 
-        public void GetLine(string name, out double x1, out double y1, out double x2, out double y2)
+        public Line GetLine(string name)
         {
-            Wrapper.GetLineF(name, out x1, out y1, out x2, out y2);
+            Wrapper.GetLineF(name, out double x1, out double y1, out double x2, out double y2);
+            return new Line(new Point(x1, x2), new Point(y1, y2));
         }
 
         public string[] GetStringArray(string name)
@@ -161,12 +232,12 @@ namespace vTools.DotNet
             finally { Wrapper.Free(pData); }
         }
 
-        public int[] GetIntArray(string name)
+        public long[] GetLongArray(string name)
         {
-            var pData = Wrapper.GetIntArray(name, out int num);
+            var pData = Wrapper.GetLongArray(name, out int num);
             try
             {
-                var values = new int[num];
+                var values = new long[num];
                 Marshal.Copy(pData, values, 0, values.Length);
                 return values;
             }
@@ -335,6 +406,11 @@ namespace vTools.DotNet
                 Wrapper.Free(ptrX2);
                 Wrapper.Free(ptrY2);
             }
+        }
+
+        public string GetCurrentErrorMsg()
+        {
+            return Marshal.PtrToStringAnsi(Wrapper.GetCurrentErrorMsg());
         }
     }
 }

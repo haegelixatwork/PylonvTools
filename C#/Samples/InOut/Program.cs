@@ -14,6 +14,7 @@ namespace InOut
     {
         static void Main(string[] args)
         {
+            vToolsDotNet.PylonInitialize();
             var tools = new vToolsDotNet();
             try
             {
@@ -22,20 +23,24 @@ namespace InOut
                 tools.RegisterAllOutputsObserver();
                 tools.Start();
                 var input = "test2";
-                tools.SetRecipeInput("RecipeInput", "test2");
+                tools.SetString("RecipeInput", "test2");
                 Console.WriteLine($@"Set input: {input}.");
                 if (tools.WaitObject(5000) && tools.NextOutput())
                 {
                     var output = tools.GetString("RecipeOutput");
                     Console.WriteLine($@"Get output: {output}.");
                 }
+                tools.Stop();
+                tools.Dispose();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($@"Error: {ex}.");
             }
-            tools.Stop();
-            tools.Dispose();
+            finally
+            {
+                vToolsDotNet.PylonTerminate();
+            }            
         }
 
     }

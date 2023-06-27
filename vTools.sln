@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Converter.Wrapper.Test", "C
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vTools.Wrapper", "C#\Wrapper\vTools.Wrapper\vTools.Wrapper.vcxproj", "{B8660E9A-7135-4BB8-BFE0-ABA3EE84E1DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vTools.DotNet.Test", "C#\Wrapper\vTools.DotNet.Test\vTools.DotNet.Test.csproj", "{B2A94414-6D7A-499C-94ED-03BC22D713BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -163,6 +165,18 @@ Global
 		{B8660E9A-7135-4BB8-BFE0-ABA3EE84E1DD}.Release|x64.Build.0 = Release|x64
 		{B8660E9A-7135-4BB8-BFE0-ABA3EE84E1DD}.Release|x86.ActiveCfg = Release|Win32
 		{B8660E9A-7135-4BB8-BFE0-ABA3EE84E1DD}.Release|x86.Build.0 = Release|Win32
+		{B2A94414-6D7A-499C-94ED-03BC22D713BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2A94414-6D7A-499C-94ED-03BC22D713BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2A94414-6D7A-499C-94ED-03BC22D713BC}.Debug|x64.ActiveCfg = Debug|x64
+		{B2A94414-6D7A-499C-94ED-03BC22D713BC}.Debug|x64.Build.0 = Debug|x64
+		{B2A94414-6D7A-499C-94ED-03BC22D713BC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B2A94414-6D7A-499C-94ED-03BC22D713BC}.Debug|x86.Build.0 = Debug|Any CPU
+		{B2A94414-6D7A-499C-94ED-03BC22D713BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2A94414-6D7A-499C-94ED-03BC22D713BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2A94414-6D7A-499C-94ED-03BC22D713BC}.Release|x64.ActiveCfg = Release|Any CPU
+		{B2A94414-6D7A-499C-94ED-03BC22D713BC}.Release|x64.Build.0 = Release|Any CPU
+		{B2A94414-6D7A-499C-94ED-03BC22D713BC}.Release|x86.ActiveCfg = Release|Any CPU
+		{B2A94414-6D7A-499C-94ED-03BC22D713BC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -181,6 +195,7 @@ Global
 		{306BB555-A806-45F0-A94D-2D9ACC9B4F44} = {F2682469-121C-405F-B7EC-9CAB5D83A97E}
 		{E0986A29-D1F0-4DC7-9A73-55CF7DF0F4D3} = {F2682469-121C-405F-B7EC-9CAB5D83A97E}
 		{B8660E9A-7135-4BB8-BFE0-ABA3EE84E1DD} = {119DC057-A398-46CE-8A03-DF61125A3023}
+		{B2A94414-6D7A-499C-94ED-03BC22D713BC} = {119DC057-A398-46CE-8A03-DF61125A3023}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {643B9A8B-BB72-444A-846B-3CE4FADD3C72}

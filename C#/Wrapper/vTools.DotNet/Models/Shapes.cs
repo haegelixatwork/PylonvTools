@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace vTools.DotNet.Models
 {
     public struct Point
@@ -57,12 +59,26 @@ namespace vTools.DotNet.Models
     }
     public struct Line
     {
+        /// <summary>
+        /// First point on top and left. <br />
+        /// Sencond point on bottom and right. <br />
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
         public Line(Point p1 = new Point(), Point p2 = new Point())
         {
             Point1 = p1;
             Point2 = p2;
+            Width = Math.Abs(p1.X - p2.X);
+            Height = Math.Abs(p1.Y - p2.Y);
         }
         public Point Point1 { get; set; }
         public Point Point2 { get; set; }
+        public double Top => Point1.Y;
+        public double Left => Point1.X;
+        public double Bottom => Point2.Y;
+        public double Right => Point2.X;
+        public double Width { get; }
+        public double Height { get; }
     }
 }

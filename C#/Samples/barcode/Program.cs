@@ -13,13 +13,16 @@ namespace barcode
     {
         static void Main(string[] args)
         {
+            vToolsDotNet.PylonInitialize();
+            vToolsDotNet tools = new vToolsDotNet();
             try
             {
+                var pylonDir = Environment.GetEnvironmentVariable("PYLON_DEV_DIR");
                 var recipeFile = $@"{Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName}\barcode.precipe";
-                vToolsDotNet tools = new vToolsDotNet();
+                
                 tools.EnableCameraEmulator();
                 var result = tools.LoadRecipe(recipeFile);
-                tools.SetParameters("MyCamera/@CameraDevice/ImageFilename", @"C:\Program Files\Basler\pylon 7\Development\Samples\pylonDataProcessing\C++\images\barcode\");
+                tools.SetParameters("MyCamera/@CameraDevice/ImageFilename", $@"{pylonDir}\Samples\pylonDataProcessing\C++\images\barcode\");
                 tools.RegisterAllOutputsObserver();
                 tools.Start();
                 for (int i = 0; i < 10000; i++) 
@@ -36,8 +39,16 @@ namespace barcode
                 //int result = tool.Sub();
             }
             catch (Win32Exception ex)
-            { 
-
+            {
+                Console.WriteLine(ex);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            finally
+            {
+                vToolsDotNet.PylonTerminate();
             }
         }
     }

@@ -20,7 +20,15 @@ public:
 	void Start();
 	bool WaitObject(unsigned int timeOut);
 	void Stop();
-	void SetRecipeInput(string name, string value);
+	void SetString(string name, string value);
+	void SetBool(string name, bool value);
+	void SetLong(string name, long value);
+	void SetDouble(string name, double value);
+	void SetPointF(string name, double x, double y);
+	void SetRectangleF(string name, double x, double y, double w, double h, double a);
+	void SetCircleF(string name, double x, double y, double r);
+	void SetEllipseF(string name, double x, double y, double r1, double r2, double a);
+	void SetLineF(string name, double x1, double y1, double x2, double y2);
 	void Dispose();
 private:
 	UpdateObserver updateObserver;

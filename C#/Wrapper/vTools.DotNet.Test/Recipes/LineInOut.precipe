@@ -1,0 +1,73 @@
+{
+  "PylonMetaData": {
+    "ObjectVersion": "1.0.0",
+    "MinRequiredSoftwareVersion": "1.0.0"
+  },
+  "PylonContent": {
+    "Ui": {
+      "UiGraphInputOutput": [
+        {
+          "id": "<GraphInput>",
+          "x": 102.5,
+          "y": 147.5
+        },
+        {
+          "id": "<GraphOutput>",
+          "x": 698.5,
+          "y": 147.5
+        }
+      ],
+      "PylonMetaData": {
+        "ObjectVersion": "1.1.0",
+        "MinRequiredSoftwareVersion": "1.0.0"
+      }
+    },
+    "Graph": {
+      "PylonMetaData": {
+        "ObjectVersion": "1.1.0",
+        "MinRequiredSoftwareVersion": "1.0.0"
+      },
+      "Nodes": [],
+      "Connections": [
+        {
+          "Name": "Connection",
+          "Source": "<GraphInput>",
+          "Sink": "<GraphOutput>",
+          "QueueMode": 3,
+          "MaxSize": 1,
+          "SourceOutputPath": "RecipeInput",
+          "SinkInputPath": "RecipeOutput"
+        }
+      ],
+      "GraphInput": {
+        "NodeData": {
+          "Outputs": [
+            {
+              "Name": "RecipeInput",
+              "Type": "Pylon::DataProcessing::Core::ILineF"
+            }
+          ]
+        }
+      },
+      "GraphOutput": {
+        "NodeData": {
+          "Inputs": [
+            {
+              "Name": "RecipeOutput",
+              "Type": "Pylon::DataProcessing::Core::ILineF"
+            }
+          ]
+        }
+      },
+      "Resources": {
+        "ThreadPool": {
+          "PylonMetaData": {
+            "ObjectVersion": "1.0.0",
+            "MinRequiredSoftwareVersion": "1.0.0"
+          },
+          "MaxThreadCount": 12
+        }
+      }
+    }
+  }
+}

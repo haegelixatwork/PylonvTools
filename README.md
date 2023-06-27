@@ -5,9 +5,14 @@ If you got any issues then create an issue for it.
 
 ## Status
 
-Polit run failed. Get image is no problem. But Get string array is failed. It's empty.
-I need to think another way for sovle this problem.
+Polit run testing.
 
 ## Installation
 
 Pylon version > 7.0
+
+## Support
+
+:white_check_mark:64 bit
+
+:x:32 bit

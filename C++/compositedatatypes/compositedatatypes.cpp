@@ -11,7 +11,7 @@
 #include <pylondataprocessing/PylonDataProcessingIncludes.h>
 // The sample uses the std::list.
 #include <list>
-
+#include <cstdlib>
 // Namespaces for using pylon objects
 using namespace Pylon;
 using namespace Pylon::DataProcessing;
@@ -221,7 +221,8 @@ int main(int /*argc*/, char* /*argv*/[])
 
     // Before using any pylon methods, the pylon runtime must be initialized.
     PylonInitialize();
-
+    char* buf = nullptr;
+    size_t sz = 0;
     try
     {
         TCHAR tRoot[MAX_PATH];
@@ -229,7 +230,15 @@ int main(int /*argc*/, char* /*argv*/[])
         wstring wRoot(&tRoot[0]);
         string recipePath(wRoot.begin(), wRoot.end());
         recipePath += "\\composite_data_types.precipe";
-        string imageDir = "C:\\Program Files\\Basler\\pylon 7\\Development\\Samples\\pylonDataProcessing\\C++\\images\\shapes";
+
+        if (_dupenv_s(&buf, &sz, "PYLON_DEV_DIR") == 1 || buf == nullptr)
+        {           
+            char pylon[50] = "C:\\Program Files\\Basler\\pylon 7\\Development";
+            buf = pylon;
+        }
+
+        string pylonDir(buf);
+        string imageDir = pylonDir + "\\Samples\\pylonDataProcessing\\C++\\images\\shapes";
         // This object is used for collecting the output data.
         // If placed on the stack, it must be created before the recipe
         // so that it is destroyed after the recipe.
@@ -304,7 +313,7 @@ int main(int /*argc*/, char* /*argv*/[])
         cerr << "An exception occurred." << endl << e.GetDescription() << endl;
         exitCode = 1;
     }
-
+    free(buf);
     // Comment the following two lines to disable waiting on exit.
     cerr << endl << "Press enter to exit." << endl;
     while (cin.get() != '\n');

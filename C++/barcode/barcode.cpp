@@ -207,7 +207,8 @@ int main(int /*argc*/, char* /*argv*/[])
 
 	// Before using any pylon methods, the pylon runtime must be initialized.
 	PylonInitialize();
-
+	char* buf = nullptr;
+	size_t sz = 0;
 	try
 	{
 		// This object is used for collecting the output data.
@@ -223,17 +224,22 @@ int main(int /*argc*/, char* /*argv*/[])
 		// Note: PYLON_DATAPROCESSING_BARCODE_RECIPE is a string
 		// created by the CMake build files.
 		auto recipePath = fs::current_path().string() + "\\barcode.precipe";
-		/*if (!fs::exists(AbsolutPath))
+
+		if (_dupenv_s(&buf, &sz, "PYLON_DEV_DIR") == 1 || buf == nullptr)
 		{
-			throw std::runtime_error("Could not open file" + AbsolutPath);
-		}*/
+			char pylon[50] = "C:\\Program Files\\Basler\\pylon 7\\Development";
+			buf = pylon;
+		}
+
+		string pylonDir(buf);
+		string imageDir = pylonDir + "\\Samples\\pylonDataProcessing\\C++\\images\\barcode\\";
 		recipe.Load(recipePath.c_str());
 		// Now we allocate all resources we need. This includes the camera device.
 		recipe.PreAllocateResources();
 
 		// Set up correct image path to samples.
 		// Note: PYLON_DATAPROCESSING_IMAGES_PATH is a string created by the CMake build files.
-		recipe.GetParameters().Get(StringParameterName("MyCamera/@CameraDevice/ImageFilename")).SetValue("C:\\Program Files\\Basler\\pylon 7\\Development\\Samples\\pylonDataProcessing\\C++\\images\\barcode\\");
+		recipe.GetParameters().Get(StringParameterName("MyCamera/@CameraDevice/ImageFilename")).SetValue(imageDir.c_str());
 
 		// This is where the output goes.
 		recipe.RegisterAllOutputsObserver(&resultCollector, RegistrationMode_Append);

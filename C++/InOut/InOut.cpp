@@ -110,9 +110,15 @@ int main()
 	int exitCode = 0;
 	try
 	{
+		TCHAR tRoot[MAX_PATH];
+		GetCurrentDirectory(MAX_PATH, tRoot);
+		wstring wRoot(&tRoot[0]);
+		string recipePath(wRoot.begin(), wRoot.end());
+		recipePath += "\\InOut.precipe";
+
 		MyOutputObserver resultCollector;
 		CRecipe recipe;
-		recipe.Load("C:\\Personal\\SourceCode\\pylon\\pylonDataProcessing\\C++\\InOut\\InOut.precipe");
+		recipe.Load(recipePath.c_str());
 		recipe.PreAllocateResources();
 		recipe.RegisterAllOutputsObserver(&resultCollector, RegistrationMode_Append);
 
@@ -131,8 +137,6 @@ int main()
 		else {
 			throw RUNTIME_EXCEPTION("Result timeout");
 		}
-
-
 	}
 	catch (const GenericException& e)
 	{

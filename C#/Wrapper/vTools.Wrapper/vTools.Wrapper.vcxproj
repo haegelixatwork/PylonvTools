@@ -24,6 +24,8 @@
     <ProjectGuid>{b8660e9a-7135-4bb8-bfe0-aba3ee84e1dd}</ProjectGuid>
     <RootNamespace>vToolsWrapper</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <TargetFrameworkVersion>
+    </TargetFrameworkVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -111,9 +113,10 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;VTOOLSWRAPPER_EXPORTS;WIN32;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;WIN32;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <DisableSpecificWarnings>4793;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -137,17 +140,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="framework.h" />
     <ClInclude Include="OutputObserver.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="ResultData.h" />
     <ClInclude Include="UpdateObserver.h" />
     <ClInclude Include="vTools.h" />
+    <ClInclude Include="vToolsDotNet.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="API.cpp" />
     <ClCompile Include="OutputObserver.cpp" />
     <ClCompile Include="ResultData.cpp" />
     <ClCompile Include="UpdateObserver.cpp" />
     <ClCompile Include="vTools.cpp" />
+    <ClCompile Include="vToolsDotNet.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

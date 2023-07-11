@@ -49,9 +49,9 @@ bool OutputObserver::NextOutput()
 	return true;
 }
 
-CPylonImage OutputObserver::GetImage(string name, int* w, int* h, int* channels)
+CPylonImage OutputObserver::GetImage(String_t name, int* w, int* h, int* channels)
 {
-	auto pos = Container.find(name.c_str());
+	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	// Now we can use the value of the key/value pair.
 	const CVariant& value = pos->second;
@@ -64,36 +64,36 @@ CPylonImage OutputObserver::GetImage(string name, int* w, int* h, int* channels)
 	return img;
 }
 
-const char* OutputObserver::GetString(string name)
+const char* OutputObserver::GetString(String_t name)
 {
-	auto pos = Container.find(name.c_str());
+	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
 	return ConvertToChar(value.ToString().c_str());
 }
 
-bool OutputObserver::GetBool(string name)
+bool OutputObserver::GetBool(String_t name)
 {
-	auto pos = Container.find(name.c_str());
+	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
 	return value.ToBool();
 }
 
-double OutputObserver::GetDouble(string name)
+double OutputObserver::GetDouble(String_t name)
 {
-	auto pos = Container.find(name.c_str());
+	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
 	return value.ToDouble();
 }
 
-void OutputObserver::GetPointF(string name, double* x, double* y)
+void OutputObserver::GetPointF(String_t name, double* x, double* y)
 {
-	auto pos = Container.find(name.c_str());
+	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
@@ -101,9 +101,9 @@ void OutputObserver::GetPointF(string name, double* x, double* y)
 	*y = value.GetSubValue("X").ToDouble();
 }
 
-void OutputObserver::GetRectangleF(string name, double* x, double* y, double* w, double* h, double* a)
+void OutputObserver::GetRectangleF(String_t name, double* x, double* y, double* w, double* h, double* a)
 {
-	auto pos = Container.find(name.c_str());
+	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	*x = GetCenterX(value);
@@ -114,9 +114,9 @@ void OutputObserver::GetRectangleF(string name, double* x, double* y, double* w,
 	*a = value.GetSubValue("Rotation").ToDouble();
 }
 
-void OutputObserver::GetCircleF(string name, double* x, double* y, double* r)
+void OutputObserver::GetCircleF(String_t name, double* x, double* y, double* r)
 {
-	auto pos = Container.find(name.c_str());
+	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	*x = GetCenterX(value);
@@ -125,9 +125,9 @@ void OutputObserver::GetCircleF(string name, double* x, double* y, double* r)
 	*r = value.GetSubValue("Radius").ToDouble();
 }
 
-void OutputObserver::GetEllipseF(string name, double* x, double* y, double* r1, double* r2, double* a)
+void OutputObserver::GetEllipseF(String_t name, double* x, double* y, double* r1, double* r2, double* a)
 {
-	auto pos = Container.find(name.c_str());
+	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	*x = GetCenterX(value);
@@ -137,9 +137,9 @@ void OutputObserver::GetEllipseF(string name, double* x, double* y, double* r1, 
 	*r2 = value.GetSubValue("Radius2").ToDouble();
 	*a = value.GetSubValue("Rotation").ToDouble();
 }
-void OutputObserver::GetLineF(string name, double* x1, double* y1, double* x2, double* y2)
+void OutputObserver::GetLineF(String_t name, double* x1, double* y1, double* x2, double* y2)
 {
-	auto pos = Container.find(name.c_str());
+	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
@@ -149,9 +149,9 @@ void OutputObserver::GetLineF(string name, double* x1, double* y1, double* x2, d
 	*y2 = value.GetSubValue("PointB.Y").ToDouble();
 }
 
-const char** OutputObserver::GetStringList(string name, int* num)
+const char** OutputObserver::GetStringList(String_t name, int* num)
 {
-	auto pos = Container.find(name.c_str());
+	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
@@ -203,18 +203,18 @@ char* OutputObserver::ConvertToChar(const char* value)
 	return str;
 }
 
-int64_t OutputObserver::GetLong(string name)
+int64_t OutputObserver::GetLong(String_t name)
 {
-	auto pos = Container.find(name.c_str());
+	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
 	return value.ToInt64();
 }
 
-bool* OutputObserver::GetBoolArray(string name, int* num)
+bool* OutputObserver::GetBoolArray(String_t name, int* num)
 {
-	auto pos = Container.find(name.c_str());
+	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
@@ -235,9 +235,9 @@ bool* OutputObserver::GetBoolArray(string name, int* num)
 	return bools;
 }
 
-int64_t* OutputObserver::GetLongArray(string name, int* num)
+int64_t* OutputObserver::GetLongArray(String_t name, int* num)
 {
-	auto pos = Container.find(name.c_str());
+	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
@@ -258,9 +258,9 @@ int64_t* OutputObserver::GetLongArray(string name, int* num)
 	return ints;
 }
 
-double* OutputObserver::GetDoubleArray(string name, int* num)
+double* OutputObserver::GetDoubleArray(String_t name, int* num)
 {
-	auto pos = Container.find(name.c_str());
+	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
@@ -281,9 +281,9 @@ double* OutputObserver::GetDoubleArray(string name, int* num)
 	return doubles;
 }
 
-void OutputObserver::GetPointFArray(string name, int* num, double** x, double** y)
+void OutputObserver::GetPointFArray(String_t name, int* num, double** x, double** y)
 {
-	auto pos = Container.find(name.c_str());
+	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
@@ -306,9 +306,9 @@ void OutputObserver::GetPointFArray(string name, int* num, double** x, double** 
 	*x = xs;
 	*y = ys;
 }
-void OutputObserver::GetRectangleFArray(string name, int* num, double** x, double** y, double** w, double** h, double** a)
+void OutputObserver::GetRectangleFArray(String_t name, int* num, double** x, double** y, double** w, double** h, double** a)
 {
-	auto pos = Container.find(name.c_str());
+	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
@@ -341,9 +341,9 @@ void OutputObserver::GetRectangleFArray(string name, int* num, double** x, doubl
 	*a = as;
 }
 
-void OutputObserver::GetCircleFArray(string name, int* num, double** x, double** y, double** r)
+void OutputObserver::GetCircleFArray(String_t name, int* num, double** x, double** y, double** r)
 {
-	auto pos = Container.find(name.c_str());
+	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
@@ -370,9 +370,9 @@ void OutputObserver::GetCircleFArray(string name, int* num, double** x, double**
 	*r = rs;
 }
 
-void OutputObserver::GetEllipseFArray(string name, int* num, double** x, double** y, double** r1, double** r2, double** a)
+void OutputObserver::GetEllipseFArray(String_t name, int* num, double** x, double** y, double** r1, double** r2, double** a)
 {
-	auto pos = Container.find(name.c_str());
+	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
@@ -404,9 +404,9 @@ void OutputObserver::GetEllipseFArray(string name, int* num, double** x, double*
 	*r2 = r2s;
 	*a = as;
 }
-void OutputObserver::GetLineFArray(string name, int* num, double** x1, double** y1, double** x2, double** y2) 
+void OutputObserver::GetLineFArray(String_t name, int* num, double** x1, double** y1, double** x2, double** y2)
 {
-	auto pos = Container.find(name.c_str());
+	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
@@ -439,7 +439,7 @@ const char* OutputObserver::GetCurrentErrorMsg()
 {
 	return ConvertToChar(ErrorMsg.c_str());
 }
-void OutputObserver::IteratorCheckError(CVariantContainer::iterator it, string name)
+void OutputObserver::IteratorCheckError(CVariantContainer::iterator it, String_t name)
 {
 	if (it == Container.end())
 	{

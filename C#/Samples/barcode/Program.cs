@@ -11,17 +11,18 @@ namespace barcode
 {
     internal class Program
     {
+
         static void Main(string[] args)
         {
-            vToolsDotNet.PylonInitialize();
-            vToolsDotNet tools = new vToolsDotNet();
+            vToolsImpl.PylonInitialize();
+            vToolsImpl tools = new vToolsImpl();
             try
             {
                 var pylonDir = Environment.GetEnvironmentVariable("PYLON_DEV_DIR");
                 var recipeFile = $@"{Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName}\barcode.precipe";
                 
                 tools.EnableCameraEmulator();
-                var result = tools.LoadRecipe(recipeFile);
+                tools.LoadRecipe(recipeFile);
                 tools.SetParameters("MyCamera/@CameraDevice/ImageFilename", $@"{pylonDir}\Samples\pylonDataProcessing\C++\images\barcode\");
                 tools.RegisterAllOutputsObserver();
                 tools.Start();
@@ -29,10 +30,11 @@ namespace barcode
                 {
                     if(tools.WaitObject(5000) && tools.NextOutput())
                     {
-                        var img = tools.GetImage("Image");
                         var barcode = tools.GetStringArray("Barcodes");
+                        //var img = tools.GetImage("Image");
+                        
                         Console.WriteLine($"Barcode: {string.Join(",", barcode)}");
-                        ImageWindow.DisplayImage(0, img.byteArray, PixelType.Mono8, img.w, img.h, 0, ImageOrientation.TopDown);
+                        //ImageWindow.DisplayImage(0, img.byteArray, PixelType.Mono8, img.w, img.h, 0, ImageOrientation.TopDown);
                         Console.WriteLine(i);
                     }
                 }
@@ -48,7 +50,7 @@ namespace barcode
             }
             finally
             {
-                vToolsDotNet.PylonTerminate();
+                vToolsImpl.PylonTerminate();
             }
         }
     }

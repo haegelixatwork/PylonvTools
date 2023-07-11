@@ -27,12 +27,18 @@
     <ClInclude Include="UpdateObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="vToolsDotNet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="vTools.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="API.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ResultData.cpp">
@@ -42,6 +48,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UpdateObserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vToolsDotNet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

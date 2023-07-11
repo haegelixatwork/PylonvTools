@@ -14,21 +14,21 @@ class vTools
 public:
 	OutputObserver ResultCollector;
 	vTools();
-	void LoadRecipe(string fileName);
-	void SetParameters(string name, string value);
+	void LoadRecipe(String_t fileName);
+	void SetParameters(String_t name, String_t value);
 	void RegisterAllOutputsObserver();
 	void Start();
 	bool WaitObject(unsigned int timeOut);
 	void Stop();
-	void SetString(string name, string value);
-	void SetBool(string name, bool value);
-	void SetLong(string name, long value);
-	void SetDouble(string name, double value);
-	void SetPointF(string name, double x, double y);
-	void SetRectangleF(string name, double x, double y, double w, double h, double a);
-	void SetCircleF(string name, double x, double y, double r);
-	void SetEllipseF(string name, double x, double y, double r1, double r2, double a);
-	void SetLineF(string name, double x1, double y1, double x2, double y2);
+	void SetString(String_t name, String_t value);
+	void SetBool(String_t name, bool value);
+	void SetLong(String_t name, long value);
+	void SetDouble(String_t name, double value);
+	void SetPointF(String_t name, double x, double y);
+	void SetRectangleF(String_t name, double x, double y, double w, double h, double a);
+	void SetCircleF(String_t name, double x, double y, double r);
+	void SetEllipseF(String_t name, double x, double y, double r1, double r2, double a);
+	void SetLineF(String_t name, double x1, double y1, double x2, double y2);
 	void Dispose();
 private:
 	UpdateObserver updateObserver;

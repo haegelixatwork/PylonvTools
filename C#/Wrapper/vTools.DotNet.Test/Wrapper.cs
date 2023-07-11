@@ -30,10 +30,10 @@ namespace vTools.DotNet.Test
         [TestCase(false)]
         public void BoolInIout(bool value)
         {
-            vToolsDotNet.PylonInitialize();
+            vToolsImpl.PylonInitialize();
             try
             {
-                var tools = new vToolsDotNet();
+                var tools = new vToolsImpl();
 
                 var recipeFile = $@"{_recipesFolder}\BoolInOut.precipe";
                 tools.LoadRecipe(recipeFile);
@@ -53,7 +53,7 @@ namespace vTools.DotNet.Test
             }
             finally
             {
-                vToolsDotNet.PylonTerminate();
+                vToolsImpl.PylonTerminate();
             }
         }
         [Test]
@@ -61,10 +61,10 @@ namespace vTools.DotNet.Test
         [TestCase(33)]
         public void IntInOut(int value)
         {
-            vToolsDotNet.PylonInitialize();
+            vToolsImpl.PylonInitialize();
             try
             {
-                var tools = new vToolsDotNet();
+                var tools = new vToolsImpl();
 
                 var recipeFile = $@"{_recipesFolder}\IntInOut.precipe";
                 tools.LoadRecipe(recipeFile);
@@ -83,7 +83,7 @@ namespace vTools.DotNet.Test
             }
             finally
             {
-                vToolsDotNet.PylonTerminate();
+                vToolsImpl.PylonTerminate();
             }
         }
         [Test]
@@ -91,10 +91,10 @@ namespace vTools.DotNet.Test
         [TestCase(33.33321)]
         public void DoubleInOut(double value)
         {
-            vToolsDotNet.PylonInitialize();
+            vToolsImpl.PylonInitialize();
             try
             {
-                var tools = new vToolsDotNet();
+                var tools = new vToolsImpl();
 
                 var recipeFile = $@"{_recipesFolder}\DoubleInOut.precipe";
                 tools.LoadRecipe(recipeFile);
@@ -114,7 +114,7 @@ namespace vTools.DotNet.Test
             }
             finally
             {
-                vToolsDotNet.PylonTerminate();
+                vToolsImpl.PylonTerminate();
             }
         }
         [Test]
@@ -122,11 +122,11 @@ namespace vTools.DotNet.Test
         [TestCase(33,33.33321)]
         public void TwoRecipes(int vlaueInt, double valueDouble)
         {
-            vToolsDotNet.PylonInitialize();
+            vToolsImpl.PylonInitialize();
             try
             {
-                var toolInt = new vToolsDotNet();
-                var toolDouble = new vToolsDotNet();
+                var toolInt = new vToolsImpl();
+                var toolDouble = new vToolsImpl();
                 var recipeFile = $@"{_recipesFolder}\DoubleInOut.precipe";
                 toolInt.LoadRecipe($@"{_recipesFolder}\IntInOut.precipe");
                 toolInt.RegisterAllOutputsObserver();
@@ -159,7 +159,7 @@ namespace vTools.DotNet.Test
             }
             finally
             {
-                vToolsDotNet.PylonTerminate();
+                vToolsImpl.PylonTerminate();
             }
         }
         #region Not support

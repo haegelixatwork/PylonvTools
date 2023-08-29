@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "barcode", "C++\barcode\barc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InOut", "C++\InOut\InOut.vcxproj", "{3F0B27A1-E5C0-44B9-8689-9C8B449D5D7A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "C#", "C#", "{A8B913EC-5A5C-4F93-94A0-70D45381DE5F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CSharp", "CSharp", "{A8B913EC-5A5C-4F93-94A0-70D45381DE5F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "buildersrecipe", "C++\buildersrecipe\buildersrecipe.vcxproj", "{8B88949D-3E6F-4BD0-A2C8-FFE45C41AEAD}"
 EndProject
@@ -19,23 +19,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Wrapper", "Wrapper", "{119D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{0E4CBEC2-B506-478C-843D-0B22409E37B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vTools.DotNet", "C#\Wrapper\vTools.DotNet\vTools.DotNet.csproj", "{308A4CE5-638F-4758-AB66-6483C198A6DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vTools.DotNet", "CSharp\Wrapper\vTools.DotNet\vTools.DotNet.csproj", "{308A4CE5-638F-4758-AB66-6483C198A6DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "barcode", "C#\Samples\barcode\barcode.csproj", "{B68D66CF-E726-4268-975D-CF8A77D1097D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "barcode", "CSharp\Samples\barcode\barcode.csproj", "{B68D66CF-E726-4268-975D-CF8A77D1097D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InOut", "C#\Samples\InOut\InOut.csproj", "{5B583284-43FF-4A78-AB27-8B12DCC24821}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InOut", "CSharp\Samples\InOut\InOut.csproj", "{5B583284-43FF-4A78-AB27-8B12DCC24821}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConverterTest", "ConverterTest", "{F2682469-121C-405F-B7EC-9CAB5D83A97E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Converter.Wrapper", "C#\ConverterTest\Converter.Wrapper\Converter.Wrapper.vcxproj", "{306BB555-A806-45F0-A94D-2D9ACC9B4F44}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Converter.Wrapper", "CSharp\ConverterTest\Converter.Wrapper\Converter.Wrapper.vcxproj", "{306BB555-A806-45F0-A94D-2D9ACC9B4F44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Converter.Wrapper.Test", "C#\ConverterTest\Converter.Wrapper.Test\Converter.Wrapper.Test.csproj", "{E0986A29-D1F0-4DC7-9A73-55CF7DF0F4D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Converter.Wrapper.Test", "CSharp\ConverterTest\Converter.Wrapper.Test\Converter.Wrapper.Test.csproj", "{E0986A29-D1F0-4DC7-9A73-55CF7DF0F4D3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vTools.Wrapper", "C#\Wrapper\vTools.Wrapper\vTools.Wrapper.vcxproj", "{B8660E9A-7135-4BB8-BFE0-ABA3EE84E1DD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vTools.Wrapper", "CSharp\Wrapper\vTools.Wrapper\vTools.Wrapper.vcxproj", "{B8660E9A-7135-4BB8-BFE0-ABA3EE84E1DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vTools.DotNet.Test", "C#\Wrapper\vTools.DotNet.Test\vTools.DotNet.Test.csproj", "{B2A94414-6D7A-499C-94ED-03BC22D713BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vTools.DotNet.Test", "CSharp\Wrapper\vTools.DotNet.Test\vTools.DotNet.Test.csproj", "{B2A94414-6D7A-499C-94ED-03BC22D713BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiRecipes", "C#\Samples\MultiRecipes\MultiRecipes.csproj", "{F2E9DCE3-595B-4BAE-B3EE-96837A2C37E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiRecipes", "CSharp\Samples\MultiRecipes\MultiRecipes.csproj", "{F2E9DCE3-595B-4BAE-B3EE-96837A2C37E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

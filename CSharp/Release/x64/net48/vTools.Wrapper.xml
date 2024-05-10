@@ -1,0 +1,267 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        "vTools.Wrapper"
+    </assembly>
+    <members>
+        <member name="M:vToolsDotNet.GetLineFArray(System.String,System.Double[]@,System.Double[]@,System.Double[]@,System.Double[]@)">
+            <summary>
+Get line array from output.
+</summary>
+            <param name="name" />
+            <param name="x1" />
+            <param name="y1" />
+            <param name="x2" />
+            <param name="y2" />
+        </member>
+        <member name="M:vToolsDotNet.GetEllipseFArray(System.String,System.Double[]@,System.Double[]@,System.Double[]@,System.Double[]@,System.Double[]@)">
+            <summary>
+Get ellipse array from output.
+</summary>
+            <param name="name" />
+            <param name="x" />
+            <param name="y" />
+            <param name="r1" />
+            <param name="r2" />
+            <param name="a" />
+        </member>
+        <member name="M:vToolsDotNet.GetCircleFArray(System.String,System.Double[]@,System.Double[]@,System.Double[]@)">
+            <summary>
+Get circle array from output.
+</summary>
+            <param name="name" />
+            <param name="x" />
+            <param name="y" />
+            <param name="r" />
+        </member>
+        <member name="M:vToolsDotNet.GetRectangleFArray(System.String,System.Double[]@,System.Double[]@,System.Double[]@,System.Double[]@,System.Double[]@)">
+            <summary>
+Get rectangle array from output.
+</summary>
+            <param name="name" />
+            <param name="x" />
+            <param name="y" />
+            <param name="w" />
+            <param name="h" />
+            <param name="a" />
+        </member>
+        <member name="M:vToolsDotNet.GetPointFArray(System.String,System.Double[]@,System.Double[]@)">
+            <summary>
+Get point array from output.
+</summary>
+            <param name="name" />
+            <param name="x" />
+            <param name="y" />
+        </member>
+        <member name="M:vToolsDotNet.GetDoubleArray(System.String)">
+            <summary>
+Get double array from output.
+</summary>
+            <param name="name" />
+            <returns />
+        </member>
+        <member name="M:vToolsDotNet.GetLongArray(System.String)">
+            <summary>
+Get long array from output.
+</summary>
+            <param name="name" />
+            <returns />
+        </member>
+        <member name="M:vToolsDotNet.GetBoolArray(System.String)">
+            <summary>
+Get boolean array from output.
+</summary>
+            <param name="name" />
+            <returns />
+        </member>
+        <member name="M:vToolsDotNet.GetStringArray(System.String)">
+            <summary>
+Get string array from output.
+</summary>
+            <param name="name" />
+            <returns />
+        </member>
+        <member name="M:vToolsDotNet.GetLineF(System.String,System.Double@,System.Double@,System.Double@,System.Double@)">
+            <summary>
+Get line from output.
+</summary>
+            <param name="name" />
+            <param name="x1" />
+            <param name="y1" />
+            <param name="x2" />
+            <param name="y2" />
+        </member>
+        <member name="M:vToolsDotNet.GetEllipseF(System.String,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@)">
+            <summary>
+Get ellipse from output.
+</summary>
+            <param name="name" />
+            <param name="x" />
+            <param name="y" />
+            <param name="r1" />
+            <param name="r2" />
+            <param name="a" />
+        </member>
+        <member name="M:vToolsDotNet.GetCircleF(System.String,System.Double@,System.Double@,System.Double@)">
+            <summary>
+Get circle from output.
+</summary>
+            <param name="name" />
+            <param name="x" />
+            <param name="y" />
+            <param name="r" />
+        </member>
+        <member name="M:vToolsDotNet.GetRectangleF(System.String,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@)">
+            <summary>
+Get rectangle from output.
+</summary>
+            <param name="name" />
+            <param name="x" />
+            <param name="y" />
+            <param name="w" />
+            <param name="h" />
+            <param name="a" />
+        </member>
+        <member name="M:vToolsDotNet.GetPointF(System.String,System.Double@,System.Double@)">
+            <summary>
+Get point from output.
+</summary>
+            <param name="name" />
+            <param name="x" />
+            <param name="y" />
+        </member>
+        <member name="M:vToolsDotNet.GetDouble(System.String)">
+            <summary>
+Get double from output.
+</summary>
+            <param name="name" />
+            <returns />
+        </member>
+        <member name="M:vToolsDotNet.GetLong(System.String)">
+            <summary>
+Get long from output
+</summary>
+            <param name="name" />
+            <returns />
+        </member>
+        <member name="M:vToolsDotNet.GetBool(System.String)">
+            <summary>
+Get boolean from output. 
+</summary>
+            <param name="name" />
+            <returns />
+        </member>
+        <member name="M:vToolsDotNet.GetString(System.String)">
+            <summary>
+Get string from output.
+</summary>
+            <param name="name" />
+            <returns />
+        </member>
+        <member name="M:vToolsDotNet.GetImage(System.String,System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+Get image from output.
+</summary>
+            <param name="name" />
+            <param name="imgW" />
+            <param name="imgH" />
+            <param name="imgC" />
+            <returns />
+        </member>
+        <member name="M:vToolsDotNet.NextOutput">
+            <summary>
+Get next output from queue.
+</summary>
+            <returns />
+        </member>
+        <member name="M:vToolsDotNet.SetImage(System.String,System.Byte[],System.Int32,System.Int32,System.Int32)">
+            <summary>
+Set input value by image
+</summary>
+            <param name="name" />
+            <param name="img" />
+            <param name="w" />
+            <param name="h" />
+            <param name="channels" />
+        </member>
+        <member name="M:vToolsDotNet.SetDouble(System.String,System.Double)">
+            <summary>
+Set input value by double.
+</summary>
+            <param name="name" />
+            <param name="value" />
+        </member>
+        <member name="M:vToolsDotNet.SetLong(System.String,System.Int32!System.Runtime.CompilerServices.IsLong)">
+            <summary>
+Set input value by long.
+</summary>
+            <param name="name" />
+            <param name="value" />
+        </member>
+        <member name="M:vToolsDotNet.SetBool(System.String,System.Boolean)">
+            <summary>
+Set input value by boolean.
+</summary>
+            <param name="name" />
+            <param name="value" />
+        </member>
+        <member name="M:vToolsDotNet.SetString(System.String,System.String)">
+            <summary>
+Set input value by string.
+</summary>
+            <param name="name" />
+            <param name="value" />
+        </member>
+        <member name="M:vToolsDotNet.Stop">
+            <summary>
+Recipe stop.
+</summary>
+        </member>
+        <member name="M:vToolsDotNet.WaitObject(System.UInt32)">
+            <summary>
+Wait next output result.
+</summary>
+            <param name="timeOut" />
+            <returns />
+        </member>
+        <member name="M:vToolsDotNet.Start">
+            <summary>
+Recipe start.
+</summary>
+        </member>
+        <member name="M:vToolsDotNet.RegisterAllOutputsObserver">
+            <summary>
+ Register all outputs observer.
+</summary>
+        </member>
+        <member name="M:vToolsDotNet.SetParameters(System.String,System.String)">
+            <summary>
+Directly Set paratmers to vTool( Operator ).
+</summary>
+            <param name="name" />
+            <param name="value" />
+        </member>
+        <member name="M:vToolsDotNet.LoadRecipe(System.String)">
+            <summary>
+Load vTools recipe file.
+</summary>
+            <param name="fileName" />
+        </member>
+        <member name="M:vToolsDotNet.PylonTerminate">
+            <summary>
+Frees up resources allocated by the pylon runtime system.
+</summary>
+        </member>
+        <member name="M:vToolsDotNet.PylonInitialize">
+            <summary>
+Initializes the pylon runtime system.
+</summary>
+        </member>
+        <member name="M:vToolsDotNet.EnableCameraEmulator">
+            <summary>
+Enable camera emulator. Create a vitural caemra. But it needs to set image files folder.
+</summary>
+            <returns />
+        </member>
+    </members>
+</doc>

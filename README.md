@@ -18,6 +18,6 @@ Pylon version > 7.0
 :x:32 bit
 
 ## Release
-The dll files are for .net framework 4.8
+Dll are for .net framework 4.8. It could support other version by rebuild from source code.
 
-The dll files are at CSharp\Release
+Files are at CSharp\Release

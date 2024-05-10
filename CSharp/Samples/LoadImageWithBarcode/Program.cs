@@ -22,14 +22,11 @@ namespace LoadImageWithBarcode
                 tools.RegisterAllOutputsObserver();
                 tools.Start();
                 var image = new Image<Gray, byte>($@"{root}\barcode01.png");
-                while (true) 
+                tools.SetImage("Image", image.Bytes, image.Width, image.Height, 1);
+                if (tools.WaitObject(5000) && tools.NextOutput())
                 {
-                    tools.SetImage("Image", image.Bytes, image.Width, image.Height, 1);
-                    if (tools.WaitObject(5000) && tools.NextOutput())
-                    {
-                        var barcode = tools.GetStringArray("Barcodes");
-                        Console.WriteLine($"Barcode: {string.Join(",", barcode)}");
-                    }
+                    var barcode = tools.GetStringArray("Barcodes");
+                    Console.WriteLine($"Barcode: {string.Join(",", barcode)}");
                 }
             }
             catch (Win32Exception ex)

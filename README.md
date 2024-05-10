@@ -16,3 +16,8 @@ Pylon version > 7.0
 :white_check_mark:64 bit
 
 :x:32 bit
+
+## Release
+The dll files are for .net framework 4.8
+
+The dll files are at CSharp\Release

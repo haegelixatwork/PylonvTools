@@ -102,6 +102,15 @@ namespace vTools.DotNet
         /// <param name="name"></param>
         /// <param name="value"></param>
         public void SetDouble(string name, double value) => _tools.SetDouble(name, value);
+        /// <summary>
+        /// Set input value by Intptr
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="img"></param>
+        /// <param name="w"></param>
+        /// <param name="h"></param>
+        /// <param name="channels"></param>
+        public void SetImage(string name, byte[] bytes, int w, int h, int channels) => _tools.SetImage(name, bytes, w, h, channels);
         public void Dispose() =>_tools.Dispose();
 
         public bool NextOutput() => _tools.NextOutput();

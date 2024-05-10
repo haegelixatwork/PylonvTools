@@ -186,6 +186,8 @@ double OutputObserver::GetCenterY(const CVariant& value)
 
 int OutputObserver::GetChannels(EPixelType pixelType)
 {
+	if (IsBGR(pixelType))
+		return 3;
 	return PlaneCount(pixelType);
 }
 

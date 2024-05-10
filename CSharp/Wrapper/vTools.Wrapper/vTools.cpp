@@ -2,7 +2,7 @@
 
 vTools::vTools()
 {
-	
+	count = 0;
 }
 
 void vTools::LoadRecipe(String_t fileName)
@@ -40,26 +40,26 @@ void vTools::Stop()
 void vTools::SetString(String_t name, String_t value)
 {
 	CVariant cvalue(value);
-	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, 5);
+	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, count++);
 }
 
 void vTools::SetBool(String_t name, bool value)
 {
 	CVariant cvalue(value);
-	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, 5);
+	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, count++);
 }
 
 void vTools::SetLong(String_t name, long value)
 {
 	int64_t l = value;
 	CVariant cvalue(static_cast<int64_t>(value));
-	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, 5);
+	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, count++);
 }
 
 void vTools::SetDouble(String_t name, double value)
 {
 	CVariant cvalue(static_cast<double>(value));
-	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, 5);
+	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, count++);
 }
 
 void vTools::SetPointF(String_t name, double x, double y)
@@ -67,7 +67,7 @@ void vTools::SetPointF(String_t name, double x, double y)
 	CVariant cvalue = CVariant::CreateFromTypeName("PointF");
 	cvalue.SetSubValue("X", CVariant(x));
 	cvalue.SetSubValue("Y", CVariant(y));
-	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, 5);
+	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, count++);
 }
 
 void vTools::SetRectangleF(String_t name, double x, double y, double w, double h, double a)
@@ -78,7 +78,7 @@ void vTools::SetRectangleF(String_t name, double x, double y, double w, double h
 	cvalue.SetSubValue("Width", CVariant(w));
 	cvalue.SetSubValue("Height", CVariant(h));
 	cvalue.SetSubValue("Rotation ", CVariant(a));
-	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, 5);
+	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, count++);
 }
 
 void vTools::SetCircleF(String_t name, double x, double y, double r)
@@ -87,7 +87,7 @@ void vTools::SetCircleF(String_t name, double x, double y, double r)
 	cvalue.SetSubValue("Center.X", CVariant(x));
 	cvalue.SetSubValue("Center.Y", CVariant(y));
 	cvalue.SetSubValue("Radius", CVariant(r));
-	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, 5);
+	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, count++);
 }
 
 void vTools::SetEllipseF(String_t name, double x, double y, double r1, double r2, double a)
@@ -98,7 +98,7 @@ void vTools::SetEllipseF(String_t name, double x, double y, double r1, double r2
 	cvalue.SetSubValue("Radius1", CVariant(r1));
 	cvalue.SetSubValue("Radius2", CVariant(r2));
 	cvalue.SetSubValue("Rotation ", CVariant(a));
-	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, 5);
+	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, count++);
 }
 
 void vTools::SetLineF(String_t name, double x1, double y1, double x2, double y2)
@@ -108,7 +108,16 @@ void vTools::SetLineF(String_t name, double x1, double y1, double x2, double y2)
 	cvalue.SetSubValue("PointA.Y", CVariant(y1));
 	cvalue.SetSubValue("PointB.X", CVariant(x2));
 	cvalue.SetSubValue("PointB.Y", CVariant(y2));
-	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, 5);
+	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, count++);
+}
+
+void vTools::SetImage(String_t name, void* img, unsigned int w, unsigned int h, unsigned int channels)
+{	
+	EPixelType type = channels == 3 ? Pylon::EPixelType::PixelType_BGR8packed : Pylon::EPixelType::PixelType_Mono8;
+	CPylonImage image;
+	image.AttachUserBuffer(img, w * h * channels, type, w, h, 0, ImageOrientation_TopDown);
+	CVariant cvalue(image);
+	recipe.TriggerUpdate(name, cvalue, 1000, TimeoutHandling_ThrowException, &updateObserver, count++);
 }
 
 void vTools::Dispose()

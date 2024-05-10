@@ -29,8 +29,10 @@ public:
 	void SetCircleF(String_t name, double x, double y, double r);
 	void SetEllipseF(String_t name, double x, double y, double r1, double r2, double a);
 	void SetLineF(String_t name, double x1, double y1, double x2, double y2);
+	void SetImage(String_t name, void* img, unsigned int w, unsigned int h, unsigned int channels);
 	void Dispose();
 private:
 	UpdateObserver updateObserver;
+	int count;
 	CRecipe recipe;
 };

@@ -5,6 +5,9 @@ using System.IO;
 using TestContext = NUnit.Framework.TestContext;
 using Assert = NUnit.Framework.Assert;
 using vTools.DotNet.Models;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 
 namespace vTools.DotNet.Test
 {
@@ -109,6 +112,39 @@ namespace vTools.DotNet.Test
                 }
 
                 Assert.AreEqual(input, output, _delta);
+                tools.Stop();
+                tools.Dispose();
+            }
+            finally
+            {
+                vToolsImpl.PylonTerminate();
+            }
+        }
+        [Test]
+        public void ImageInOut()
+        {
+            vToolsImpl.PylonInitialize();
+            try
+            {
+                var tools = new vToolsImpl();
+                
+                var recipeFile = $@"{_recipesFolder}\ImageInOut.precipe";
+                tools.LoadRecipe(recipeFile);
+                tools.RegisterAllOutputsObserver();
+                tools.Start();
+                var bmp = new Bitmap($@"{_recipesFolder}\shapes01.png");
+                var bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
+                var c = bmp.PixelFormat == PixelFormat.Format24bppRgb ? 3 : 1;
+                var bytes = new byte[bmp.Width* bmp.Height*c];
+                Marshal.Copy(bmpData.Scan0, bytes, 0, bytes.Length);
+                tools.SetImage("RecipeInput", bytes, bmp.Width, bmp.Height, bmp.PixelFormat == PixelFormat.Format24bppRgb ? 3 : 1);
+                var output = 0.0;
+                if (tools.WaitObject(5000) && tools.NextOutput())
+                {
+                    var img = tools.GetImage("RecipeOutput");
+                }
+                bmp.UnlockBits(bmpData);
+                //Assert.AreEqual(input, output, _delta);
                 tools.Stop();
                 tools.Dispose();
             }

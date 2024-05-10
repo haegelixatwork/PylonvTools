@@ -1,0 +1,186 @@
+{
+  "PylonMetaData": {
+    "ObjectVersion": "1.0.0",
+    "MinRequiredSoftwareVersion": "1.0.0"
+  },
+  "PylonContent": {
+    "Ui": {
+      "UiGraphInputOutput": [
+        {
+          "id": "<GraphInput>",
+          "x": 52.0,
+          "y": 167.5
+        },
+        {
+          "id": "<GraphOutput>",
+          "x": 856.0,
+          "y": 155.5
+        }
+      ],
+      "UiNodes": [
+        {
+          "id": "BarcodeReader",
+          "x": 422.0,
+          "y": 51.5,
+          "WatchNodePins": [
+            {
+              "nodeName": "BarcodeReader",
+              "pinName": "Image",
+              "pinDirection": "Input"
+            },
+            {
+              "nodeName": "BarcodeReader",
+              "pinName": "Texts",
+              "pinDirection": "Output"
+            },
+            {
+              "nodeName": "BarcodeReader",
+              "pinName": "Regions",
+              "pinDirection": "Output"
+            }
+          ]
+        },
+        {
+          "id": "ImageLoading",
+          "x": 45.0,
+          "y": -36.0,
+          "WatchNodePins": [
+            {
+              "nodeName": "ImageLoading",
+              "pinName": "Image",
+              "pinDirection": "Output"
+            },
+            {
+              "nodeName": "ImageLoading",
+              "pinName": "ImagePath",
+              "pinDirection": "Output"
+            },
+            {
+              "nodeName": "ImageLoading",
+              "pinName": "RunCount",
+              "pinDirection": "Output"
+            }
+          ]
+        }
+      ],
+      "PylonMetaData": {
+        "ObjectVersion": "1.2.0",
+        "MinRequiredSoftwareVersion": "1.0.0"
+      }
+    },
+    "Graph": {
+      "PylonMetaData": {
+        "ObjectVersion": "1.2.0",
+        "MinRequiredSoftwareVersion": "1.0.0"
+      },
+      "Nodes": [
+        {
+          "Name": "BarcodeReader",
+          "Enabled": true,
+          "NodeTypeID": "38334B37-8F95-4FDA-871A-F591F1CCE8C9",
+          "Type": "Plugin::PylonVToolPackageA::Barcode",
+          "NodeData": {
+            "PylonMetaData": {
+              "ObjectVersion": "1.2.0",
+              "MinRequiredSoftwareVersion": "1.0.0"
+            },
+            "bs": {
+              "BsVersion": 1,
+              "BarcodeType1": 1,
+              "BarcodeType2": 0,
+              "MaxNumBarcodes": 2,
+              "DetectionTimeout": 0.02,
+              "DetectionTimeoutEnabled": false
+            }
+          }
+        },
+        {
+          "Name": "ImageLoading",
+          "Enabled": false,
+          "NodeTypeID": "4F2B72DC-294B-4503-885A-6B73D26EB6D7",
+          "Type": "Plugin::PylonVToolPackageBase::ImageLoading",
+          "NodeData": {
+            "PylonMetaData": {
+              "ObjectVersion": "1.0.0",
+              "MinRequiredSoftwareVersion": "1.0.0"
+            },
+            "sourcePath": "C:\\Personal\\Git\\PylonvTools_Pure\\CSharp\\Samples\\LoadImageWithBarcode\\barcode01.png",
+            "sortBy": 0,
+            "numberOfImages": 1,
+            "framesPerSecond": 1,
+            "numberOfRuns": 1,
+            "runContinuously": false
+          }
+        }
+      ],
+      "Connections": [
+        {
+          "Name": "Connection",
+          "Source": "BarcodeReader",
+          "Sink": "<GraphOutput>",
+          "QueueMode": 0,
+          "MaxSize": 1,
+          "SourceOutputPath": "Texts",
+          "SinkInputPath": "Barcodes",
+          "ValueTypeID": "74341A22-4AF6-5824-AC1F-4873DD93013B"
+        },
+        {
+          "Name": "Connection3",
+          "Source": "ImageLoading",
+          "Sink": "<GraphOutput>",
+          "QueueMode": 3,
+          "MaxSize": 1,
+          "SourceOutputPath": "Image",
+          "SinkInputPath": "Image",
+          "ValueTypeID": "2C893358-0EEF-5260-B262-8CB32DF2C394"
+        },
+        {
+          "Name": "Connection2",
+          "Source": "<GraphInput>",
+          "Sink": "BarcodeReader",
+          "QueueMode": 3,
+          "MaxSize": 1,
+          "SourceOutputPath": "Image",
+          "SinkInputPath": "Image",
+          "ValueTypeID": "2C893358-0EEF-5260-B262-8CB32DF2C394"
+        }
+      ],
+      "GraphInput": {
+        "NodeData": {
+          "Outputs": [
+            {
+              "Name": "Image",
+              "Type": "Pylon::DataProcessing::Core::IImage",
+              "ValueTypeID": "2C893358-0EEF-5260-B262-8CB32DF2C394"
+            }
+          ]
+        }
+      },
+      "GraphOutput": {
+        "NodeData": {
+          "Inputs": [
+            {
+              "Name": "Barcodes",
+              "Type": "Pylon::DataProcessing::Core::IStringArray",
+              "ValueTypeID": "74341A22-4AF6-5824-AC1F-4873DD93013B"
+            },
+            {
+              "Name": "Image",
+              "Type": "Pylon::DataProcessing::Core::IImage",
+              "ValueTypeID": "2C893358-0EEF-5260-B262-8CB32DF2C394"
+            }
+          ]
+        }
+      },
+      "Resources": {
+        "ThreadPool": {
+          "PylonMetaData": {
+            "ObjectVersion": "1.0.0",
+            "MinRequiredSoftwareVersion": "1.0.0"
+          },
+          "MaxThreadCount": 8
+        }
+      }
+    }
+  }
+}

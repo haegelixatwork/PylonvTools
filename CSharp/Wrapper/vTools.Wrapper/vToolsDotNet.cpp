@@ -75,6 +75,14 @@ void vToolsDotNet::SetDouble(String^ name, double value)
 	tools->SetDouble(ConvertToStringt(name), value);
 }
 
+void vToolsDotNet::SetImage(String^ name, cli::array<Byte>^ img, int w, int h, int channels)
+{
+	auto ptr = Marshal::AllocHGlobal(sizeof(Byte)* img->Length);
+	Marshal::Copy(img, 0, ptr, img->Length);
+	tools->SetImage(ConvertToStringt(name), ptr.ToPointer(), w, h, channels);
+	Marshal::FreeHGlobal(ptr);
+}
+
 bool vToolsDotNet::NextOutput()
 {
 	return tools->ResultCollector.NextOutput();

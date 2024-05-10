@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using vTools.DotNet;
-using Basler.Pylon;
 using System.IO;
-using System.Reflection;
 
 namespace InOut
 {

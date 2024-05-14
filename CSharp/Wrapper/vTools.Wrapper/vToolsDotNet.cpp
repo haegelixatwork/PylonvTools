@@ -22,7 +22,7 @@ vToolsDotNet::vToolsDotNet()
 
 vToolsDotNet::!vToolsDotNet()
 {
-	throw gcnew System::NotImplementedException();
+	//throw gcnew System::NotImplementedException();
 }
 
 void vToolsDotNet::LoadRecipe(String^ fileName)
@@ -183,7 +183,8 @@ cli::array<String^>^ vToolsDotNet::GetStringArray(String^ name)
 	auto intptrs = gcnew cli::array<IntPtr>(num);
 	try
 	{
-		Marshal::Copy((IntPtr)pData, intptrs, 0, intptrs->Length);
+		if (num > 0)
+			Marshal::Copy((IntPtr)pData, intptrs, 0, intptrs->Length);
 		auto values = gcnew cli::array<String^>(num);
 		int i;
 		for (i = 0; i < num; i++)
@@ -218,7 +219,8 @@ cli::array<int64_t>^ vToolsDotNet::GetLongArray(String^ name)
 	auto values = gcnew cli::array<int64_t>(num);
 	try
 	{
-		Marshal::Copy((IntPtr)pData, values, 0, values->Length);
+		if (num > 0)
+			Marshal::Copy((IntPtr)pData, values, 0, values->Length);
 		return values;
 	}
 	finally
@@ -234,7 +236,8 @@ cli::array<double>^ vToolsDotNet::GetDoubleArray(String^ name)
 	auto values = gcnew cli::array<double>(num);
 	try
 	{
-		Marshal::Copy((IntPtr)pData, values, 0, values->Length);
+		if (num > 0)
+			Marshal::Copy((IntPtr)pData, values, 0, values->Length);
 		return values;
 	}
 	finally
@@ -252,8 +255,11 @@ void vToolsDotNet::GetPointFArray(String^ name, [Out] cli::array<double>^% x, [O
 	auto valuesY = gcnew cli::array<double>(num);
 	try
 	{
-		Marshal::Copy((IntPtr)pX, valuesX, 0, valuesX->Length);
-		Marshal::Copy((IntPtr)pY, valuesY, 0, valuesY->Length);
+		if (num > 0)
+		{
+			Marshal::Copy((IntPtr)pX, valuesX, 0, valuesX->Length);
+			Marshal::Copy((IntPtr)pY, valuesY, 0, valuesY->Length);
+		}
 		x = valuesX;
 		y = valuesY;
 	}
@@ -276,11 +282,14 @@ void vToolsDotNet::GetRectangleFArray(String^ name, [Out] cli::array<double>^% x
 	auto valuesA = gcnew cli::array<double>(num);
 	try
 	{
-		Marshal::Copy((IntPtr)pX, valuesX, 0, valuesX->Length);
-		Marshal::Copy((IntPtr)pY, valuesY, 0, valuesY->Length);
-		Marshal::Copy((IntPtr)pW, valuesW, 0, valuesW->Length);
-		Marshal::Copy((IntPtr)pH, valuesH, 0, valuesH->Length);
-		Marshal::Copy((IntPtr)pA, valuesA, 0, valuesA->Length);
+		if (num > 0)
+		{
+			Marshal::Copy((IntPtr)pX, valuesX, 0, valuesX->Length);
+			Marshal::Copy((IntPtr)pY, valuesY, 0, valuesY->Length);
+			Marshal::Copy((IntPtr)pW, valuesW, 0, valuesW->Length);
+			Marshal::Copy((IntPtr)pH, valuesH, 0, valuesH->Length);
+			Marshal::Copy((IntPtr)pA, valuesA, 0, valuesA->Length);
+		}
 		x = valuesX;
 		y = valuesY;
 		w = valuesW;

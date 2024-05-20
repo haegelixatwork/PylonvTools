@@ -98,7 +98,7 @@ void OutputObserver::GetPointF(String_t name, double* x, double* y)
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
 	*x = value.GetSubValue("X").ToDouble();
-	*y = value.GetSubValue("X").ToDouble();
+	*y = value.GetSubValue("Y").ToDouble();
 }
 
 void OutputObserver::GetRectangleF(String_t name, double* x, double* y, double* w, double* h, double* a)
@@ -334,7 +334,7 @@ void OutputObserver::GetRectangleFArray(String_t name, int* num, double** x, dou
 		ys[i] = GetCenterY(variant);
 		ws[i] = variant.GetSubValue("Width").ToDouble();
 		hs[i] = variant.GetSubValue("Height").ToDouble();
-		as[i] = variant.GetSubValue("Rotation ").ToDouble();
+		as[i] = variant.GetSubValue("Rotation").ToDouble();
 	}
 	*x = xs;
 	*y = ys;
@@ -365,7 +365,7 @@ void OutputObserver::GetCircleFArray(String_t name, int* num, double** x, double
 		VariantCheckError(variant);
 		xs[i] = GetCenterX(variant);
 		ys[i] = GetCenterY(variant);
-		rs[i] = variant.GetSubValue("Rotation ").ToDouble();
+		rs[i] = variant.GetSubValue("Rotation").ToDouble();
 	}
 	*x = xs;
 	*y = ys;
@@ -396,9 +396,9 @@ void OutputObserver::GetEllipseFArray(String_t name, int* num, double** x, doubl
 		VariantCheckError(variant);
 		xs[i] = GetCenterX(variant);
 		ys[i] = GetCenterY(variant);
-		r1s[i] = variant.GetSubValue("Radius1 ").ToDouble();
-		r2s[i] = variant.GetSubValue("Radius2 ").ToDouble();
-		as[i] = variant.GetSubValue("Rotation ").ToDouble();
+		r1s[i] = variant.GetSubValue("Radius1").ToDouble();
+		r2s[i] = variant.GetSubValue("Radius2").ToDouble();
+		as[i] = variant.GetSubValue("Rotation").ToDouble();
 	}
 	*x = xs;
 	*y = ys;

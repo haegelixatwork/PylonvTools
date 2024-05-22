@@ -19,6 +19,7 @@ public:
 	void SetParameters(String_t name, double value);
 	void SetParameters(String_t name, int value);
 	void SetParameters(String_t name, bool value);
+	void SetParameterByEnum(String_t name, String_t value);
 	const char** GetAllParameterNames(int* num);
 	void RegisterAllOutputsObserver();
 	void Start();

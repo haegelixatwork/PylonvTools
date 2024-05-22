@@ -223,9 +223,11 @@ namespace vTools.DotNet.Test
             try
             {
                 var tool = new vToolsImpl();
-                var recipeFile = $@"{_recipesFolder}barcode.precipe";
+                var recipeFile = $@"{_recipesFolder}barcode.precipe"; 
                 tool.LoadRecipe(recipeFile);
                 tool.SetParameters("BarcodeReaderBasic/@vTool/MaxNumBarcodes", 2);
+                tool.SetParameters("BarcodeReaderBasic/@vTool/DetectionTimeoutEnable", false);
+                tool.SetParameterByEnum("BarcodeReaderBasic/@vTool/BarcodeType", "EAN");
                 result = true;
                 Assert.IsTrue(result);
             }

@@ -43,15 +43,40 @@ namespace vTools.DotNet
             _tools.LoadRecipe(fileName);
         }
         /// <summary>
-        /// Directly Set paratmers to operator.
+        /// Directly Set paratmers to operator by string.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <returns></returns>
         public void SetParameters(string name, string value)=> _tools.SetParameters(name, value);
+        /// <summary>
+        /// Directly Set paratmers to operator by int.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public void SetParameters(string name, int value) => _tools.SetParameters(name, value);
+        /// <summary>
+        /// Directly Set paratmers to operator by double.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public void SetParameters(string name, double value) => _tools.SetParameters(name, value);
+        /// <summary>
+        /// Directly Set paratmers to operator by boolean.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public void SetParameters(string name, bool value) => _tools.SetParameters(name, value);
+        /// <summary>
+        /// Directly Set paratmer enumeration to operator by string.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public void SetParameterByEnum(string name, string value) => _tools.SetParameterByEnum(name, value);
         public string[] GetAllParameterNames() => _tools.GetAllParameterNames();
         /// <summary>
         /// Register all outputs observer.

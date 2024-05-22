@@ -54,6 +54,12 @@ public:
 	/// <param name="value"></param>
 	void SetParameters(String^ name, bool value);
 	/// <summary>
+	/// Directly Set paratmer enumeration to vTool( Operator ) by string.
+	/// </summary>
+	/// <param name="name"></param>
+	/// <param name="value"></param>
+	void SetParameterByEnum(String^ name, String^ value);
+	/// <summary>
 	/// Get all parameter names.
 	/// </summary>
 	/// <returns></returns>

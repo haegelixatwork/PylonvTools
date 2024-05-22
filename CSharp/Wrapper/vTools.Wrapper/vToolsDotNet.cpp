@@ -50,6 +50,11 @@ void vToolsDotNet::SetParameters(String^ name, bool value)
 	tools->SetParameters(ConvertToStringt(name), value);
 }
 
+void vToolsDotNet::SetParameterByEnum(String^ name, String^ value)
+{
+	tools->SetParameterByEnum(ConvertToStringt(name), ConvertToStringt(value));
+}
+
 cli::array< String^ >^ vToolsDotNet::GetAllParameterNames()
 {
 	int num = 0;

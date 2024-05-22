@@ -32,6 +32,11 @@ void vTools::SetParameters(String_t name, bool value)
 	recipe.GetParameters().Get(BooleanParameterName(name)).SetValue(value);
 }
 
+void vTools::SetParameterByEnum(String_t name, String_t value)
+{
+	recipe.GetParameters().Get(EnumParameterName(name)).SetValue(value.c_str());
+}
+
 const char** vTools::GetAllParameterNames(int* num)
 {
 	auto list = recipe.GetParameters().GetAllParameterNames();

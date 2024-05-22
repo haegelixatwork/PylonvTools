@@ -16,6 +16,10 @@ public:
 	vTools();
 	void LoadRecipe(String_t fileName);
 	void SetParameters(String_t name, String_t value);
+	void SetParameters(String_t name, double value);
+	void SetParameters(String_t name, int value);
+	void SetParameters(String_t name, bool value);
+	const char** GetAllParameterNames(int* num);
 	void RegisterAllOutputsObserver();
 	void Start();
 	bool WaitObject(unsigned int timeOut);

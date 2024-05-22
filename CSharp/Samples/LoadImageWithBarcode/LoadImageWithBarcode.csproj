@@ -70,13 +70,11 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="vTools.DotNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\PylonvTools_Pure\CSharp\Release\x64\net48\vTools.DotNet.dll</HintPath>
+    <Reference Include="vTools.DotNet">
+      <HintPath>..\..\Release\x64\net48\vTools.DotNet.dll</HintPath>
     </Reference>
-    <Reference Include="vTools.Wrapper, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\PylonvTools_Pure\CSharp\Release\x64\net48\vTools.Wrapper.dll</HintPath>
+    <Reference Include="vTools.Wrapper">
+      <HintPath>..\..\Release\x64\net48\vTools.Wrapper.dll</HintPath>
     </Reference>
     <Reference Include="ZedGraph, Version=5.1.7.430, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\ZedGraph.5.1.7\lib\net35-Client\ZedGraph.dll</HintPath>

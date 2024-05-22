@@ -35,6 +35,44 @@ void vToolsDotNet::SetParameters(String^ name, String^ value)
 	tools->SetParameters(ConvertToStringt(name), ConvertToStringt(value));
 }
 
+void vToolsDotNet::SetParameters(String^ name, int value)
+{
+	tools->SetParameters(ConvertToStringt(name), value);
+}
+
+void vToolsDotNet::SetParameters(String^ name, double value)
+{
+	tools->SetParameters(ConvertToStringt(name), value);
+}
+
+void vToolsDotNet::SetParameters(String^ name, bool value)
+{
+	tools->SetParameters(ConvertToStringt(name), value);
+}
+
+cli::array< String^ >^ vToolsDotNet::GetAllParameterNames()
+{
+	int num = 0;
+	auto pData = tools->GetAllParameterNames(&num);
+	auto intptrs = gcnew cli::array<IntPtr>(num);
+	try
+	{
+		if (num > 0)
+			Marshal::Copy((IntPtr)pData, intptrs, 0, intptrs->Length);
+		auto values = gcnew cli::array<String^>(num);
+		int i;
+		for (i = 0; i < num; i++)
+		{
+			values[i] = Marshal::PtrToStringAnsi(intptrs[i]);
+		}
+		return values;
+	}
+	finally
+	{
+		free(pData);
+	}
+}
+
 void vToolsDotNet::RegisterAllOutputsObserver()
 {
 	tools->RegisterAllOutputsObserver();

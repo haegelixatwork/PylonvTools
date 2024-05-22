@@ -198,6 +198,42 @@ namespace vTools.DotNet.Test
                 vToolsImpl.PylonTerminate();
             }
         }
+        [Test]
+        public void GetPararameterNames()
+        {
+            vToolsImpl.PylonInitialize();
+            try
+            {
+                var tool = new vToolsImpl();
+                var recipeFile = $@"{_recipesFolder}barcode.precipe";
+                tool.LoadRecipe(recipeFile);
+                var names = tool.GetAllParameterNames();
+                Assert.AreEqual(names.Length, 4);
+            }
+            finally
+            {
+                vToolsImpl.PylonTerminate();
+            }
+        }
+        [Test]
+        public void SetPararameter()
+        {
+            vToolsImpl.PylonInitialize();
+            var result = false;
+            try
+            {
+                var tool = new vToolsImpl();
+                var recipeFile = $@"{_recipesFolder}barcode.precipe";
+                tool.LoadRecipe(recipeFile);
+                tool.SetParameters("BarcodeReaderBasic/@vTool/MaxNumBarcodes", 2);
+                result = true;
+                Assert.IsTrue(result);
+            }
+            finally
+            {
+                vToolsImpl.PylonTerminate();
+            }
+        }
         #region Not support
         /*
         [Test]

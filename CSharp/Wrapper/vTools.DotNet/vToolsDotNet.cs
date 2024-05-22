@@ -49,7 +49,10 @@ namespace vTools.DotNet
         /// <param name="value"></param>
         /// <returns></returns>
         public void SetParameters(string name, string value)=> _tools.SetParameters(name, value);
- 
+        public void SetParameters(string name, int value) => _tools.SetParameters(name, value);
+        public void SetParameters(string name, double value) => _tools.SetParameters(name, value);
+        public void SetParameters(string name, bool value) => _tools.SetParameters(name, value);
+        public string[] GetAllParameterNames() => _tools.GetAllParameterNames();
         /// <summary>
         /// Register all outputs observer.
         /// </summary>

@@ -1,0 +1,151 @@
+{
+  "PylonMetaData": {
+    "ObjectVersion": "1.0.0",
+    "MinRequiredSoftwareVersion": "1.0.0"
+  },
+  "PylonContent": {
+    "Ui": {
+      "UiGraphInputOutput": [
+        {
+          "id": "<GraphInput>",
+          "x": 52.0,
+          "y": 167.5
+        },
+        {
+          "id": "<GraphOutput>",
+          "x": 856.0,
+          "y": 155.5
+        }
+      ],
+      "UiNodes": [
+        {
+          "id": "BarcodeReaderBasic",
+          "x": 427.0,
+          "y": 31.0,
+          "WatchNodePins": [
+            {
+              "nodeName": "BarcodeReaderBasic",
+              "pinName": "Image",
+              "pinDirection": "Input"
+            },
+            {
+              "nodeName": "BarcodeReaderBasic",
+              "pinName": "Texts",
+              "pinDirection": "Output"
+            },
+            {
+              "nodeName": "BarcodeReaderBasic",
+              "pinName": "Regions",
+              "pinDirection": "Output"
+            },
+            {
+              "nodeName": "BarcodeReaderBasic",
+              "pinName": "Types",
+              "pinDirection": "Output"
+            }
+          ]
+        }
+      ],
+      "PylonMetaData": {
+        "ObjectVersion": "1.2.0",
+        "MinRequiredSoftwareVersion": "1.0.0"
+      }
+    },
+    "Graph": {
+      "PylonMetaData": {
+        "ObjectVersion": "1.2.0",
+        "MinRequiredSoftwareVersion": "1.0.0"
+      },
+      "Nodes": [
+        {
+          "Name": "BarcodeReaderBasic",
+          "Enabled": true,
+          "NodeTypeID": "38334B37-8F95-4FDA-871A-F591F1CCE8C9",
+          "Type": "Plugin::PylonVToolPackageA::Barcode",
+          "NodeData": {
+            "PylonMetaData": {
+              "ObjectVersion": "1.2.0",
+              "MinRequiredSoftwareVersion": "1.0.0"
+            },
+            "bs": {
+              "BsVersion": 1,
+              "BarcodeType1": 0,
+              "BarcodeType2": 0,
+              "MaxNumBarcodes": 1,
+              "DetectionTimeout": 0.02,
+              "DetectionTimeoutEnabled": false
+            }
+          }
+        }
+      ],
+      "Connections": [
+        {
+          "Name": "Connection3",
+          "Source": "<GraphInput>",
+          "Sink": "<GraphOutput>",
+          "QueueMode": 3,
+          "MaxSize": 1,
+          "SourceOutputPath": "RecipeInput",
+          "SinkInputPath": "Image",
+          "ValueTypeID": "2C893358-0EEF-5260-B262-8CB32DF2C394"
+        },
+        {
+          "Name": "Connection",
+          "Source": "<GraphInput>",
+          "Sink": "BarcodeReaderBasic",
+          "QueueMode": 3,
+          "MaxSize": 1,
+          "SourceOutputPath": "RecipeInput",
+          "SinkInputPath": "Image",
+          "ValueTypeID": "2C893358-0EEF-5260-B262-8CB32DF2C394"
+        },
+        {
+          "Name": "Connection2",
+          "Source": "BarcodeReaderBasic",
+          "Sink": "<GraphOutput>",
+          "QueueMode": 3,
+          "MaxSize": 1,
+          "SourceOutputPath": "Texts",
+          "SinkInputPath": "Barcodes",
+          "ValueTypeID": "74341A22-4AF6-5824-AC1F-4873DD93013B"
+        }
+      ],
+      "GraphInput": {
+        "NodeData": {
+          "Outputs": [
+            {
+              "Name": "RecipeInput",
+              "Type": "Pylon::DataProcessing::Core::IImage",
+              "ValueTypeID": "2C893358-0EEF-5260-B262-8CB32DF2C394"
+            }
+          ]
+        }
+      },
+      "GraphOutput": {
+        "NodeData": {
+          "Inputs": [
+            {
+              "Name": "Barcodes",
+              "Type": "Pylon::DataProcessing::Core::IStringArray",
+              "ValueTypeID": "74341A22-4AF6-5824-AC1F-4873DD93013B"
+            },
+            {
+              "Name": "Image",
+              "Type": "Pylon::DataProcessing::Core::IImage",
+              "ValueTypeID": "2C893358-0EEF-5260-B262-8CB32DF2C394"
+            }
+          ]
+        }
+      },
+      "Resources": {
+        "ThreadPool": {
+          "PylonMetaData": {
+            "ObjectVersion": "1.0.0",
+            "MinRequiredSoftwareVersion": "1.0.0"
+          },
+          "MaxThreadCount": 8
+        }
+      }
+    }
+  }
+}

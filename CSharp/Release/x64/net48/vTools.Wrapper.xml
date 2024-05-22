@@ -234,9 +234,36 @@ Recipe start.
  Register all outputs observer.
 </summary>
         </member>
+        <member name="M:vToolsDotNet.GetAllParameterNames">
+            <summary>
+Get all parameter names.
+</summary>
+            <returns />
+        </member>
+        <member name="M:vToolsDotNet.SetParameters(System.String,System.Boolean)">
+            <summary>
+Directly Set paratmers to vTool( Operator ) by boolean.
+</summary>
+            <param name="name" />
+            <param name="value" />
+        </member>
+        <member name="M:vToolsDotNet.SetParameters(System.String,System.Double)">
+            <summary>
+Directly Set paratmers to vTool( Operator ) by double.
+</summary>
+            <param name="name" />
+            <param name="value" />
+        </member>
+        <member name="M:vToolsDotNet.SetParameters(System.String,System.Int32)">
+            <summary>
+Directly Set paratmers to vTool( Operator ) by int.
+</summary>
+            <param name="name" />
+            <param name="value" />
+        </member>
         <member name="M:vToolsDotNet.SetParameters(System.String,System.String)">
             <summary>
-Directly Set paratmers to vTool( Operator ).
+Directly Set paratmers to vTool( Operator ) by string.
 </summary>
             <param name="name" />
             <param name="value" />

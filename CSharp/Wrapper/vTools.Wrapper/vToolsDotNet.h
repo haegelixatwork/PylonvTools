@@ -30,11 +30,34 @@ public:
 	/// <param name="fileName"></param>
 	void LoadRecipe(String^ fileName);
 	/// <summary>
-	/// Directly Set paratmers to vTool( Operator ).
+	/// Directly Set paratmers to vTool( Operator ) by string.
 	/// </summary>
 	/// <param name="name"></param>
 	/// <param name="value"></param>
 	void SetParameters(String^ name, String^ value);
+	/// <summary>
+	/// Directly Set paratmers to vTool( Operator ) by int.
+	/// </summary>
+	/// <param name="name"></param>
+	/// <param name="value"></param>
+	void SetParameters(String^ name, int value);
+	/// <summary>
+	/// Directly Set paratmers to vTool( Operator ) by double.
+	/// </summary>
+	/// <param name="name"></param>
+	/// <param name="value"></param>
+	void SetParameters(String^ name, double value);
+	/// <summary>
+	/// Directly Set paratmers to vTool( Operator ) by boolean.
+	/// </summary>
+	/// <param name="name"></param>
+	/// <param name="value"></param>
+	void SetParameters(String^ name, bool value);
+	/// <summary>
+	/// Get all parameter names.
+	/// </summary>
+	/// <returns></returns>
+	cli::array< String^ >^ GetAllParameterNames();
 	/// <summary>
 	///  Register all outputs observer.
 	/// </summary>

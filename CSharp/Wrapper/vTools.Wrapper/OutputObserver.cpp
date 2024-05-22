@@ -54,8 +54,12 @@ CPylonImage OutputObserver::GetImage(String_t name, int* w, int* h, int* channel
 	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
 	// Now we can use the value of the key/value pair.
-	const CVariant& value = pos->second;
+	const CVariant& value = pos->second;	
 	VariantCheckError(value);
+	if (value.GetDataType() != VariantDataType_PylonImage)
+	{
+		throw gcnew Exception("Wrong output type");
+	}
 	auto img = value.ToImage();
 	*w = img.GetWidth();
 	*h = img.GetHeight();
@@ -68,8 +72,12 @@ const char* OutputObserver::GetString(String_t name)
 {
 	auto pos = Container.find(name);
 	IteratorCheckError(pos, name);
-	const CVariant& value = pos->second;
+	const CVariant& value = pos->second;	
 	VariantCheckError(value);
+	if (value.GetDataType() != VariantDataType_String)
+	{
+		throw gcnew Exception("Wrong output type");
+	}
 	return ConvertToChar(value.ToString().c_str());
 }
 
@@ -79,6 +87,10 @@ bool OutputObserver::GetBool(String_t name)
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
+	if (value.GetDataType() != VariantDataType_Boolean)
+	{
+		throw gcnew Exception("Wrong output type");
+	}
 	return value.ToBool();
 }
 
@@ -88,6 +100,10 @@ double OutputObserver::GetDouble(String_t name)
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
+	if (value.GetDataType() != VariantDataType_Float)
+	{
+		throw gcnew Exception("Wrong output type");
+	}
 	return value.ToDouble();
 }
 
@@ -97,6 +113,10 @@ void OutputObserver::GetPointF(String_t name, double* x, double* y)
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
+	if (value.GetDataType() != VariantDataType_PointF2D)
+	{
+		throw gcnew Exception("Wrong output type");
+	}
 	*x = value.GetSubValue("X").ToDouble();
 	*y = value.GetSubValue("Y").ToDouble();
 }
@@ -109,6 +129,10 @@ void OutputObserver::GetRectangleF(String_t name, double* x, double* y, double* 
 	*x = GetCenterX(value);
 	*y = GetCenterY(value);
 	VariantCheckError(value);
+	if (value.GetDataType() != VariantDataType_RectangleF)
+	{
+		throw gcnew Exception("Wrong output type");
+	}
 	*w = value.GetSubValue("Width").ToDouble();
 	*h = value.GetSubValue("Height").ToDouble();
 	*a = value.GetSubValue("Rotation").ToDouble();
@@ -122,6 +146,10 @@ void OutputObserver::GetCircleF(String_t name, double* x, double* y, double* r)
 	*x = GetCenterX(value);
 	*y = GetCenterY(value);
 	VariantCheckError(value);
+	if (value.GetDataType() != VariantDataType_CircleF)
+	{
+		throw gcnew Exception("Wrong output type");
+	}
 	*r = value.GetSubValue("Radius").ToDouble();
 }
 
@@ -133,6 +161,10 @@ void OutputObserver::GetEllipseF(String_t name, double* x, double* y, double* r1
 	*x = GetCenterX(value);
 	*y = GetCenterY(value);
 	VariantCheckError(value);
+	if (value.GetDataType() != VariantDataType_EllipseF)
+	{
+		throw gcnew Exception("Wrong output type");
+	}
 	*r1 = value.GetSubValue("Radius1").ToDouble();
 	*r2 = value.GetSubValue("Radius2").ToDouble();
 	*a = value.GetSubValue("Rotation").ToDouble();
@@ -143,6 +175,10 @@ void OutputObserver::GetLineF(String_t name, double* x1, double* y1, double* x2,
 	IteratorCheckError(pos, name);
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
+	if (value.GetDataType() != VariantDataType_LineF2D)
+	{
+		throw gcnew Exception("Wrong output type");
+	}
 	*x1 = value.GetSubValue("PointA.X").ToDouble();
 	*y1 = value.GetSubValue("PointA.Y").ToDouble();
 	*x2 = value.GetSubValue("PointB.X").ToDouble();
@@ -166,6 +202,10 @@ const char** OutputObserver::GetStringList(String_t name, int* num)
 	for (i = 0; i < length; ++i)
 	{
 		const CVariant variant = value.GetArrayValue(i);
+		if (variant.GetDataType() != VariantDataType_String)
+		{
+			throw gcnew Exception("Wrong output type");
+		}
 		VariantCheckError(variant);
 		data[i] = ConvertToChar(variant.ToString().c_str());
 	}
@@ -232,6 +272,10 @@ bool* OutputObserver::GetBoolArray(String_t name, int* num)
 	{
 		const CVariant variant = value.GetArrayValue(i);
 		VariantCheckError(variant);
+		if (variant.GetDataType() != VariantDataType_Boolean)
+		{
+			throw gcnew Exception("Wrong output type");
+		}
 		bools[i] = variant.ToBool();
 	}
 	return bools;
@@ -255,6 +299,10 @@ int64_t* OutputObserver::GetLongArray(String_t name, int* num)
 	{
 		const CVariant variant = value.GetArrayValue(i);
 		VariantCheckError(variant);
+		if (variant.GetDataType() != VariantDataType_Int64)
+		{
+			throw gcnew Exception("Wrong output type");
+		}
 		ints[i] = variant.ToInt64();
 	}
 	return ints;
@@ -278,6 +326,10 @@ double* OutputObserver::GetDoubleArray(String_t name, int* num)
 	{
 		const CVariant variant = value.GetArrayValue(i);
 		VariantCheckError(variant);
+		if (variant.GetDataType() != VariantDataType_Float)
+		{
+			throw gcnew Exception("Wrong output type");
+		}
 		doubles[i] = variant.ToDouble();
 	}
 	return doubles;
@@ -302,6 +354,10 @@ void OutputObserver::GetPointFArray(String_t name, int* num, double** x, double*
 	{
 		const CVariant variant = value.GetArrayValue(i);
 		VariantCheckError(variant);
+		if (variant.GetDataType() != VariantDataType_PointF2D)
+		{
+			throw gcnew Exception("Wrong output type");
+		}
 		xs[i] = variant.GetSubValue("X").ToDouble();
 		ys[i] = variant.GetSubValue("Y").ToDouble();
 	}
@@ -330,6 +386,10 @@ void OutputObserver::GetRectangleFArray(String_t name, int* num, double** x, dou
 	{
 		const CVariant variant = value.GetArrayValue(i);
 		VariantCheckError(variant);
+		if (variant.GetDataType() != VariantDataType_RectangleF)
+		{
+			throw gcnew Exception("Wrong output type");
+		}
 		xs[i] = GetCenterX(variant);
 		ys[i] = GetCenterY(variant);
 		ws[i] = variant.GetSubValue("Width").ToDouble();
@@ -363,6 +423,10 @@ void OutputObserver::GetCircleFArray(String_t name, int* num, double** x, double
 	{
 		const CVariant variant = value.GetArrayValue(i);
 		VariantCheckError(variant);
+		if (variant.GetDataType() != VariantDataType_CircleF)
+		{
+			throw gcnew Exception("Wrong output type");
+		}
 		xs[i] = GetCenterX(variant);
 		ys[i] = GetCenterY(variant);
 		rs[i] = variant.GetSubValue("Rotation").ToDouble();
@@ -394,6 +458,10 @@ void OutputObserver::GetEllipseFArray(String_t name, int* num, double** x, doubl
 	{
 		const CVariant variant = value.GetArrayValue(i);
 		VariantCheckError(variant);
+		if (variant.GetDataType() != VariantDataType_EllipseF)
+		{
+			throw gcnew Exception("Wrong output type");
+		}
 		xs[i] = GetCenterX(variant);
 		ys[i] = GetCenterY(variant);
 		r1s[i] = variant.GetSubValue("Radius1").ToDouble();
@@ -427,6 +495,10 @@ void OutputObserver::GetLineFArray(String_t name, int* num, double** x1, double*
 	{
 		const CVariant variant = value.GetArrayValue(i);
 		VariantCheckError(variant);
+		if (variant.GetDataType() != VariantDataType_LineF2D)
+		{
+			throw gcnew Exception("Wrong output type");
+		}
 		x1s[i] = variant.GetSubValue("PointA.X").ToDouble();
 		y1s[i] = variant.GetSubValue("PointA.Y").ToDouble();
 		x2s[i] = variant.GetSubValue("PointB.X").ToDouble();

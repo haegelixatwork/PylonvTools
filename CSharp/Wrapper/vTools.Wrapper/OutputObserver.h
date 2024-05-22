@@ -6,7 +6,7 @@
 using namespace Pylon::DataProcessing;
 using namespace Pylon;
 using namespace std;
-
+using namespace System;
 class OutputObserver : public IOutputObserver
 {
 public:
@@ -37,6 +37,7 @@ public:
 	void GetEllipseFArray(String_t name, int* num, double** x, double** y, double** r1, double** r2, double** a);
 	void GetLineFArray(String_t name, int* num, double** x1, double** y1, double** x2, double** y2);
 	const char* GetCurrentErrorMsg();
+	char* ConvertToChar(const char* data);
 private:
 	CLock m_memberLock;
 	WaitObjectEx m_waitObject;
@@ -44,7 +45,6 @@ private:
 	double GetCenterX(const CVariant& value);
 	double GetCenterY(const CVariant& value);
 	int GetChannels(EPixelType pixelType);
-	char* ConvertToChar(const char* data);
 	void IteratorCheckError(CVariantContainer::iterator it, String_t name);
 	void VariantCheckError(CVariant v);
 };

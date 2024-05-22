@@ -17,6 +17,33 @@ void vTools::SetParameters(String_t name, String_t value)
 
 }
 
+void vTools::SetParameters(String_t name, double value)
+{
+	recipe.GetParameters().Get(FloatParameterName(name)).SetValue(value);
+}
+
+void vTools::SetParameters(String_t name, int value)
+{
+	recipe.GetParameters().Get(IntegerParameterName(name)).SetValue(value);
+}
+
+void vTools::SetParameters(String_t name, bool value)
+{
+	recipe.GetParameters().Get(BooleanParameterName(name)).SetValue(value);
+}
+
+const char** vTools::GetAllParameterNames(int* num)
+{
+	auto list = recipe.GetParameters().GetAllParameterNames();
+	auto size = list.size();
+	char** data = new char* [size];
+	*num = size;
+	for (size_t i = 0; i < list.size(); i++)
+	{
+		data[i] = ResultCollector.ConvertToChar(list[i].c_str());
+	}
+	return const_cast<const char**>(data);
+}
 void vTools::RegisterAllOutputsObserver()
 {
 	recipe.RegisterAllOutputsObserver(&ResultCollector, RegistrationMode_Append);

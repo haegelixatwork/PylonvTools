@@ -9,7 +9,7 @@ Polit run testing.
 
 ## Installation
 
-Pylon version > 7.5
+Pylon version >= 7.5
 
 ## Support
 

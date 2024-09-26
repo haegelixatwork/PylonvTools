@@ -192,7 +192,7 @@ const char** OutputObserver::GetStringList(String_t name, int* num)
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
 	auto length = value.GetNumArrayValues();
-	*num = length;
+	*num = static_cast<int>(length);
 	int i = 0;
 	if (length <= 0)
 	{
@@ -261,7 +261,7 @@ bool* OutputObserver::GetBoolArray(String_t name, int* num)
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
 	auto length = value.GetNumArrayValues();
-	*num = length;
+	*num = static_cast<int>(length);
 	int i = 0;
 	if (length <= 0)
 	{
@@ -288,7 +288,7 @@ int64_t* OutputObserver::GetLongArray(String_t name, int* num)
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
 	auto length = value.GetNumArrayValues();
-	*num = length;
+	*num = static_cast<int>(length);
 	int i = 0;
 	if (length <= 0)
 	{
@@ -315,7 +315,7 @@ double* OutputObserver::GetDoubleArray(String_t name, int* num)
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
 	auto length = value.GetNumArrayValues();
-	*num = length;
+	*num = static_cast<int>(length);
 	int i = 0;
 	if (length <= 0)
 	{
@@ -342,7 +342,7 @@ void OutputObserver::GetPointFArray(String_t name, int* num, double** x, double*
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
 	auto length = value.GetNumArrayValues();
-	*num = length;
+	*num = static_cast<int>(length);
 	int i = 0;
 	if (length <= 0)
 	{
@@ -371,7 +371,7 @@ void OutputObserver::GetRectangleFArray(String_t name, int* num, double** x, dou
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
 	auto length = value.GetNumArrayValues();
-	*num = length;
+	*num = static_cast<int>(length);
 	int i = 0;
 	if (length <= 0)
 	{
@@ -410,7 +410,7 @@ void OutputObserver::GetCircleFArray(String_t name, int* num, double** x, double
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
 	auto length = value.GetNumArrayValues();
-	*num = length;
+	*num = static_cast<int>(length);
 	int i = 0;
 	if (length <= 0)
 	{
@@ -443,7 +443,7 @@ void OutputObserver::GetEllipseFArray(String_t name, int* num, double** x, doubl
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
 	auto length = value.GetNumArrayValues();
-	*num = length;
+	*num = static_cast<int>(length);
 	int i = 0;
 	if (length <= 0)
 	{
@@ -481,7 +481,7 @@ void OutputObserver::GetLineFArray(String_t name, int* num, double** x1, double*
 	const CVariant& value = pos->second;
 	VariantCheckError(value);
 	auto length = value.GetNumArrayValues();
-	*num = length;
+	*num = static_cast<int>(length);
 	int i = 0;
 	if (length <= 0)
 	{

@@ -42,7 +42,7 @@ const char** vTools::GetAllParameterNames(int* num)
 	auto list = recipe.GetParameters().GetAllParameterNames();
 	auto size = list.size();
 	char** data = new char* [size];
-	*num = size;
+	*num = static_cast<int>(size);
 	for (size_t i = 0; i < list.size(); i++)
 	{
 		data[i] = ResultCollector.ConvertToChar(list[i].c_str());
@@ -96,51 +96,32 @@ void vTools::SetDouble(String_t name, double value)
 
 void vTools::SetPointF(String_t name, double x, double y)
 {
-	CVariant cvalue = CVariant::CreateFromTypeName("PointF");
-	cvalue.SetSubValue("X", CVariant(x));
-	cvalue.SetSubValue("Y", CVariant(y));
-	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, count++);
+	SPointF2D s = SPointF2D(x, y);	
+	recipe.TriggerUpdate(name, CVariant(s), 500, TimeoutHandling_ThrowException, &updateObserver, count++);
 }
 
 void vTools::SetRectangleF(String_t name, double x, double y, double w, double h, double a)
 {
-	CVariant cvalue = CVariant::CreateFromTypeName("RectangleF");
-	cvalue.SetSubValue("Center.X", CVariant(x));
-	cvalue.SetSubValue("Center.Y", CVariant(y));
-	cvalue.SetSubValue("Width", CVariant(w));
-	cvalue.SetSubValue("Height", CVariant(h));
-	cvalue.SetSubValue("Rotation ", CVariant(a));
-	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, count++);
+	SRectangleF s = SRectangleF(x, y, w, h, a);
+	recipe.TriggerUpdate(name, CVariant(s), 500, TimeoutHandling_ThrowException, &updateObserver, count++);
 }
 
 void vTools::SetCircleF(String_t name, double x, double y, double r)
-{
-	CVariant cvalue = CVariant::CreateFromTypeName("CircleF");
-	cvalue.SetSubValue("Center.X", CVariant(x));
-	cvalue.SetSubValue("Center.Y", CVariant(y));
-	cvalue.SetSubValue("Radius", CVariant(r));
-	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, count++);
+{	 
+	SCircleF s = SCircleF(x, y, r);
+	recipe.TriggerUpdate(name, CVariant(s), 500, TimeoutHandling_ThrowException, &updateObserver, count++);
 }
 
 void vTools::SetEllipseF(String_t name, double x, double y, double r1, double r2, double a)
 {
-	CVariant cvalue = CVariant::CreateFromTypeName("EllipseF");
-	cvalue.SetSubValue("Center.X", CVariant(x));
-	cvalue.SetSubValue("Center.Y", CVariant(y));
-	cvalue.SetSubValue("Radius1", CVariant(r1));
-	cvalue.SetSubValue("Radius2", CVariant(r2));
-	cvalue.SetSubValue("Rotation ", CVariant(a));
-	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, count++);
+	SEllipseF s = SEllipseF( x, y, r1, r2, a );
+	recipe.TriggerUpdate(name, CVariant(s), 500, TimeoutHandling_ThrowException, &updateObserver, count++);
 }
 
 void vTools::SetLineF(String_t name, double x1, double y1, double x2, double y2)
 {
-	CVariant cvalue = CVariant::CreateFromTypeName("LineF");
-	cvalue.SetSubValue("PointA.X", CVariant(x1));
-	cvalue.SetSubValue("PointA.Y", CVariant(y1));
-	cvalue.SetSubValue("PointB.X", CVariant(x2));
-	cvalue.SetSubValue("PointB.Y", CVariant(y2));
-	recipe.TriggerUpdate(name, cvalue, 500, TimeoutHandling_ThrowException, &updateObserver, count++);
+	SLineF2D s = SLineF2D(x1, y1, x2, y2);
+	recipe.TriggerUpdate(name, CVariant(s), 500, TimeoutHandling_ThrowException, &updateObserver, count++);
 }
 
 void vTools::SetImage(String_t name, void* img, unsigned int w, unsigned int h, unsigned int channels)

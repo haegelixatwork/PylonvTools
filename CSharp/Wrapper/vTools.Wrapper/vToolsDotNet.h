@@ -116,6 +116,15 @@ public:
 	/// <param name="channels"></param>
 	void SetImage(String^ name, cli::array<Byte>^ img, int w, int h, int channels);
 	/// <summary>
+	/// Set input value by image
+	/// </summary>
+	/// <param name="name"></param>
+	/// <param name="img"></param>
+	/// <param name="w"></param>
+	/// <param name="h"></param>
+	/// <param name="channels"></param>
+	void SetImage(String^ name, System::IntPtr img, int w, int h, int channels);
+	/// <summary>
 	/// Get next output from queue.
 	/// </summary>
 	/// <returns></returns>

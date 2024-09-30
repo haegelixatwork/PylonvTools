@@ -6,9 +6,16 @@ vTools::vTools()
 }
 
 void vTools::LoadRecipe(String_t fileName)
-{
-	recipe.Load(fileName);
-	recipe.PreAllocateResources();
+{	
+	try
+	{
+		recipe.Load(fileName);
+		recipe.PreAllocateResources();
+	}
+	catch (const GenericException& e)
+	{
+		throw gcnew System::Exception(gcnew String(e.GetDescription()));
+	}	
 }
 
 void vTools::SetParameters(String_t name, String_t value)

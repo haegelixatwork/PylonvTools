@@ -126,6 +126,11 @@ void vToolsDotNet::SetImage(String^ name, cli::array<Byte>^ img, int w, int h, i
 	Marshal::FreeHGlobal(ptr);
 }
 
+void vToolsDotNet::SetImage(String^ name, System::IntPtr img, int w, int h, int channels)
+{
+	tools->SetImage(ConvertToStringt(name), img.ToPointer(), w, h, channels);
+}
+
 bool vToolsDotNet::NextOutput()
 {
 	return tools->ResultCollector.NextOutput();

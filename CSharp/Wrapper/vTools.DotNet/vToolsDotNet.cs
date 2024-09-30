@@ -139,6 +139,7 @@ namespace vTools.DotNet
         /// <param name="h"></param>
         /// <param name="channels"></param>
         public void SetImage(string name, byte[] bytes, int w, int h, int channels) => _tools.SetImage(name, bytes, w, h, channels);
+        public void SetImage(string name, IntPtr ptr, int w, int h, int channels) => _tools.SetImage(name, ptr, w, h, channels);
         public void Dispose() =>_tools.Dispose();
 
         public bool NextOutput() => _tools.NextOutput();

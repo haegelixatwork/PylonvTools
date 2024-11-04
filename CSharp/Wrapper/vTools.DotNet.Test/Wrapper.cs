@@ -137,13 +137,14 @@ namespace vTools.DotNet.Test
                 var c = bmp.PixelFormat == PixelFormat.Format24bppRgb ? 3 : 1;
                 var bytes = new byte[bmp.Width* bmp.Height*c];
                 Marshal.Copy(bmpData.Scan0, bytes, 0, bytes.Length);
+                bmp.UnlockBits(bmpData);
                 tools.SetImage("RecipeInput", bytes, bmp.Width, bmp.Height, bmp.PixelFormat == PixelFormat.Format24bppRgb ? 3 : 1);
                 var output = 0.0;
                 if (tools.WaitObject(5000) && tools.NextOutput())
                 {
                     var img = tools.GetImage("RecipeOutput");
                 }
-                bmp.UnlockBits(bmpData);
+                
                 //Assert.AreEqual(input, output, _delta);
                 tools.Stop();
                 tools.Dispose();

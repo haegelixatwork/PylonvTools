@@ -47,8 +47,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(PYLON_DEV_DIR)\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(PYLON_DEV_DIR)\lib\x64;$(PYLON_LINK64);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(PYLON_DEV_DIR)include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(PYLON_DEV_DIR)lib\x64;$(PYLON_LINK64);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(PYLON_DEV_DIR)\include;$(IncludePath)</IncludePath>

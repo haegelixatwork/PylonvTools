@@ -22,176 +22,6 @@ namespace fs = std::filesystem;
 // Number of images to be grabbed
 static const uint32_t c_countOfImagesToGrab = 100;
 
-// Declare a data class for one set of output data values.
-class ResultData
-{
-public:
-	ResultData()
-		: hasError(false)
-	{
-	}
-
-	CPylonImage image; // The image from the camera
-	CPylonImage region;
-	StringList_t decodedBarcodes; // The decoded barcodes
-
-	bool hasError;     // If something doesn't work as expected
-					   // while processing data, this is set to true.
-
-	String_t errorMessage; // Contains an error message if
-						   // hasError has been set to true.
-};
-
-// MyOutputObserver is a helper object that shows how to handle output data
-// provided via the IOutputObserver::OutputDataPush interface method.
-// Also, MyOutputObserver shows how a thread-safe queue can be implemented
-// for later processing while pulling the output data.
-class MyOutputObserver : public IOutputObserver
-{
-public:
-	MyOutputObserver()
-		: m_waitObject(WaitObjectEx::Create())
-	{
-	}
-
-	// Implements IOutputObserver::OutputDataPush.
-	// This method is called when an output of the CRecipe pushes data out.
-	// The call of the method can be performed by any thread of the thread pool of the recipe.
-	void OutputDataPush(
-		CRecipe& recipe,
-		CVariantContainer valueContainer,
-		const CUpdate& update,
-		intptr_t userProvidedId) override
-	{
-		// The following variables are not used here:
-		PYLON_UNUSED(recipe);
-		PYLON_UNUSED(update);
-		PYLON_UNUSED(userProvidedId);
-
-		ResultData currentResultData;
-
-		// Get the result data of the recipe via the output terminal's "Image" pin.
-		// The value container is a dictionary/map-like type.
-		// Look for the key in the dictionary.
-		auto posImage = valueContainer.find("Image");
-		auto num = valueContainer.size();
-		cout << "Container count:" << valueContainer.size() << endl;
-		
-		// We expect there to be an image
-		// because the recipe is set up to behave like this.
-		PYLON_ASSERT(posImage != valueContainer.end());
-		if (posImage != valueContainer.end())
-		{
-			// Now we can use the value of the key/value pair.
-			const CVariant& value = posImage->second;
-			if (!value.HasError())
-			{
-				currentResultData.image = value.ToImage();
-			}
-			else
-			{
-				currentResultData.hasError = true;
-				currentResultData.errorMessage = value.GetErrorDescription();
-			}
-		}
-
-		// Get the data from the Barcodes pin.
-		auto posBarcodes = valueContainer.find("Barcodes");
-		PYLON_ASSERT(posBarcodes != valueContainer.end());
-		if (posBarcodes != valueContainer.end())
-		{
-			const CVariant& value = posBarcodes->second;
-			if (!value.HasError())
-			{
-				for (size_t i = 0; i < value.GetNumArrayValues(); ++i)
-				{
-					const CVariant decodedBarcodeValue = value.GetArrayValue(i);
-					if (!decodedBarcodeValue.HasError())
-					{
-						currentResultData.decodedBarcodes.push_back(decodedBarcodeValue.ToString());
-					}
-					else
-					{
-						currentResultData.hasError = true;
-						currentResultData.errorMessage = value.GetErrorDescription();
-						break;
-					}
-				}
-			}
-			else
-			{
-				currentResultData.hasError = true;
-				currentResultData.errorMessage = value.GetErrorDescription();
-			}
-		}
-
-
-		auto regions = valueContainer.find("RecipeOutput");
-		PYLON_ASSERT(regions != valueContainer.end());
-		if (posBarcodes != valueContainer.end())
-		{
-			const CVariant& value = regions->second;
-			if (!value.HasError())
-			{
-				for (size_t i = 0; i < 1; ++i)
-				{
-					const CVariant region = value.GetArrayValue(i);
-					if (!region.HasError())
-					{
-						auto types = region.GetDataType();
-						cout << "Type: " << region.GetDataType() << endl;
-					}
-					else
-					{
-						currentResultData.hasError = true;
-						currentResultData.errorMessage = value.GetErrorDescription();
-						break;
-					}
-				}
-			}
-		}
-		// Add data to the result queue in a thread-safe way.
-		{
-			AutoLock scopedLock(m_memberLock);
-			m_queue.emplace_back(currentResultData);
-		}
-
-		// Signal that data is ready.
-		m_waitObject.Signal();
-	}
-
-	// Get the wait object for waiting for data.
-	const WaitObject& GetWaitObject()
-	{
-		return m_waitObject;
-	}
-
-	// Get one result data object from the queue.
-	bool GetResultData(ResultData& resultDataOut)
-	{
-		AutoLock scopedLock(m_memberLock);
-		if (m_queue.empty())
-		{
-			return false;
-		}
-
-		resultDataOut = std::move(m_queue.front());
-		m_queue.pop_front();
-		if (m_queue.empty())
-		{
-			m_waitObject.Reset();
-		}
-		return true;
-	}
-
-private:
-	CLock m_memberLock;        // The member lock is required to ensure
-							   // thread-safe access to the member variables.
-	WaitObjectEx m_waitObject; // Signals that ResultData is available.
-							   // It is set if m_queue is not empty.
-	list<ResultData> m_queue;  // The queue of ResultData
-};
-
 int main(int /*argc*/, char* /*argv*/[])
 {
 	// The exit code of the sample application.
@@ -214,8 +44,7 @@ int main(int /*argc*/, char* /*argv*/[])
 		// This object is used for collecting the output data.
 		// If placed on the stack, it must be created before the recipe
 		// so that it is destroyed after the recipe.
-		MyOutputObserver resultCollector;
-
+		CGenericOutputObserver resultCollector;
 		// Create a recipe object representing a recipe file created using
 		// the pylon Viewer Workbench.
 		CRecipe recipe;
@@ -227,7 +56,7 @@ int main(int /*argc*/, char* /*argv*/[])
 
 		if (_dupenv_s(&buf, &sz, "PYLON_DEV_DIR") == 1 || buf == nullptr)
 		{
-			char pylon[50] = "C:\\Program Files\\Basler\\pylon 7\\Development";
+			char pylon[50] = "C:\\Program Files\\Basler\\pylon 8\\Development";
 			buf = pylon;
 		}
 
@@ -252,32 +81,39 @@ int main(int /*argc*/, char* /*argv*/[])
 		{
 			if (resultCollector.GetWaitObject().Wait(5000))
 			{
-				ResultData result;
-				resultCollector.GetResultData(result);
-				if (!result.hasError)
+				CVariantContainer result = resultCollector.RetrieveResult();
+				CVariant imageVariant = result["Image"];
+				if (!imageVariant.HasError())
 				{
 					// Access the image data.
-					cout << "SizeX: " << result.image.GetWidth() << endl;
-					cout << "SizeY: " << result.image.GetHeight() << endl;
-					const uint8_t* pImageBuffer = (uint8_t*)result.image.GetBuffer();
-					cout << "Gray value of first pixel: " << (uint32_t)pImageBuffer[0] << endl << endl;
+					auto image = imageVariant.ToImage();
+					cout << "SizeX: " << image.GetWidth() << endl;
+					cout << "SizeY: " << image.GetHeight() << endl;
+					const uint8_t* pImageBuffer = static_cast<uint8_t*>(image.GetBuffer());
+					cout << "Gray value of first pixel: " << static_cast<uint32_t>(pImageBuffer[0]) << endl << endl;
 					cout << "Barcodes:" << endl;
-					int index = 1;
-					for (const auto& barcode : result.decodedBarcodes)
-					{
-						cout << index << " : " << barcode << endl;
-						index++;
-					}
-					cout << endl << endl << endl;
-
 #ifdef PYLON_WIN_BUILD
-					DisplayImage(1, result.image);
+					DisplayImage(1, image);
 #endif
 				}
 				else
 				{
-					cout << "An error occurred during processing: " << result.errorMessage << endl;
+					cout << "An error occurred during processing: " << imageVariant.GetErrorDescription() << endl;
 				}
+				CVariant barcodeArray = result["Barcodes"];
+				if (!barcodeArray.HasError())
+				{
+					cout << "Barcodes:" << endl;
+					for (size_t index = 0; index < barcodeArray.GetNumArrayValues(); ++index)
+					{
+						cout << index << " : " << barcodeArray.GetArrayValue(index).ToString() << endl;
+					}
+				}
+				else
+				{
+					cout << "An error occurred during processing (pin 'Barcodes'): " << barcodeArray.GetErrorDescription() << std::endl;
+				}
+				cout << endl << endl << endl;
 			}
 			else
 			{

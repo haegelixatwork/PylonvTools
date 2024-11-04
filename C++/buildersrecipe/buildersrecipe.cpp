@@ -62,8 +62,8 @@ int main(int /*argc*/, char* /*argv*/[])
         }
 
         // Use AddOutput() to add outputs to your recipe.
-        recipe.AddOutput("OriginalImage", "Pylon::DataProcessing::Core::IImage");
-        recipe.AddOutput("ConvertedImage", "Pylon::DataProcessing::Core::IImage");
+        recipe.AddOutput("OriginalImage", VariantDataType_PylonImage);
+        recipe.AddOutput("ConvertedImage", VariantDataType_PylonImage);
 
         // Use AddConnection() to create connections between vTool pins and/or the inputs or outputs of the recipe.
         recipe.AddConnection("camera_to_converter", "MyCamera.Image", "MyConverter.Image");

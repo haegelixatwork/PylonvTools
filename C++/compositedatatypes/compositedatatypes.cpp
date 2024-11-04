@@ -22,190 +22,6 @@ using namespace std;
 // Number of images to be grabbed
 static const uint32_t c_countOfImagesToGrab = 24;
 
-// Declare a data class for one set of output data values.
-class ResultData
-{
-public:
-    ResultData()
-        : hasError(false)
-    {
-    }
-
-    // Simple struct to store the data of the composite data type
-    struct RectangleF
-    {
-        double      centerX = 0.;
-        double      centerY = 0.;
-        double      width = 0.;
-        double      height = 0.;
-        double      rotation = 0.;
-    };
-
-    CPylonImage         image; // The image is only used for displaying
-    list<RectangleF>    boxes; // List of bounding boxes
-
-    bool hasError;     // If something doesn't work as expected
-    // while processing data, this is set to true.
-
-    String_t errorMessage; // Contains an error message if
-    // hasError has been set to true.
-};
-
-// MyOutputObserver is a helper object that shows how to handle output data
-// provided via the IOutputObserver::OutputDataPush interface method.
-// Also, MyOutputObserver shows how a thread-safe queue can be implemented
-// for later processing while pulling the output data.
-class MyOutputObserver : public IOutputObserver
-{
-public:
-    MyOutputObserver()
-        : m_waitObject(WaitObjectEx::Create())
-    {
-    }
-
-    // Implements IOutputObserver::OutputDataPush.
-    // This method is called when an output of the CRecipe pushes data out.
-    // The call of the method can be performed by any thread of the thread pool of the recipe.
-    void OutputDataPush(
-        CRecipe& recipe,
-        CVariantContainer valueContainer,
-        const CUpdate& update,
-        intptr_t userProvidedId) override
-    {
-        // The following variables are not used here:
-        PYLON_UNUSED(recipe);
-        PYLON_UNUSED(update);
-        PYLON_UNUSED(userProvidedId);
-
-        ResultData currentResultData;
-
-        // Get the result data of the recipe via the output terminal's "Image" pin.
-        // The value container is a dictionary/map-like type.
-        // Look for the key in the dictionary.
-        auto posImage = valueContainer.find("Image");
-        // We expect there to be an image
-        // because the recipe is set up to behave like this.
-        PYLON_ASSERT(posImage != valueContainer.end());
-        if (posImage != valueContainer.end())
-        {
-            // Now we can use the value of the key/value pair.
-            const CVariant& value = posImage->second;
-            if (!value.HasError())
-            {
-                currentResultData.image = value.ToImage();
-            }
-            else
-            {
-                currentResultData.hasError = true;
-                currentResultData.errorMessage = value.GetErrorDescription();
-            }
-        }
-
-        auto posBoxes = valueContainer.find("Boxes");
-        PYLON_ASSERT(posBoxes != valueContainer.end());
-        if (posBoxes != valueContainer.end())
-        {
-            // Now we can use the value of the key/value pair.
-            const CVariant& value = posBoxes->second;
-            if (!value.HasError())
-            {
-                // The value should be an array
-                if (value.IsArray() == true)
-                {
-                    // Loop over all array elements
-                    for (size_t i = 0; i < value.GetNumArrayValues(); ++i)
-                    {
-                        // Get an element of the array
-                        const CVariant& arrayElement = value.GetArrayValue(i);
-
-                        // The variant arrayElement has the data type VariantDataType_Composite and is defined as follows:
-                        // Composite {
-                        //   "Center" : Composite {
-                        //      "X" : Float,
-                        //      "Y" : Float
-                        //   },
-                        //   Width    : Float,
-                        //   Height   : Float,
-                        //   Rotation : Float
-                        // }
-                        //
-                        // Types can be obtained by calling GetDataType(). Subvalue names can be obtained with GetSubValueName(size_t index) with the help of GetNumSubValues().
-
-                        try
-                        {
-                            // The data from variant will be stored in the RectangleF struct
-                            ResultData::RectangleF rectangle;
-
-                            // The center value is a nested composite data type. Because of that, the subvalues "X" and "Y" of "Center" can be retrieved like a path.
-                            // This can be done in two steps:
-                            rectangle.centerX = arrayElement.GetSubValue("Center").GetSubValue("X").ToDouble();
-                            // Or it can be done in one step:
-                            rectangle.centerY = arrayElement.GetSubValue("Center.Y").ToDouble();
-
-                            // Width, height and rotation are subvalues of the variant, so they can be directly accessed
-                            rectangle.width = arrayElement.GetSubValue("Width").ToDouble();
-                            rectangle.height = arrayElement.GetSubValue("Height").ToDouble();
-                            rectangle.rotation = arrayElement.GetSubValue("Rotation").ToDouble();
-
-                            currentResultData.boxes.push_back(rectangle);
-                        }
-                        catch (const GenICam::GenericException& e)
-                        {
-                            currentResultData.hasError = true;
-                            currentResultData.errorMessage = e.GetDescription();
-                        }
-                    }
-                }
-            }
-            else
-            {
-                currentResultData.hasError = true;
-                currentResultData.errorMessage = value.GetErrorDescription();
-            }
-        }
-
-        // Add data to the result queue in a thread-safe way.
-        {
-            AutoLock scopedLock(m_memberLock);
-            m_queue.emplace_back(currentResultData);
-        }
-
-        // Signal that data is ready.
-        m_waitObject.Signal();
-    }
-
-    // Get the wait object for waiting for data.
-    const WaitObject& GetWaitObject()
-    {
-        return m_waitObject;
-    }
-
-    // Get one result data object from the queue.
-    bool GetResultData(ResultData& resultDataOut)
-    {
-        AutoLock scopedLock(m_memberLock);
-        if (m_queue.empty())
-        {
-            return false;
-        }
-
-        resultDataOut = std::move(m_queue.front());
-        m_queue.pop_front();
-        if (m_queue.empty())
-        {
-            m_waitObject.Reset();
-        }
-        return true;
-    }
-
-private:
-    CLock m_memberLock;        // The member lock is required to ensure
-    // thread-safe access to the member variables.
-    WaitObjectEx m_waitObject; // Signals that ResultData is available.
-    // It is set if m_queue is not empty.
-    list<ResultData> m_queue;  // The queue of ResultData
-};
-
 int main(int /*argc*/, char* /*argv*/[])
 {
     // The exit code of the sample application.
@@ -232,8 +48,8 @@ int main(int /*argc*/, char* /*argv*/[])
         recipePath += "\\composite_data_types.precipe";
 
         if (_dupenv_s(&buf, &sz, "PYLON_DEV_DIR") == 1 || buf == nullptr)
-        {           
-            char pylon[50] = "C:\\Program Files\\Basler\\pylon 7\\Development";
+        {
+            char pylon[50] = "C:\\Program Files\\Basler\\pylon 8\\Development";
             buf = pylon;
         }
 
@@ -242,13 +58,13 @@ int main(int /*argc*/, char* /*argv*/[])
         // This object is used for collecting the output data.
         // If placed on the stack, it must be created before the recipe
         // so that it is destroyed after the recipe.
-        MyOutputObserver resultCollector;
+        CGenericOutputObserver resultCollector;
 
         // Create a recipe object representing a recipe file created using
         // the pylon Viewer Workbench.
         CRecipe recipe;
-        // Load the recipe file.
-        // Note: PYLON_DATAPROCESSING_COMPOSITE_DATA_TYPES_RECIPE is a string
+
+        // Load the recipe file.        
         // created by the CMake build files.
         recipe.Load(recipePath.c_str());
 
@@ -269,33 +85,47 @@ int main(int /*argc*/, char* /*argv*/[])
         {
             if (resultCollector.GetWaitObject().Wait(5000))
             {
-                ResultData result;
-                resultCollector.GetResultData(result);
-                if (!result.hasError)
+                CVariantContainer result = resultCollector.RetrieveResult();
+
+                CVariant imageVariant = result["Image"];
+                if (!imageVariant.HasError())
                 {
-                    cout << "########## Image " << i << " ##########" << endl << endl;
-                    for (const ResultData::RectangleF& box : result.boxes)
-                    {
-                        cout << "RectangleF {" << endl
-                            << "  Center: " << "{" << endl
-                            << "    X: " << box.centerX << "," << endl
-                            << "    Y: " << box.centerY << endl
-                            << "  }," << endl
-                            << "  Width:    " << box.width << "," << endl
-                            << "  Height:   " << box.height << "," << endl
-                            << "  Rotation: " << box.rotation << endl
-                            << "}" << endl;
-                    }
-
-                    cout << endl << endl << endl;
-
 #ifdef PYLON_WIN_BUILD
-                    DisplayImage(1, result.image);
+                    DisplayImage(1, imageVariant.ToImage());
 #endif
                 }
                 else
                 {
-                    cout << "An error occurred during processing: " << result.errorMessage << endl;
+                    cout << "An error occurred during processing (pin 'Image'): " << imageVariant.GetErrorDescription() << endl;
+                }
+
+                CVariant boxesArray = result["Boxes"];
+                if (!boxesArray.HasError())
+                {
+                    // Get the array's data values as SRectangleF data type.
+                    vector<SRectangleF> boxes;
+                    PYLON_ASSERT(boxesArray.GetDataType() == Pylon::DataProcessing::VariantDataType_RectangleF);
+                    boxes.resize(boxesArray.GetNumArrayValues());
+                    boxesArray.GetArrayDataValues(boxes.data(), boxes.size() * sizeof(SRectangleF));
+                    cout << "########## Image " << i << " ##########" << endl << endl;
+                    for (const SRectangleF& box : boxes)
+                    {
+                        cout << "RectangleF {" << endl
+                            << "  Center: " << "{" << endl
+                            << "    X: " << box.Center.X << "," << endl
+                            << "    Y: " << box.Center.Y << endl
+                            << "  }," << endl
+                            << "  Width:    " << box.Width << "," << endl
+                            << "  Height:   " << box.Height << "," << endl
+                            << "  Rotation: " << box.Rotation << endl
+                            << "}" << endl;
+                    }
+
+                    cout << endl << endl << endl;
+                }
+                else
+                {
+                    cout << "An error occurred during processing (pin 'Boxes'): " << boxesArray.GetErrorDescription() << endl;
                 }
             }
             else
@@ -313,7 +143,7 @@ int main(int /*argc*/, char* /*argv*/[])
         cerr << "An exception occurred." << endl << e.GetDescription() << endl;
         exitCode = 1;
     }
-    free(buf);
+
     // Comment the following two lines to disable waiting on exit.
     cerr << endl << "Press enter to exit." << endl;
     while (cin.get() != '\n');

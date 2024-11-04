@@ -8,8 +8,6 @@
 #endif
 // Extend the pylon API for using pylon data processing.
 #include <pylondataprocessing/PylonDataProcessingIncludes.h>
-// The sample uses the std::list.
-#include <list>
 
 // Namespaces for using pylon objects
 using namespace Pylon;
@@ -18,87 +16,10 @@ using namespace Pylon::DataProcessing;
 // Namespace for using cout
 using namespace std;
 
-class ResultData
-{
-public:
-	ResultData()
-		: hasError(false)
-	{
-	}
-	String_t Out;
-
-	bool hasError;     // If something doesn't work as expected
-	// while processing data, this is set to true.
-
-	String_t errorMessage; // Contains an error message if
-	// hasError has been set to true.
-};
-
-class MyOutputObserver : public IOutputObserver
-{
-public: 
-	MyOutputObserver()
-		: m_waitObject(WaitObjectEx::Create())
-	{
-	}
-
-	void OutputDataPush(CRecipe& recipe, CVariantContainer valueContainer, const CUpdate& update, intptr_t userProvidedId) override
-	{
-        ResultData currentResultData;
-        auto pos = valueContainer.find("RecipeOutput");
-		
-        const CVariant& value = pos->second;
-        if (!value.HasError()) {
-            currentResultData.Out= value.ToString();
-        }
-		else
-		{
-			currentResultData.hasError = true;
-			currentResultData.errorMessage = value.GetErrorDescription();
-		}
-
-		// Add data to the result queue in a thread-safe way.
-		{
-			AutoLock scopedLock(m_memberLock);
-			m_queue.emplace_back(currentResultData);
-		}
-
-		m_waitObject.Signal();
-	}
-	// Get the wait object for waiting for data.
-	const WaitObject& GetWaitObject()
-	{
-		return m_waitObject;
-	}
-	// Get one result data object from the queue.
-	bool GetResultData(ResultData& resultDataOut)
-	{
-		AutoLock scopedLock(m_memberLock);
-		if (m_queue.empty())
-		{
-			return false;
-		}
-
-		resultDataOut = std::move(m_queue.front());
-		m_queue.pop_front();
-		if (m_queue.empty())
-		{
-			m_waitObject.Reset();
-		}
-		return true;
-	}
-private:
-	CLock m_memberLock;        // The member lock is required to ensure
-	// thread-safe access to the member variables.
-	WaitObjectEx m_waitObject; // Signals that ResultData is available.
-	// It is set if m_queue is not empty.
-	list<ResultData> m_queue;  // The queue of ResultData
-};
-
 class MyUpdateObserver : public IUpdateObserver
 {
 public:
-	virtual void Pylon::DataProcessing::IUpdateObserver::UpdateDone(CRecipe& recipe, const CUpdate& update, intptr_t  userProvidedId)
+	void IUpdateObserver::UpdateDone(CRecipe& recipe, const CUpdate& update, intptr_t  userProvidedId) override
 	{
 		cout << "Update " << userProvidedId << " has been triggered! " << endl << endl;
 	}
@@ -116,7 +37,10 @@ int main()
 		string recipePath(wRoot.begin(), wRoot.end());
 		recipePath += "\\InOut.precipe";
 
-		MyOutputObserver resultCollector;
+		// This object is used for collecting the output data.
+		// If placed on the stack, it must be created before the recipe
+		// so that it is destroyed after the recipe.
+		CGenericOutputObserver resultCollector;
 		CRecipe recipe;
 		recipe.Load(recipePath.c_str());
 		recipe.PreAllocateResources();
@@ -130,9 +54,9 @@ int main()
 		recipe.TriggerUpdate("RecipeInput", value, 500, TimeoutHandling_ThrowException, &updateObserver, id);
 		if (resultCollector.GetWaitObject().Wait(5000)) 
 		{
-			ResultData result;
-			resultCollector.GetResultData(result);
-			cout << "Get Result " << result.Out << endl << endl;
+			CVariantContainer result = resultCollector.RetrieveResult();
+			CVariant out = result["RecipeOutput"];
+			cout << "Get Result " << out.ToString() << endl << endl;
 		}
 		else {
 			throw RUNTIME_EXCEPTION("Result timeout");
@@ -145,6 +69,7 @@ int main()
 		exitCode = 1;
 	}
     std::cout << "Hello World!\n";
+	return exitCode;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>pylon_vTools_C#Wrapper.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="pylon-vtools-c-wrapper">pylon vTools C# Wrapper</h1>
+<h2 id="c-api-update-after-pylon-75">C++ API update after pylon 7.5</h2>
+<ul>
+<li>Before</li>
+</ul>
+<p>Get vTools result from MyOutputObserver.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Declare a data class for one set of output data values.</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ResultData</span>
+{</span>
+<span class="hljs-keyword">public</span>:
+	ResultData()
+		: hasError(<span class="hljs-literal">false</span>)
+	{
+	}
+
+	CPylonImage <span class="hljs-built_in">image</span>; <span class="hljs-comment">// The image from the camera</span>
+	CPylonImage region;
+	StringList_t decodedBarcodes; <span class="hljs-comment">// The decoded barcodes</span>
+
+	<span class="hljs-keyword">bool</span> hasError;     <span class="hljs-comment">// If something doesn't work as expected</span>
+					   <span class="hljs-comment">// while processing data, this is set to true.</span>
+
+	String_t errorMessage; <span class="hljs-comment">// Contains an error message if</span>
+						   <span class="hljs-comment">// hasError has been set to true.</span>
+};
+
+<span class="hljs-comment">// MyOutputObserver is a helper object that shows how to handle output data</span>
+<span class="hljs-comment">// provided via the IOutputObserver::OutputDataPush interface method.</span>
+<span class="hljs-comment">// Also, MyOutputObserver shows how a thread-safe queue can be implemented</span>
+<span class="hljs-comment">// for later processing while pulling the output data.</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyOutputObserver</span> :</span> <span class="hljs-keyword">public</span> IOutputObserver
+{
+<span class="hljs-keyword">public</span>:
+	MyOutputObserver()
+		: m_waitObject(WaitObjectEx::Create())
+	{
+	}
+
+	<span class="hljs-comment">// Implements IOutputObserver::OutputDataPush.</span>
+	<span class="hljs-comment">// This method is called when an output of the CRecipe pushes data out.</span>
+	<span class="hljs-comment">// The call of the method can be performed by any thread of the thread pool of the recipe.</span>
+	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OutputDataPush</span><span class="hljs-params">(
+		CRecipe&amp; recipe,
+		CVariantContainer valueContainer,
+		<span class="hljs-keyword">const</span> CUpdate&amp; update,
+		<span class="hljs-keyword">intptr_t</span> userProvidedId)</span> <span class="hljs-keyword">override</span>
+	</span>{
+		<span class="hljs-comment">// The following variables are not used here:</span>
+		PYLON_UNUSED(recipe);
+		PYLON_UNUSED(update);
+		PYLON_UNUSED(userProvidedId);
+
+		ResultData currentResultData;
+
+		<span class="hljs-comment">// Get the result data of the recipe via the output terminal's "Image" pin.</span>
+		<span class="hljs-comment">// The value container is a dictionary/map-like type.</span>
+		<span class="hljs-comment">// Look for the key in the dictionary.</span>
+		<span class="hljs-keyword">auto</span> posImage = valueContainer.<span class="hljs-built_in">find</span>(<span class="hljs-string">"Image"</span>);
+		<span class="hljs-keyword">auto</span> num = valueContainer.<span class="hljs-built_in">size</span>();
+		<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Container count:"</span> &lt;&lt; valueContainer.<span class="hljs-built_in">size</span>() &lt;&lt; <span class="hljs-built_in">endl</span>;
+		
+		<span class="hljs-comment">// We expect there to be an image</span>
+		<span class="hljs-comment">// because the recipe is set up to behave like this.</span>
+		PYLON_ASSERT(posImage != valueContainer.<span class="hljs-built_in">end</span>());
+		<span class="hljs-keyword">if</span> (posImage != valueContainer.<span class="hljs-built_in">end</span>())
+		{
+			<span class="hljs-comment">// Now we can use the value of the key/value pair.</span>
+			<span class="hljs-keyword">const</span> CVariant&amp; value = posImage-&gt;second;
+			<span class="hljs-keyword">if</span> (!value.HasError())
+			{
+				currentResultData.<span class="hljs-built_in">image</span> = value.ToImage();
+			}
+			<span class="hljs-keyword">else</span>
+			{
+				currentResultData.hasError = <span class="hljs-literal">true</span>;
+				currentResultData.errorMessage = value.GetErrorDescription();
+			}
+		}
+
+		<span class="hljs-comment">// Get the data from the Barcodes pin.</span>
+		<span class="hljs-keyword">auto</span> posBarcodes = valueContainer.<span class="hljs-built_in">find</span>(<span class="hljs-string">"Barcodes"</span>);
+		PYLON_ASSERT(posBarcodes != valueContainer.<span class="hljs-built_in">end</span>());
+		<span class="hljs-keyword">if</span> (posBarcodes != valueContainer.<span class="hljs-built_in">end</span>())
+		{
+			<span class="hljs-keyword">const</span> CVariant&amp; value = posBarcodes-&gt;second;
+			<span class="hljs-keyword">if</span> (!value.HasError())
+			{
+				<span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; value.GetNumArrayValues(); ++i)
+				{
+					<span class="hljs-keyword">const</span> CVariant decodedBarcodeValue = value.GetArrayValue(i);
+					<span class="hljs-keyword">if</span> (!decodedBarcodeValue.HasError())
+					{
+						currentResultData.decodedBarcodes.push_back(decodedBarcodeValue.ToString());
+					}
+					<span class="hljs-keyword">else</span>
+					{
+						currentResultData.hasError = <span class="hljs-literal">true</span>;
+						currentResultData.errorMessage = value.GetErrorDescription();
+						<span class="hljs-keyword">break</span>;
+					}
+				}
+			}
+			<span class="hljs-keyword">else</span>
+			{
+				currentResultData.hasError = <span class="hljs-literal">true</span>;
+				currentResultData.errorMessage = value.GetErrorDescription();
+			}
+		}
+
+
+		<span class="hljs-keyword">auto</span> regions = valueContainer.<span class="hljs-built_in">find</span>(<span class="hljs-string">"RecipeOutput"</span>);
+		PYLON_ASSERT(regions != valueContainer.<span class="hljs-built_in">end</span>());
+		<span class="hljs-keyword">if</span> (posBarcodes != valueContainer.<span class="hljs-built_in">end</span>())
+		{
+			<span class="hljs-keyword">const</span> CVariant&amp; value = regions-&gt;second;
+			<span class="hljs-keyword">if</span> (!value.HasError())
+			{
+				<span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">1</span>; ++i)
+				{
+					<span class="hljs-keyword">const</span> CVariant region = value.GetArrayValue(i);
+					<span class="hljs-keyword">if</span> (!region.HasError())
+					{
+						<span class="hljs-keyword">auto</span> types = region.GetDataType();
+						<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Type: "</span> &lt;&lt; region.GetDataType() &lt;&lt; <span class="hljs-built_in">endl</span>;
+					}
+					<span class="hljs-keyword">else</span>
+					{
+						currentResultData.hasError = <span class="hljs-literal">true</span>;
+						currentResultData.errorMessage = value.GetErrorDescription();
+						<span class="hljs-keyword">break</span>;
+					}
+				}
+			}
+		}
+		<span class="hljs-comment">// Add data to the result queue in a thread-safe way.</span>
+		{
+			<span class="hljs-function">AutoLock <span class="hljs-title">scopedLock</span><span class="hljs-params">(m_memberLock)</span></span>;
+			m_queue.emplace_back(currentResultData);
+		}
+
+		<span class="hljs-comment">// Signal that data is ready.</span>
+		m_waitObject.Signal();
+	}
+
+	<span class="hljs-comment">// Get the wait object for waiting for data.</span>
+	<span class="hljs-function"><span class="hljs-keyword">const</span> WaitObject&amp; <span class="hljs-title">GetWaitObject</span><span class="hljs-params">()</span>
+	</span>{
+		<span class="hljs-keyword">return</span> m_waitObject;
+	}
+
+	<span class="hljs-comment">// Get one result data object from the queue.</span>
+	<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">GetResultData</span><span class="hljs-params">(ResultData&amp; resultDataOut)</span>
+	</span>{
+		<span class="hljs-function">AutoLock <span class="hljs-title">scopedLock</span><span class="hljs-params">(m_memberLock)</span></span>;
+		<span class="hljs-keyword">if</span> (m_queue.empty())
+		{
+			<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+		}
+
+		resultDataOut = <span class="hljs-built_in">std</span>::<span class="hljs-built_in">move</span>(m_queue.front());
+		m_queue.pop_front();
+		<span class="hljs-keyword">if</span> (m_queue.empty())
+		{
+			m_waitObject.Reset();
+		}
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+	}
+
+<span class="hljs-keyword">private</span>:
+	CLock m_memberLock;        <span class="hljs-comment">// The member lock is required to ensure</span>
+							   <span class="hljs-comment">// thread-safe access to the member variables.</span>
+	WaitObjectEx m_waitObject; <span class="hljs-comment">// Signals that ResultData is available.</span>
+							   <span class="hljs-comment">// It is set if m_queue is not empty.</span>
+	<span class="hljs-built_in">list</span>&lt;ResultData&gt; m_queue;  <span class="hljs-comment">// The queue of ResultData</span>
+};
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> <span class="hljs-comment">/*argc*/</span>, <span class="hljs-keyword">char</span>* <span class="hljs-comment">/*argv*/</span>[])</span>
+</span>{
+    <span class="hljs-comment">// -- Skip codes -- //</span>
+	MyOutputObserver resultCollector;
+    
+    recipe.RegisterAllOutputsObserver(&amp;resultCollector, RegistrationMode_Append);
+    <span class="hljs-keyword">if</span> (resultCollector.GetWaitObject().Wait(<span class="hljs-number">5000</span>))
+    {
+        ResultData result;
+        resultCollector.GetResultData(result);
+        <span class="hljs-keyword">if</span> (!result.hasError)
+        {
+            <span class="hljs-comment">// Access the image data.</span>
+            <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"SizeX: "</span> &lt;&lt; result.<span class="hljs-built_in">image</span>.GetWidth() &lt;&lt; <span class="hljs-built_in">endl</span>;
+            <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"SizeY: "</span> &lt;&lt; result.<span class="hljs-built_in">image</span>.GetHeight() &lt;&lt; <span class="hljs-built_in">endl</span>;
+            <span class="hljs-keyword">const</span> <span class="hljs-keyword">uint8_t</span>* pImageBuffer = (<span class="hljs-keyword">uint8_t</span>*)result.<span class="hljs-built_in">image</span>.GetBuffer();
+            <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Gray value of first pixel: "</span> &lt;&lt; (<span class="hljs-keyword">uint32_t</span>)pImageBuffer[<span class="hljs-number">0</span>] &lt;&lt; <span class="hljs-built_in">endl</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+            <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Barcodes:"</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+            <span class="hljs-keyword">int</span> index = <span class="hljs-number">1</span>;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> <span class="hljs-keyword">auto</span>&amp; barcode : result.decodedBarcodes)
+            {
+                <span class="hljs-built_in">cout</span> &lt;&lt; index &lt;&lt; <span class="hljs-string">" : "</span> &lt;&lt; barcode &lt;&lt; <span class="hljs-built_in">endl</span>;
+                index++;
+            }
+            <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">endl</span> &lt;&lt; <span class="hljs-built_in">endl</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        }
+    <span class="hljs-comment">// -- Skip codes -- //</span>
+}
+</div></code></pre>
+<ul>
+<li>After</li>
+</ul>
+<p>Get vTools result from CGenericOutputObserver</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> <span class="hljs-comment">/*argc*/</span>, <span class="hljs-keyword">char</span>* <span class="hljs-comment">/*argv*/</span>[])</span>
+</span>{
+    <span class="hljs-comment">// -- Skip codes -- //</span>
+    CGenericOutputObserver resultCollector;
+
+    recipe.RegisterAllOutputsObserver(&amp;resultCollector, RegistrationMode_Append);
+
+    <span class="hljs-keyword">if</span> (resultCollector.GetWaitObject().Wait(<span class="hljs-number">5000</span>))
+    {
+        CVariantContainer result = resultCollector.RetrieveResult();
+        CVariant imageVariant = result[<span class="hljs-string">"Image"</span>];
+        <span class="hljs-keyword">if</span> (!imageVariant.HasError())
+        {
+            <span class="hljs-comment">// Access the image data.</span>
+            <span class="hljs-keyword">auto</span> <span class="hljs-built_in">image</span> = imageVariant.ToImage();
+            <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"SizeX: "</span> &lt;&lt; <span class="hljs-built_in">image</span>.GetWidth() &lt;&lt; <span class="hljs-built_in">endl</span>;
+            <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"SizeY: "</span> &lt;&lt; <span class="hljs-built_in">image</span>.GetHeight() &lt;&lt; <span class="hljs-built_in">endl</span>;
+        }
+        CVariant barcodeArray = result[<span class="hljs-string">"Barcodes"</span>];
+        <span class="hljs-keyword">if</span> (!barcodeArray.HasError())
+    <span class="hljs-comment">// -- Skip codes -- //</span>
+}
+</div></code></pre>
+<h2 id="c-wrapper">C# Wrapper</h2>
+<p>Use smoothing in C# PylonLiveView sample.</p>
+<p><img src="images\recipe.png" alt=""></p>
+<p><img src="images\CSharp.png" alt=""></p>
+<h2 id="reference-dll">Reference dll</h2>
+<p>Add dlls or projects where from source code to PylonLiveView.</p>
+<p><img src="images\add_reference_1.png" alt=""></p>
+<p><img src="images\add_reference_2.png" alt=""></p>
+<p><img src="images\add_reference_3.png" alt=""></p>
+<p><img src="images\add_reference_4.png" alt=""></p>
+<p><img src="images\add_reference_5.png" alt=""></p>
+<h3 id="initialization">Initialization</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">using</span> vTools.DotNet;
+
+vToolsImpl.PylonInitialize();
+vToolsImpl tools = <span class="hljs-keyword">new</span> vToolsImpl();
+</div></code></pre>
+<h3 id="read-recipe">Read recipe</h3>
+<pre class="hljs"><code><div>tools.LoadRecipe(<span class="hljs-string">"Recipe absolutive path"</span>);
+</div></code></pre>
+<h3 id="set-parameters">Set parameters</h3>
+<p>Edit width of RoiCreator.</p>
+<p><img src="images\parameter.png" alt=""></p>
+<pre class="hljs"><code><div>tools.SetParameters(<span class="hljs-string">"RoiCreator/@vTool/Width"</span>, <span class="hljs-number">100.0</span>);
+</div></code></pre>
+<h3 id="add-vtools-processing">Add vTools processing</h3>
+<p>Run vTools in callback function OnImageGrabbed.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnImageGrabbed</span>(<span class="hljs-params"> Object sender, ImageGrabbedEventArgs e </span>)</span>
+{
+	_tools.SetImage(<span class="hljs-string">"Image"</span>, (<span class="hljs-keyword">byte</span>[])grabResult.PixelData, grabResult.Width, grabResult.Height, <span class="hljs-number">1</span>);
+	<span class="hljs-keyword">if</span> (_tools.WaitObject(<span class="hljs-number">5000</span>) &amp;&amp; _tools.NextOutput())
+	{
+		<span class="hljs-keyword">var</span> result = _tools.GetImage(<span class="hljs-string">"Image"</span>);
+		Marshal.Copy(result.Item1, <span class="hljs-number">0</span>, bmpData.Scan0, result.Item1.Length);
+	}
+}
+</div></code></pre>
+<h3 id="running">Running</h3>
+<p><img src="images\running.png" alt=""></p>
+<h3 id="edited-source-code">Edited Source code</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">using</span> Basler.Pylon;
+<span class="hljs-keyword">using</span> vTools.DotNet;
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">PylonLiveView</span>
+{
+	<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MainForm</span> : <span class="hljs-title">Form</span>
+	{
+		<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MainForm</span>(<span class="hljs-params"></span>)</span>
+		{
+			InitializeComponent();
+			vToolsImpl.PylonInitialize();
+			Task.Run(() =&gt;
+			{
+				_tools = <span class="hljs-keyword">new</span> vToolsImpl();
+				<span class="hljs-keyword">var</span> recipeFile = <span class="hljs-keyword">string</span>.Format(<span class="hljs-string">@"{0}\ParametrizeSmooth.precipe"</span>, Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName).FullName);
+				_tools.LoadRecipe(recipeFile);
+				_tools.RegisterAllOutputsObserver();
+				_tools.SetParameters(<span class="hljs-string">"RoiCreator/@vTool/Width"</span>, <span class="hljs-number">1000.0</span>);
+				_tools.SetParameters(<span class="hljs-string">"RoiCreator/@vTool/Height"</span>, <span class="hljs-number">1000.0</span>);
+				_tools.Start();
+			});
+		}
+		<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnImageGrabbed</span>(<span class="hljs-params"> Object sender, ImageGrabbedEventArgs e </span>)</span>
+		{
+			<span class="hljs-keyword">if</span> (InvokeRequired)
+			{
+				<span class="hljs-comment">// If called from a different thread, we must use the Invoke method to marshal the call to the proper GUI thread.</span>
+				<span class="hljs-comment">// The grab result will be disposed after the event call. Clone the event arguments for marshaling to the GUI thread.</span>
+				BeginInvoke( <span class="hljs-keyword">new</span> EventHandler&lt;ImageGrabbedEventArgs&gt;( OnImageGrabbed ), sender, e.Clone() );
+				<span class="hljs-keyword">return</span>;
+			}
+
+			<span class="hljs-keyword">try</span>
+			{
+				<span class="hljs-comment">// Acquire the image from the camera. Only show the latest image. The camera may acquire images faster than the images can be displayed.</span>
+
+				<span class="hljs-comment">// Get the grab result.</span>
+				IGrabResult grabResult = e.GrabResult;
+
+				<span class="hljs-comment">// Check if the image can be displayed.</span>
+				<span class="hljs-keyword">if</span> (grabResult.IsValid)
+				{
+					<span class="hljs-comment">// Reduce the number of displayed images to a reasonable amount if the camera is acquiring images very fast.</span>
+					<span class="hljs-keyword">if</span> (!stopWatch.IsRunning || stopWatch.ElapsedMilliseconds &gt; <span class="hljs-number">33</span>)
+					{
+						stopWatch.Restart();
+						Bitmap bitmap = <span class="hljs-keyword">new</span> Bitmap(grabResult.Width, grabResult.Height, PixelFormat.Format8bppIndexed);
+						<span class="hljs-keyword">var</span> palette = bitmap.Palette;
+						<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt;= <span class="hljs-number">255</span>; i++)
+						{
+							palette.Entries[i] = Color.FromArgb(i, i, i);
+						}
+						bitmap.Palette = palette;
+						<span class="hljs-comment">// Lock the bits of the bitmap.</span>
+						BitmapData bmpData = bitmap.LockBits(<span class="hljs-keyword">new</span> Rectangle(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
+						_tools.SetImage(<span class="hljs-string">"Image"</span>, (<span class="hljs-keyword">byte</span>[])grabResult.PixelData, grabResult.Width, grabResult.Height, <span class="hljs-number">1</span>);
+						<span class="hljs-keyword">if</span> (_tools.WaitObject(<span class="hljs-number">5000</span>) &amp;&amp; _tools.NextOutput())
+						{
+							<span class="hljs-keyword">var</span> result = _tools.GetImage(<span class="hljs-string">"Image"</span>);
+							Marshal.Copy(result.Item1, <span class="hljs-number">0</span>, bmpData.Scan0, result.Item1.Length);
+							bitmap.UnlockBits(bmpData);
+							<span class="hljs-comment">// Assign a temporary variable to dispose the bitmap after assigning the new bitmap to the display control.</span>
+							Bitmap bitmapOld = pictureBox.Image <span class="hljs-keyword">as</span> Bitmap;
+							<span class="hljs-comment">// Provide the display control with the new bitmap. This action automatically updates the display.</span>
+							pictureBox.Image = bitmap;
+							<span class="hljs-keyword">if</span> (bitmapOld != <span class="hljs-literal">null</span>)
+							{
+								<span class="hljs-comment">// Dispose the bitmap.</span>
+								bitmapOld.Dispose();
+							}
+						}
+					}
+				}
+			}
+			<span class="hljs-keyword">catch</span> (Exception exception)
+			{
+				ShowException( exception );
+			}
+			<span class="hljs-keyword">finally</span>
+			{
+				<span class="hljs-comment">// Dispose the grab result if needed for returning it to the grab loop.</span>
+				e.DisposeGrabResultIfClone();
+			}
+		}
+        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">textBox1_TextChanged</span>(<span class="hljs-params"><span class="hljs-keyword">object</span> sender, EventArgs e</span>)</span>
+        {
+            <span class="hljs-keyword">try</span>
+            {
+                <span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = Convert.ToDouble(textBox1.Text);
+                _tools.SetParameters(<span class="hljs-string">"RoiCreator/@vTool/Width"</span>, <span class="hljs-keyword">value</span>);
+            }
+            <span class="hljs-keyword">catch</span>
+            {
+                <span class="hljs-keyword">return</span>;
+            }
+        }
+        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">textBox2_TextChanged</span>(<span class="hljs-params"><span class="hljs-keyword">object</span> sender, EventArgs e</span>)</span>
+        {
+            <span class="hljs-keyword">try</span>
+            {
+                <span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = Convert.ToDouble(textBox2.Text);
+                _tools.SetParameters(<span class="hljs-string">"RoiCreator/@vTool/Height"</span>, <span class="hljs-keyword">value</span>);
+            }
+            <span class="hljs-keyword">catch</span>
+            {
+                <span class="hljs-keyword">return</span>;
+            }
+        }
+	}	
+}
+</div></code></pre>
+
+</body>
+</html>

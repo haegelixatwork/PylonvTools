@@ -1,0 +1,183 @@
+{
+  "PylonMetaData": {
+    "ObjectVersion": "1.0.0",
+    "MinRequiredSoftwareVersion": "1.0.0"
+  },
+  "PylonContent": {
+    "Ui": {
+      "UiGraphInputOutput": [
+        {
+          "id": "<GraphInput>",
+          "x": 101.0,
+          "y": 116.0
+        },
+        {
+          "id": "<GraphOutput>",
+          "x": 778.0,
+          "y": 100.0
+        }
+      ],
+      "UiNodes": [
+        {
+          "id": "ImageSmoothingBasic",
+          "x": 482.0,
+          "y": 106.0,
+          "WatchNodePins": [
+            {
+              "nodeName": "ImageSmoothingBasic",
+              "pinName": "Image",
+              "pinDirection": "Input"
+            },
+            {
+              "nodeName": "ImageSmoothingBasic",
+              "pinName": "Image",
+              "pinDirection": "Output"
+            }
+          ]
+        },
+        {
+          "id": "RoiCreator",
+          "x": 215.0,
+          "y": 219.0,
+          "WatchNodePins": [
+            {
+              "nodeName": "RoiCreator",
+              "pinName": "Image",
+              "pinDirection": "Input"
+            },
+            {
+              "nodeName": "RoiCreator",
+              "pinName": "Roi",
+              "pinDirection": "Output"
+            }
+          ]
+        }
+      ],
+      "PylonMetaData": {
+        "ObjectVersion": "2.0.4",
+        "MinRequiredSoftwareVersion": "1.0.0"
+      }
+    },
+    "Graph": {
+      "PylonMetaData": {
+        "ObjectVersion": "1.2.0",
+        "MinRequiredSoftwareVersion": "1.0.0"
+      },
+      "Nodes": [
+        {
+          "Name": "ImageSmoothingBasic",
+          "Enabled": true,
+          "NodeTypeID": "1C3B8528-0025-4E6F-AE33-B8819FDD1538",
+          "Type": "Plugin::PylonVToolPackageA::ImageSmoothingBasic",
+          "NodeData": {
+            "PylonMetaData": {
+              "ObjectVersion": "3.0.0",
+              "MinRequiredSoftwareVersion": "1.0.0"
+            },
+            "settings": {
+              "SettingsVersion": 1,
+              "Operation": 1,
+              "MaskWidth": 21,
+              "MaskHeight": 21,
+              "MaskLinked": true
+            }
+          }
+        },
+        {
+          "Name": "RoiCreator",
+          "Enabled": true,
+          "NodeTypeID": "566E72E7-5C8A-459F-9E34-8C5A1A04B37A",
+          "NodeData": {
+            "PylonMetaData": {
+              "ObjectVersion": "3.0.0",
+              "MinRequiredSoftwareVersion": "1.0.0"
+            },
+            "settings": {
+              "SettingsVersion": 1,
+              "Rectangle2": {
+                "RowCenter": 1000.0,
+                "ColumnCenter": 1000.0,
+                "AngleRad": 0.0,
+                "HalfLength1": 200.0,
+                "HalfLength2": 200.0
+              }
+            }
+          }
+        }
+      ],
+      "Connections": [
+        {
+          "Name": "Connection",
+          "Source": "<GraphInput>",
+          "Sink": "RoiCreator",
+          "QueueMode": 3,
+          "MaxSize": 1,
+          "SourceOutputPath": "Image",
+          "SinkInputPath": "Image",
+          "ValueTypeID": "2C893358-0EEF-5260-B262-8CB32DF2C394"
+        },
+        {
+          "Name": "Connection2",
+          "Source": "<GraphInput>",
+          "Sink": "ImageSmoothingBasic",
+          "QueueMode": 3,
+          "MaxSize": 1,
+          "SourceOutputPath": "Image",
+          "SinkInputPath": "Image",
+          "ValueTypeID": "2C893358-0EEF-5260-B262-8CB32DF2C394"
+        },
+        {
+          "Name": "Connection3",
+          "Source": "RoiCreator",
+          "Sink": "ImageSmoothingBasic",
+          "QueueMode": 3,
+          "MaxSize": 1,
+          "SourceOutputPath": "Roi",
+          "SinkInputPath": "Roi",
+          "ValueTypeID": "DCDA0570-449F-5C59-9FC1-70D479318B04"
+        },
+        {
+          "Name": "Connection4",
+          "Source": "ImageSmoothingBasic",
+          "Sink": "<GraphOutput>",
+          "QueueMode": 3,
+          "MaxSize": 1,
+          "SourceOutputPath": "Image",
+          "SinkInputPath": "Image",
+          "ValueTypeID": "2C893358-0EEF-5260-B262-8CB32DF2C394"
+        }
+      ],
+      "GraphInput": {
+        "NodeData": {
+          "Outputs": [
+            {
+              "Name": "Image",
+              "Type": "Pylon::DataProcessing::Core::IImage",
+              "ValueTypeID": "2C893358-0EEF-5260-B262-8CB32DF2C394"
+            }
+          ]
+        }
+      },
+      "GraphOutput": {
+        "NodeData": {
+          "Inputs": [
+            {
+              "Name": "Image",
+              "Type": "Pylon::DataProcessing::Core::IImage",
+              "ValueTypeID": "2C893358-0EEF-5260-B262-8CB32DF2C394"
+            }
+          ]
+        }
+      },
+      "Resources": {
+        "ThreadPool": {
+          "PylonMetaData": {
+            "ObjectVersion": "1.0.0",
+            "MinRequiredSoftwareVersion": "1.0.0"
+          },
+          "MaxThreadCount": 22
+        }
+      }
+    }
+  }
+}

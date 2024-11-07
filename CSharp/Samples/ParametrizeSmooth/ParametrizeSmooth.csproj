@@ -71,14 +71,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="vTools.DotNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Wrapper\vTools.DotNet\bin\x64\Debug\net472\vTools.DotNet.dll</HintPath>
-    </Reference>
-    <Reference Include="vTools.Wrapper, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Wrapper\vTools.DotNet\bin\x64\Debug\net472\vTools.Wrapper.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnumerationComboBoxUserControl.cs">
@@ -140,6 +132,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Wrapper\vTools.DotNet\vTools.DotNet.csproj">
+      <Project>{308a4ce5-638f-4758-ab66-6483c198a6dc}</Project>
+      <Name>vTools.DotNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Wrapper\vTools.Wrapper\vTools.Wrapper.vcxproj">
+      <Project>{b8660e9a-7135-4bb8-bfe0-aba3ee84e1dd}</Project>
+      <Name>vTools.Wrapper</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

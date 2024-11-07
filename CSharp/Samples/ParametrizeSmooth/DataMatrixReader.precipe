@@ -1,0 +1,145 @@
+{
+  "PylonMetaData": {
+    "ObjectVersion": "1.0.0",
+    "MinRequiredSoftwareVersion": "1.0.0"
+  },
+  "PylonContent": {
+    "Ui": {
+      "UiGraphInputOutput": [
+        {
+          "id": "<GraphInput>",
+          "x": 101.0,
+          "y": 116.0
+        },
+        {
+          "id": "<GraphOutput>",
+          "x": 778.0,
+          "y": 100.0
+        }
+      ],
+      "UiNodes": [
+        {
+          "id": "DataMatrixCodeReaderBasic",
+          "x": 354.0,
+          "y": 195.0,
+          "WatchNodePins": [
+            {
+              "nodeName": "DataMatrixCodeReaderBasic",
+              "pinName": "Image",
+              "pinDirection": "Input"
+            },
+            {
+              "nodeName": "DataMatrixCodeReaderBasic",
+              "pinName": "Texts",
+              "pinDirection": "Output"
+            },
+            {
+              "nodeName": "DataMatrixCodeReaderBasic",
+              "pinName": "Regions",
+              "pinDirection": "Output"
+            }
+          ]
+        }
+      ],
+      "PylonMetaData": {
+        "ObjectVersion": "2.0.4",
+        "MinRequiredSoftwareVersion": "1.0.0"
+      }
+    },
+    "Graph": {
+      "PylonMetaData": {
+        "ObjectVersion": "1.2.0",
+        "MinRequiredSoftwareVersion": "1.0.0"
+      },
+      "Nodes": [
+        {
+          "Name": "DataMatrixCodeReaderBasic",
+          "Enabled": true,
+          "NodeTypeID": "C340A512-7D17-4873-9590-B59B1C9F0BE3",
+          "Type": "Plugin::PylonVToolPackageA::DataMatrixCode",
+          "NodeData": {
+            "PylonMetaData": {
+              "ObjectVersion": "3.0.0",
+              "MinRequiredSoftwareVersion": "1.0.0"
+            },
+            "settings": {
+              "SettingsVersion": 2,
+              "DatacodeType": 10,
+              "MaxNumCodes": 1,
+              "TimeoutSecs": 0.02,
+              "TimeoutEnabled": false
+            }
+          }
+        }
+      ],
+      "Connections": [
+        {
+          "Name": "Connection2",
+          "Source": "<GraphInput>",
+          "Sink": "DataMatrixCodeReaderBasic",
+          "QueueMode": 3,
+          "MaxSize": 1,
+          "SourceOutputPath": "Image",
+          "SinkInputPath": "Image",
+          "ValueTypeID": "2C893358-0EEF-5260-B262-8CB32DF2C394"
+        },
+        {
+          "Name": "Connection3",
+          "Source": "<GraphInput>",
+          "Sink": "<GraphOutput>",
+          "QueueMode": 3,
+          "MaxSize": 1,
+          "SourceOutputPath": "Image",
+          "SinkInputPath": "Image",
+          "ValueTypeID": "2C893358-0EEF-5260-B262-8CB32DF2C394"
+        },
+        {
+          "Name": "Connection",
+          "Source": "DataMatrixCodeReaderBasic",
+          "Sink": "<GraphOutput>",
+          "QueueMode": 3,
+          "MaxSize": 1,
+          "SourceOutputPath": "Texts",
+          "SinkInputPath": "Texts",
+          "ValueTypeID": "74341A22-4AF6-5824-AC1F-4873DD93013B"
+        }
+      ],
+      "GraphInput": {
+        "NodeData": {
+          "Outputs": [
+            {
+              "Name": "Image",
+              "Type": "Pylon::DataProcessing::Core::IImage",
+              "ValueTypeID": "2C893358-0EEF-5260-B262-8CB32DF2C394"
+            }
+          ]
+        }
+      },
+      "GraphOutput": {
+        "NodeData": {
+          "Inputs": [
+            {
+              "Name": "Image",
+              "Type": "Pylon::DataProcessing::Core::IImage",
+              "ValueTypeID": "2C893358-0EEF-5260-B262-8CB32DF2C394"
+            },
+            {
+              "Name": "Texts",
+              "Type": "Pylon::DataProcessing::Core::IStringArray",
+              "ValueTypeID": "74341A22-4AF6-5824-AC1F-4873DD93013B"
+            }
+          ]
+        }
+      },
+      "Resources": {
+        "ThreadPool": {
+          "PylonMetaData": {
+            "ObjectVersion": "1.0.0",
+            "MinRequiredSoftwareVersion": "1.0.0"
+          },
+          "MaxThreadCount": 22
+        }
+      }
+    }
+  }
+}

@@ -41,11 +41,11 @@ namespace PylonLiveView
             Task.Run(() =>
             {
                 _tools = new vToolsImpl();
-                var recipeFile = string.Format(@"{0}\ParametrizeSmooth.precipe", Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName).FullName);
+                var recipeFile = string.Format(@"{0}\DataMatrixReader.precipe", Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName).FullName);
                 _tools.LoadRecipe(recipeFile);
                 _tools.RegisterAllOutputsObserver();
-                _tools.SetParameters("RoiCreator/@vTool/Width", 1000.0);
-                _tools.SetParameters("RoiCreator/@vTool/Height", 1000.0);
+                //_tools.SetParameters("RoiCreator/@vTool/Width", 1000.0);
+                //_tools.SetParameters("RoiCreator/@vTool/Height", 1000.0);
                 _tools.Start();
             });
             // Update the list of available camera devices in the upper left area.
@@ -183,8 +183,9 @@ namespace PylonLiveView
                         _tools.SetImage("Image", (byte[])grabResult.PixelData, grabResult.Width, grabResult.Height, 1);
                         if (_tools.WaitObject(5000) && _tools.NextOutput())
                         {
-                            var result = _tools.GetImage("Image");
-                            Marshal.Copy(result.Item1, 0, bmpData.Scan0, result.Item1.Length);
+                            //var result = _tools.GetImage("Image");
+                            var texts = _tools.GetStringArray("Texts");
+                            Marshal.Copy((byte[])grabResult.PixelData, 0, bmpData.Scan0, ((byte[])grabResult.PixelData).Length);
                             bitmap.UnlockBits(bmpData);
                             // Assign a temporary variable to dispose the bitmap after assigning the new bitmap to the display control.
                             Bitmap bitmapOld = pictureBox.Image as Bitmap;

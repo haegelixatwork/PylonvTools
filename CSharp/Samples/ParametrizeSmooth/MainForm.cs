@@ -185,6 +185,11 @@ namespace PylonLiveView
                         {
                             //var result = _tools.GetImage("Image");
                             var texts = _tools.GetStringArray("Texts");
+                            Invoke((Action)delegate()
+                            {
+                                if (texts.Length > 0)
+                                    textBox3.Text = texts[0];
+                            });
                             Marshal.Copy((byte[])grabResult.PixelData, 0, bmpData.Scan0, ((byte[])grabResult.PixelData).Length);
                             bitmap.UnlockBits(bmpData);
                             // Assign a temporary variable to dispose the bitmap after assigning the new bitmap to the display control.
